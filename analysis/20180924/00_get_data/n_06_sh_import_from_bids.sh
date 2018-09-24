@@ -33,11 +33,11 @@ strBidsSeOp="${strBidsDir}${pacman_sub_id_bids}/func_distcor_op/"
 # Destination directory for opposite-phase-polarity SE images:
 strSeOp="${strPthPrnt}/func_distcor_op/"
 
-# BIDS directory containing mp2rage images:
+# BIDS directory containing anatomical images:
 strBidsAnat="${strBidsDir}${pacman_sub_id_bids}/anat/"
 
-# Destination directory for mp2rage images:
-strAnat="${strPthPrnt}/mp2rage/01_orig/"
+# Destination directory for anatomical images:
+strAnat="${strPthPrnt}/anat/01_orig/"
 #------------------------------------------------------------------------------
 
 
@@ -57,7 +57,7 @@ cp -r ${strBidsSeOp}*.nii.gz ${strSeOp}
 
 
 #------------------------------------------------------------------------------
-# *** Copy mp2rage images
+# *** Copy anatomical images
 
 cp -r ${strBidsAnat}*.nii.gz ${strAnat}
 #------------------------------------------------------------------------------

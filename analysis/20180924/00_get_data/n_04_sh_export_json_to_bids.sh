@@ -27,7 +27,7 @@ strSe="${strBidsDir}${pacman_sub_id_bids}/func_distcor/"
 # Destination directory for opposite-phase-polarity SE images:
 strSeOp="${strBidsDir}${pacman_sub_id_bids}/func_distcor_op/"
 
-# Destination directory for mp2rage images:
+# Destination directory for anatomical images:
 strAnat="${strBidsDir}${pacman_sub_id_bids}/anat/"
 #------------------------------------------------------------------------------
 
@@ -49,16 +49,13 @@ cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_08_SERIES_022_c32.json ${str
 #------------------------------------------------------------------------------
 # *** Copy metadata for opposite-phase-polarity SE images
 
-cp ${strRaw}PROTOCOL_cmrr_mbep2d_se_LR_SERIES_005_c32.json ${strSeOp}func_00.json
-cp ${strRaw}PROTOCOL_cmrr_mbep2d_se_RL_SERIES_006_c32.json ${strSe}func_00.json
-
 cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_SERIES_012_c32.json ${strDistcorOp}func_00.json
 cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_SERIES_011_c32.json ${strDistcor}func_00.json
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# *** Copy metadata for mp2rage images
+# *** Copy metadata for anatomical images
 
 cp ${strRaw}PROTOCOL_PD_cor_0.7mm_p2_SERIES_010_c32_e1.json ${strAnat}pdw_01.json
 cp ${strRaw}PROTOCOL_PD_cor_0.7mm_p2_SERIES_017_c32.json ${strAnat}pdw_02.json

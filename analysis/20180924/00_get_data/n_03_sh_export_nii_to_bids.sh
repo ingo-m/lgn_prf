@@ -30,7 +30,7 @@ strDistcor="${strBidsDir}${pacman_sub_id_bids}/func_distcor/"
 # Destination directory for opposite-phase-polarity SE images:
 strDistcorOp="${strBidsDir}${pacman_sub_id_bids}/func_distcor_op/"
 
-# Destination directory for mp2rage images:
+# Destination directory for anatomical images:
 strAnat="${strBidsDir}${pacman_sub_id_bids}/anat/"
 #------------------------------------------------------------------------------
 
