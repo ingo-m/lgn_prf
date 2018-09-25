@@ -20,7 +20,8 @@
 # Define session IDs & paths:
 
 # Parent path:
-strPathParent="${pacman_anly_path}${pacman_sub_id}/02_feat/level_1_fsf/"
+# strPathParent="${pacman_anly_path}${pacman_sub_id}/02_feat/level_1_fsf/"
+strPathParent="/home/john/PhD/GitLab/lgn_prf/analysis/20180924/02_feat/level_1_fsf/"
 
 # Array with the file names of the fsf file (first entry = existing fsf file)
 arySessionIDs01=(feat_level_1_func_01 \
