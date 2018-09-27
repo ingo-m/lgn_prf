@@ -1,0 +1,5 @@
+# swap dimensions for topup:
+fslswapdim func_01_tmean z x y func_01_tmean_swapped_zxy
+
+# swap dimensions back to normal:
+fslswapdim func_01_tmean_swapped_zxy.nii.gz y z x func_01_tmean_swapped_back_yzx
