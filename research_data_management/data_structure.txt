@@ -1,3 +1,6 @@
+##################################
+# LGN pRF mapping data structure #
+##################################
 
 sourcedata
     dicoms
@@ -28,6 +31,19 @@ bids
         ...
 
 derivatives
+    stimuli
+        prf_tc_models_08_runs
+            pRF_model_tc.npy
+            pRF_model_tc_condition_0.nii
+            pRF_model_tc_condition_1.nii
+        prf_tc_models_12_runs
+            pRF_model_tc.npy
+            pRF_model_tc_condition_0.nii
+            pRF_model_tc_condition_1.nii
+        Run_01_frames
+           frame_001.png
+           ...
+        ...
     sub-01
         anat
             01_orig
