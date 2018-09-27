@@ -57,7 +57,7 @@ varSdSmthTmp = 2.5
 
 # Extent of spatial smoothing for fMRI data [standard deviation of the Gaussian
 # kernel, in mm]
-varSdSmthSpt = 0.9
+varSdSmthSpt = 1.8
 
 # Perform linear trend removal on fMRI data?
 lgcLinTrnd = True
@@ -88,14 +88,14 @@ lstPathNiiFunc = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/20180924/nii/func_r
 strPathNiiMask = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/20180924/nii/retinotopy/mask/lgn_mask.nii.gz'
 
 # Output basename:
-strPathOut = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/20180924/nii/retinotopy/pRF_results/pRF_results_'
+strPathOut = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/20180924/nii/retinotopy/pRF_results/pRF_results'
 
 # Which version to use for pRF finding. 'numpy' or 'cython' for pRF finding on
 # CPU, 'gpu' for using GPU.
-strVersion = 'cython'
+strVersion = 'numpy'
 
 # Create pRF time course models?
-lgcCrteMdl = True
+lgcCrteMdl = False
 
 # If we create new pRF time course models, the following parameters have to
 # be provided:
