@@ -1,0 +1,104 @@
+
+sourcedata
+    dicoms
+        20180924
+        ...
+    log
+        20180924
+        ...
+
+bids
+    sub-01
+        ses-01
+            anat
+                T1w_si
+                PD_01
+                PD_02
+                ...
+            func
+                func_01
+                ...
+            func_op
+                func_01
+                ...
+        ses-02
+        ...
+    sub-02
+        ses-01
+        ...
+
+derivatives
+    sub-01
+        anat
+            01_orig
+                ses-01-T1w_si
+                ses-01-PD_01
+                ses-01-PD_02
+                ...
+                ses-02-T1w_si
+                ses-02-PD_01
+                ses-02-PD_02
+                ...
+            02_spm_bf_correction
+                ~ses-01-T1w_si
+                ~ses-01-PD_01
+                ~ses-01-PD_02
+                ...
+                ~ses-02-T1w_si
+                ~ses-02-PD_01
+                ~ses-02-PD_02
+                ...
+            03_sess_reg
+                01_in
+                    ses-01-T1w_si
+                    ses-01-PD_01
+                    ses-01-PD_02
+                    ...
+                    ses-02-T1w_si
+                    ses-02-PD_01
+                    ses-02-PD_02
+                    ...
+                02_brainmask  # one brainmask per image
+                    ses-01-T1w_si_brainmask
+                    ses-01-PD_01_brainmask
+                    ses-01-PD_02_brainmask
+                    ...
+                    ses-02-T1w_si_brainmask
+                    ses-02-PD_01_brainmask
+                    ses-02-PD_02_brainmask
+                    ...
+                    ...
+                03_spm_reg  # First PD from first session as reference.
+                    target
+                        ses-01-PD_01  # First PD from first ression (brain-masked).
+                    source
+                        ses-01-T1w_si  # All anatomical images from all sessions, expect first session first PD (brain-masked).
+                        ses-01-PD_02
+                        ...
+                        ses-02-T1w_si
+                        ses-02-PD_01
+                        ses-02-PD_02
+                        ...
+            04_mean_anat  # Mean anatomy over sessions
+                T1w_si_mean
+                PD_mean
+            05_anat_to_func_reg
+                01_up
+                    func_mean_up  # Upsample mean func in order to avoid resolution loss during reg.
+                02_spm_reg
+                    target
+                        func_mean_up  # Mean func over all sessions & runs
+                    source
+                        PD_mean
+                    other
+                        T1w_si_mean
+            06_seg
+                func_mean_up
+                PD_mean
+                T1w_si_mean
+        func
+...
+
+
+
+
