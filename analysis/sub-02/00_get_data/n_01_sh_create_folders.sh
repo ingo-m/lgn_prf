@@ -45,98 +45,77 @@ done
 if [ ! -d "${str_pth_sub}" ];
 then
 
-	echo "Creating parent directory for ${str_sub_ID}"
-	mkdir "${str_pth_sub}"
+	echo "------Creating directory tree for ${str_sub_ID}"
 
-else
-
-	echo "Directory ${str_sub_ID} already exists."
-
-fi
-# -----------------------------------------------------------------------------
-
-
-# -----------------------------------------------------------------------------
-# *** Create nii directory (main analysis directory)
-
-# Number of runs:
-# var_include=${#ary_run_IDs[@]}
-
-# Check whether directory already exists:
-if [ ! -d "${str_pth_sub}" ];
-then
-
-	echo "Creating analysis directory ${str_pth_sub}"
-
+	# Create subject parent directory (e.g. "sub-02").
 	mkdir "${str_pth_sub}/"
 
-	mkdir "${str_pth_sub}/feat_level_1"
-
-	mkdir "${str_pth_sub}/func"
-	mkdir "${str_pth_sub}/func_distcorField"
-	mkdir "${str_pth_sub}/func_reg"
-	mkdir "${str_pth_sub}/func_reg_tsnr"
-	mkdir "${str_pth_sub}/func_reg_distcorUnwrp"
-
-	mkdir "${str_pth_sub}/func_distcor"
-	mkdir "${str_pth_sub}/func_distcor_reg"
-	mkdir "${str_pth_sub}/func_distcor_op"
-	mkdir "${str_pth_sub}/func_distcor_op_inv"
-	mkdir "${str_pth_sub}/func_distcor_op_inv_reg"
-	mkdir "${str_pth_sub}/func_distcor_merged"
-
-	mkdir "${str_pth_sub}/anat"
-
-	mkdir "${str_pth_sub}/anat/01_orig"
-	mkdir "${str_pth_sub}/anat/02_spm_bf_correction"
-	mkdir "${str_pth_sub}/anat/03_reg"
-	mkdir "${str_pth_sub}/anat/03_reg/01_in"
-	mkdir "${str_pth_sub}/anat/03_reg/02_brainmask"
-	mkdir "${str_pth_sub}/anat/03_reg/03_prereg"
-	mkdir "${str_pth_sub}/anat/03_reg/03_prereg/combined_mean"
-	mkdir "${str_pth_sub}/anat/03_reg/03_prereg/mp2rage_other"
-	mkdir "${str_pth_sub}/anat/03_reg/03_prereg/mp2rage_t1w"
-	mkdir "${str_pth_sub}/anat/03_reg/04_reg"
-	mkdir "${str_pth_sub}/anat/03_reg/04_reg/01_in"
-	mkdir "${str_pth_sub}/anat/03_reg/04_reg/02_bbr_prep"
-	mkdir "${str_pth_sub}/anat/03_reg/04_reg/03_bbr"
-	mkdir "${str_pth_sub}/anat/03_reg/04_reg/04_inv_bbr"
-	mkdir "${str_pth_sub}/anat/04_seg"
-
+	# Target folders for dicom to nii conversion (one per session).
 	mkdir "${str_pth_sub}/raw_data"
 
+	# Target folders for dicom to nii conversion (one per session).
+	for idx_ses_id in ${ary_ses_id[@]}
+	do
+		mkdir "${str_pth_sub}/raw_data/${idx_ses_id}"
+	done
+
+	# Anatomical images.
+	mkdir "${str_pth_sub}/anat"
+	mkdir "${str_pth_sub}/anat/01_orig"
+	mkdir "${str_pth_sub}/anat/02_spm_bf_correction"
+	mkdir "${str_pth_sub}/anat/03_sess_reg"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/01_in"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/02_brainmask"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg/target"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg/source"
+	mkdir "${str_pth_sub}/anat/03_sess_reg/04_mean_anat"
+	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg"
+	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg"
+	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/target"
+	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/source"
+	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/other"
+	mkdir "${str_pth_sub}/anat/06_seg"
+
+	# Functional images.
+	mkdir "${str_pth_sub}/func"
+	mkdir "${str_pth_sub}/func_reg"
+	mkdir "${str_pth_sub}/func_reg_tsnr"
+	mkdir "${str_pth_sub}/func_op"
+	mkdir "${str_pth_sub}/func_op_inv"
+	mkdir "${str_pth_sub}/func_op_reg"
+	mkdir "${str_pth_sub}/func_op_merged"
+	mkdir "${str_pth_sub}/func_distcorField"
+	mkdir "${str_pth_sub}/func_distcorUnwrp"
+	mkdir "${str_pth_sub}/func_unwrp_tsnr"
+
+	# Motion correction of functional images.
+	mkdir "${str_pth_sub}/spm_reg"
+	# Zero filled directoy names for SPM moco ("01", "02", etc.).
+	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
+	do
+		mkdir "${str_pth_sub}/spm_reg/${idx_num_run}"
+	done
+	mkdir "${str_pth_sub}/spm_reg/ref_weighting"
+
+	# Motion correction of opposite phase encoding data.
+	mkdir "${str_pth_sub}/spm_reg_op"
+	# Zero filled directoy names for SPM moco ("01", "02", etc.).
+	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
+	do
+		mkdir "${str_pth_sub}/spm_reg_op/${idx_num_run}"
+	done
+	mkdir "${str_pth_sub}/spm_reg_op/ref_weighting"
+
+	# Population receptive field mapping results.
 	mkdir "${str_pth_sub}/retinotopy"
 	mkdir "${str_pth_sub}/retinotopy/mask"
 	mkdir "${str_pth_sub}/retinotopy/pRF_results"
-	mkdir "${str_pth_sub}/retinotopy/pRF_results_up"
-	mkdir "${str_pth_sub}/retinotopy/pRF_stimuli"
-
-	# Create subfolders for SPM - func across runs moco:
-	mkdir "${str_pth_sub}/spm_reg"
-	mkdir "${str_pth_sub}/spm_reg/ref_weighting"
-	for index_1 in ${ary_run_IDs[@]}
-	do
-		str_tmp_1="${str_pth_sub}/spm_reg/${index_1}"
-		mkdir "${str_tmp_1}"
-	done
-
-	# Create SPM subfolder for SE run:
-	mkdir "${str_pth_sub}/spm_reg/func_00"
-
-	# Create SPM subfolders for opposite-phase-polarity run:
-	mkdir "${str_pth_sub}/spm_reg_op"
-	mkdir "${str_pth_sub}/spm_reg_op/func_00"
-	mkdir "${str_pth_sub}/spm_reg_op/ref_weighting"
-
-	mkdir "${str_pth_sub}/spm_reg_reference_weighting"
-	mkdir "${str_pth_sub}/spm_reg_moco_params"
-
-	mkdir "${str_pth_sub}/stat_maps"
-	mkdir "${str_pth_sub}/stat_maps_up"
+	mkdir "${str_pth_sub}/retinotopy/pRF_results_reg"
 
 else
 
-	echo "Analysis directory ${str_pth_sub} already exists."
+	echo "------Analysis directory tree for ${str_pth_sub} already exists."
 
 fi
 # -----------------------------------------------------------------------------

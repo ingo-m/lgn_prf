@@ -36,7 +36,8 @@ ary_num_runs=(10 \
               10)
 
 # Analysis parent directory (containing scripts):
-str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
+# str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
+str_anly_path="/Users/john/1_PhD/GitLab/lgn_prf/analysis/"
 
 # Parent data directory (containing subfolders 'bids', 'derivatives',
 # 'sourcedata').
@@ -56,7 +57,7 @@ bool_from_bids=false
 bool_wait=true
 
 # Number of parallel processes to use (for pRF finding):
-var_num_cpu=11
+var_num_cpu=3
 #------------------------------------------------------------------------------
 
 
@@ -110,5 +111,5 @@ docker run -it --rm \
     -e bool_wait \
     -e var_num_cpu \
     -e USER \
-    dockerimage_lgn_jessie ${str_anly_path}${str_sub_id}/metascript_02.sh
+    dockerimage_pacman_jessie ${str_anly_path}${str_sub_id}/metascript_02.sh
 #------------------------------------------------------------------------------

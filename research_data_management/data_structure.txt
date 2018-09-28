@@ -45,6 +45,12 @@ derivatives
            ...
         ...
     sub-01
+        raw_data
+           ses-01
+               ...  # Target folder for dicom to nii conversion
+           ses-02
+               ...
+           ....
         anat
             01_orig
                 sub-01_ses-01_T1w_si
@@ -98,18 +104,17 @@ derivatives
             04_mean_anat  # Mean anatomy over sessions
                 sub-01_T1w_si_mean
                 sub-01_PD_mean
-            05_anat_to_func_reg
-                01_up
-                    sub-01_func_mean_up  # Upsample mean func in order to avoid resolution loss during reg.
-                02_spm_reg
+            05_func_to_anat_reg
+                01_spm_reg
                     target
-                        sub-01_func_mean_up  # Mean func over all sessions & runs
+                        sub-01_PD_mean  # Or sub-01_T1w_si_mean ?
                     source
-                        sub-01_PD_mean
+                        sub-01_func_mean_up  # Mean func over all sessions & runs
                     other
-                        sub-01_T1w_si_mean
+                        sub-01_func_tsnr
+                        ...pRF maps
             06_seg
-                sub-01_func_mean_up
+                sub-01_func_mean
                 sub-01_PD_mean
                 sub-01_T1w_si_mean
         func
@@ -150,15 +155,22 @@ derivatives
             ...
         func_reg_tsnr  # tSNR & mean before topup
             sub-01_ses-01_func_01_mean
+            sub-01_ses-01_func_01_tsnr
             sub-01_ses-01_func_02_mean
+            sub-01_ses-01_func_02_tsnr
             ...
             sub-01_ses-02_func_01_mean
+            sub-01_ses-02_func_01_tsnr
             sub-01_ses-02_func_02_mean
+            sub-01_ses-02_func_02_tsnr
             ...
             sub-01_ses-01_func_mean  # Mean of 1st session
+            sub-01_ses-01_func_tsnr
             sub-01_ses-02_func_mean
+            sub-01_ses-02_func_tsnr
             ...
             sub-01_func_mean  # Mean over all sessions
+            sub-01_func_tsnr
         func_op
             sub-01_ses-01_func_op_01
             sub-01_ses-01_func_op_02
@@ -189,21 +201,26 @@ derivatives
             ...
         func_unwrp_tsnr  # tSNR & mean after topup
             sub-01_ses-01_func_01_mean
+            sub-01_ses-01_func_01_tsnr
             sub-01_ses-01_func_02_mean
+            sub-01_ses-01_func_02_tsnr
             ...
             sub-01_ses-02_func_01_mean
+            sub-01_ses-02_func_01_tsnr
             sub-01_ses-02_func_02_mean
+            sub-01_ses-02_func_02_tsnr
             ...
             sub-01_ses-01_func_mean  # Mean of 1st session
+            sub-01_ses-01_func_tsnr
             sub-01_ses-02_func_mean
+            sub-01_ses-02_func_tsnr
             ...
             sub-01_func_mean  # Mean over all sessions
+            sub-01_func_tsnr
         retinotopy
             mask
                 brainmask
             pRF_results
                 ...
-            pRF_results_up
-                ...
-            pRF_model_tc
+            pRF_results_reg
                 ...
