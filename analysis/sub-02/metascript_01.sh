@@ -73,6 +73,14 @@ str_ses_id=${ary_ses_id[@]}
 str_date_id=${ary_date_id[@]}
 str_num_runs=${ary_num_runs[@]}
 
+# Calculate total number of runs (i.e. all runs of all session for given
+# subject).
+var_num_runs=0
+for idx_num_run in ${ary_num_runs[@]}
+do
+	var_num_runs=`bc <<< ${var_num_runs}+${idx_num_run}`
+done
+
 # Export paths and variables so that all other scripts can use them.
 export str_sub_id
 export str_ses_id
@@ -83,6 +91,7 @@ export str_data_path
 export bool_from_bids
 export bool_wait
 export var_num_cpu
+export var_num_runs
 export USER=john
 #------------------------------------------------------------------------------
 
@@ -104,6 +113,7 @@ docker run -it --rm \
     -e bool_from_bids \
     -e bool_wait \
     -e var_num_cpu \
+    -e var_num_runs \
     -e USER \
     dockerimage_pacman_jessie ${str_anly_path}${str_sub_id}/metascript_02.sh
 #------------------------------------------------------------------------------

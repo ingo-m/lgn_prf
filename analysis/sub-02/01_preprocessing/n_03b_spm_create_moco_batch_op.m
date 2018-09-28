@@ -1,21 +1,17 @@
 %--------------------------------------------------------------------------
 % Create a 'batch' file for SPM motion correction.
 %--------------------------------------------------------------------------
-% NOTE: This version is used for creating a moco batch for opposite phase
-% polarity data, assuming the file name to be 'func_00'.
-%--------------------------------------------------------------------------
 % Ingo Marquardt, 2017
 %--------------------------------------------------------------------------
 %% Define variable parameters:
 clear;
-% Get environmental variables (for input & output path):
-pacman_sub_id = getenv('pacman_sub_id');
-pacman_anly_path = getenv('pacman_anly_path');
-pacman_data_path = getenv('pacman_data_path');
+% Get environmental variables (for input & output paths):
+strSubId = getenv('str_sub_id');
+strAnalyPth = getenv('str_anly_path');
+strDataPth = getenv('str_data_path');
+varNumRuns = int(getenv('var_num_runs'));
 % Path of the SPM moco directory:
-strPathParent = strcat(pacman_data_path, pacman_sub_id, '/nii/spm_reg_op/');
-% The number of functional runs:
-varNumRuns = 1;
+strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg/');
 % Name of the 'SPM batch' to be created:
 strPathOut = [strPathParent, 'spm_moco_batch.mat'];
 %--------------------------------------------------------------------------
@@ -33,15 +29,14 @@ cllPathRefweight{1} = strcat(strPathRefweigth, cllPathRefweight{1});
 % The paths of the functional runs:
 cllPathFunc = cell(1,varNumRuns);
 for index_01 = 1:varNumRuns
-    if index_01 < 11  % NOTE: Adjusted to account for 'func_00'
+    if index_01 < 10
         strTmp = strcat(strPathParent, ...
-            'func_0', ...
-            num2str(index_01 - 1), ...  % NOTE: Adjusted to account for 'func_00'
+            '0', ...
+            num2str(index_01), ...
             '/');
     else
         strTmp = strcat(strPathParent, ...
-            'func_', ...
-            num2str(index_01 - 1), ...  % NOTE: Adjusted to account for 'func_00'
+            num2str(index_01), ...
             '/');
     end
     cllPathFunc{index_01} = spm_select('ExtList', ...
@@ -53,8 +48,6 @@ for index_01 = 1:varNumRuns
 end
 %--------------------------------------------------------------------------
 %% Prepare parameters for motion correction
-% Initialise jobs configuration:
-% spm_jobman('initcfg');
 % Clear old batches:
 clear matlabbatch;
 % Here we determine the settings for the SPM registrations. See SPM manual

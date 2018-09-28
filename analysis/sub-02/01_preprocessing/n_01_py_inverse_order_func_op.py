@@ -34,12 +34,14 @@ lstPathIn = [(strDataPath
               + strSubId
               + '/func_op/'
               + strSubId
-              + '_ses-01_func_op_01.nii.gz')]
+              + '_ses-01_run_01.nii.gz')]
 
 # Output file paths:
 lstPathOt = [(strDataPath
               + strSubId
-              + '/func_op/func_00.nii.gz')]
+              + '/func_op_inv/'
+              + strSubId
+              + '_ses-01_run_01.nii.gz')]
 # *****************************************************************************
 
 
@@ -70,9 +72,9 @@ def fncLoadNii(strPathIn):
 # *****************************************************************************
 # *** Perform correction
 
-print('-Swap temporal order of volumes in 4D nii file.')
+print('---Swap temporal order of volumes in 4D nii file.')
 
-print('---Performing correction')
+print('------Performing correction')
 
 # Loop through input files:
 

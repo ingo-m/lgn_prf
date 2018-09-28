@@ -27,14 +27,6 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 # metascript). For instance:
 # "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "derivatives" + "sub-01".
 str_pth_sub="${str_data_path}derivatives/${str_sub_ID}"
-
-# Calculate total number of runs (i.e. all runs of all session for given
-# subject).
-var_num_runs=0
-for idx_num_run in ${ary_num_runs[@]}
-do
-	var_num_runs=`bc <<< ${var_num_runs}+${idx_num_run}`
-done
 # -----------------------------------------------------------------------------
 
 
