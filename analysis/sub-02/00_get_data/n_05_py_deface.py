@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Deface MP2RAGE images and correct truncation error in T1 image.
+Deface anatomical images.
 
-MP2RAGE images are anonymised (i.e. 'defaced') by setting anterior voxels to
-zero. Additionally, truncation errors in the T1 image are removed (high
-intensity voxels have a value of zero in these images, probably due to a bug
-in the reconstruction software). These voxels are set to the maximum value in
-the images.
+Images are anonymised (i.e. 'defaced') by setting anterior voxels to zero.
 """
 
-# Part of PacMan analysis pipeline.
+# Part of LGN pRF analysis pipeline.
 # Copyright (C) 2018  Ingo Marquardt
 #
 # This program is free software: you can redistribute it and/or modify it under
@@ -26,6 +22,7 @@ the images.
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+from os.path import isfile, join
 import numpy as np
 import nibabel as nb
 
@@ -62,6 +59,7 @@ def load_nii(strPathIn, varSzeThr=5000.0):
     file is loaded volume-by-volume in order to prevent memory overflow. The
     reason for this is that nibabel imports data at float64 precision, which
     can lead to a memory overflow even for relatively small files.
+
     """
     # Load nii file (this does not load the data into memory yet):
     objNii = nb.load(strPathIn)
@@ -113,99 +111,59 @@ def load_nii(strPathIn, varSzeThr=5000.0):
 
 
 # ------------------------------------------------------------------------------
-# ### Deface MP2RAGE images
+# ### Deface anatomical images
 
-print('-Deface MP2RAGE images')
+print('---Deface anatomical images')
 
-# Load environmental variables defining the input data path:
-pacman_data_path = str(os.environ['pacman_data_path'])
-pacman_sub_id_bids = str(os.environ['pacman_sub_id_bids'])
+# Load environmental variables defining the input data path, e.g.
+# "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/"
+strDataPth = str(os.environ['str_data_path'])
 
-# Full input data path:
-strPathIn = (pacman_data_path
-             + 'BIDS/'
-             + pacman_sub_id_bids
-             + '/anat/')
+# Load environmental variable representing the subject ID, e.g. "sub-02".
+strSubId = str(os.environ['str_sub_id'])
 
-# List of images to deface:
-lstIn = ['mp2rage_inv1.nii.gz',
-         'mp2rage_inv1_phase.nii.gz',
-         'mp2rage_pdw.nii.gz',
-         'mp2rage_pdw_phase.nii.gz',
-         'mp2rage_t1.nii.gz',
-         'mp2rage_uni.nii.gz']
+# Load environmental variable defining session IDs (e.g. "ses-01 ses-02"). Bash
+# does not (currently) support export of arrays. Therefore, we need to turn the
+# arrays into strings, and export the strings. Here the string is converted
+# into a python list.
+strSesIds = str(os.environ['str_ses_id'])
+lstSesIds = strSesIds.split(' ')
 
-# Loop through images:
-for strImage in lstIn:
+# Loop through sessions (for given subject). E.g. "ses-01", "ses-02", etc.
+for idxSes in strSesIds:
 
-    # Complete path of image to load:
-    strPthTmp = (strPathIn + strImage)
+    # Full input data path:
+    strPathIn = (strDataPth
+                 + 'bids/'
+                 + strSubId
+                 + '/'
+                 + idxSes
+                 + '/anat/')
 
-    print(('---Defacing: ' + strPthTmp))
+    # The number of anatomical images per session may vary (especially the
+    # number of PD images). Therefore, we don't hard code filenames here, but
+    # get a list of nii files in the target directory.
+    lstFls = [f for f in os.listdir(strPathIn) if isfile(join(strPathIn, f))]
 
-    # Load image:
-    aryNiiTmp, objHdrTmp, aryAffTmp = load_nii(strPthTmp)
+    # Delete results of test:
+    for strPthTmp in lstFls:
 
-    # Set anterior voxels to zero:
-    aryNiiTmp[:, 250:, :] = 0.0
+        # Only nii files (or nii.gz):
+        if '.nii' in strPthTmp:
 
-    # Create output nii object:
-    niiOut = nb.Nifti1Image(aryNiiTmp,
-                            aryAffTmp,
-                            header=objHdrTmp
-                            )
-    # Save nii:
-    nb.save(niiOut, strPthTmp)
-# ------------------------------------------------------------------------------
+            print(('------Defacing: ' + strPthTmp))
 
+            # Load image:
+            aryNiiTmp, objHdrTmp, aryAffTmp = load_nii(strPthTmp)
 
-# ------------------------------------------------------------------------------
-# ### Correct truncation errors in T1 image
+            # Set anterior voxels to zero:
+            aryNiiTmp[:, 215:, :] = 0.0
 
-print('-Correct truncation errors in T1 image')
-
-# Load environmental variables defining the input data path:
-# pacman_data_path = str(os.environ['pacman_data_path'])
-# pacman_sub_id_bids = str(os.environ['pacman_sub_id_bids'])
-
-# Full input data path:
-# strPathIn = (pacman_data_path
-#              + 'BIDS/'
-#              + pacman_sub_id_bids
-#              + '/anat/')
-
-# List of images to deface:
-lstIn = ['mp2rage_inv1.nii.gz',
-         'mp2rage_inv1_phase.nii.gz',
-         'mp2rage_pdw.nii.gz',
-         'mp2rage_pdw_phase.nii.gz',
-         'mp2rage_t1.nii.gz',
-         'mp2rage_uni.nii.gz']
-
-# Complete paths of images to load:
-strPthT1 = (strPathIn + 'mp2rage_t1.nii.gz')
-strPthPdw = (strPathIn + 'mp2rage_pdw.nii.gz')
-
-# Load images:
-aryNiiT1, objHdrT1, aryAffT1 = load_nii(strPthT1)
-aryNiiPwd, _, _ = load_nii(strPthPdw)
-
-# Minimum and maximum in T1 image:
-varMin = np.amin(aryNiiT1)
-varMax = np.amax(aryNiiT1)
-
-# Find voxels that are minimum (zero) in the T1 image, but not in the PDw
-# image, and set them to max:
-aryLgc01 = np.equal(aryNiiT1, varMin)
-aryLgc02 = np.not_equal(aryNiiPwd, varMin)
-aryLgc03 = np.logical_and(aryLgc01, aryLgc02)
-aryNiiT1[aryLgc03] = varMax
-
-# Create output nii object:
-niiT1Out = nb.Nifti1Image(aryNiiT1,
-                          aryAffT1,
-                          header=objHdrT1
-                          )
-# Save nii:
-nb.save(niiT1Out, strPthT1)
+            # Create output nii object:
+            niiOut = nb.Nifti1Image(aryNiiTmp,
+                                    aryAffTmp,
+                                    header=objHdrTmp
+                                    )
+            # Save nii:
+            nb.save(niiOut, strPthTmp)
 # ------------------------------------------------------------------------------

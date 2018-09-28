@@ -57,17 +57,17 @@ else
 	echo "---Automatic: Export json metadata to bids."
 	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
 fi
-#
-# # if ${bool_from_bids};
-# # then
-# # 	:
-# # else
-# # 	echo "---Automatic: Deface nii data in bids folder."
-# # 	python ${strPathPrnt}00_get_data/n_05_py_deface.py
-# # fi
-#
-# echo "---Automatic: Import nii data from bids."
-# source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
+
+if ${bool_from_bids};
+then
+	:
+else
+	echo "---Automatic: Deface nii data in bids folder."
+	python ${strPathPrnt}00_get_data/n_05_py_deface.py
+fi
+
+echo "---Automatic: Import nii data from bids."
+source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
 # #-------------------------------------------------------------------------------
 
 
