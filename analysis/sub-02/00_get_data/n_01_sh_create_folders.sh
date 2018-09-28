@@ -9,46 +9,32 @@
 # -----------------------------------------------------------------------------
 # *** Define parameters:
 
-///////////////
-//  # Subject ID:
-//  str_sub_id="sub-02"
-//
-//  # Session IDs:
-//  ary_ses_id=(ses-01 \
-//              ses-02 \
-//              ses-03)
-//
-//  # Date strings (in same order as session IDs):
-//  ary_date_id=(20180926 \
-//               20180926 \
-//               20180926)
-//
-//  str_anly_path
-//  str_data_path
-//  lgn_from_bids
-//  lgn_wait
-//  lgn_cpu
-//
-//  str_data_path = /media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf
-//
-//  ary_ses_id=(ses-01 \
-//            ses-02 \
-//            ses-03)
-/////////////
 
 # Get subject ID (from environmental variable, which is defined in metascript).
 # E.g., "sub-02".
 str_sub_ID="${str_sub_id}"
 
 # Get session IDs (from environmental variable). E.g. "ses-01", "ses-02").
-ary_ses_id=${ary_ses_id}
+str_ses_id="${str_ses_id}"
+
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Get subject data directory (from environmental variable, which is defined in
 # metascript). For instance:
 # "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "derivatives" + "sub-01".
 str_pth_sub="${str_data_path}derivatives/${str_sub_ID}"
 
-
+# Calculate total number of runs (i.e. all runs of all session for given
+# subject).
+var_num_runs=0
+for idx_num_run in ${ary_num_runs[@]}
+do
+	var_num_runs=`bc <<< ${var_num_runs}+${idx_num_run}`
+done
 # -----------------------------------------------------------------------------
 
 
