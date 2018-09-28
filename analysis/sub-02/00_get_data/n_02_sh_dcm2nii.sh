@@ -30,7 +30,7 @@ do
   -g n \
   -i n \
   -m n \
-  -o "${str_data_path}derivatives/${str_sub_id}/raw_data/${ary_ses_id[idx_num_ses]} " \
+  -o "${str_data_path}derivatives/${str_sub_id}/raw_data/${ary_ses_id[idx_num_ses]}" \
   -p n \
   -s n \
   -t n \

@@ -19,10 +19,10 @@ bids
                 sub-01_ses-01_PD_02
                 ...
             func
-                sub-01_ses-01_func_01
+                sub-01_ses-01_run_01
                 ...
             func_op
-                sub-01_ses-01_func_01
+                sub-01_ses-01_run_01
                 ...
         ses-02
         ...
@@ -118,20 +118,20 @@ derivatives
                 sub-01_PD_mean
                 sub-01_T1w_si_mean
         func
-            sub-01_ses-01_func_01
-            sub-01_ses-01_func_02
+            sub-01_ses-01_run_01
+            sub-01_ses-01_run_02
             ...
-            sub-01_ses-02_func_01
-            sub-01_ses-02_func_02
+            sub-01_ses-02_run_01
+            sub-01_ses-02_run_02
             ...
         spm_reg
             01
-                sub-01_ses-01_func_01
+                sub-01_ses-01_run_01
             02
-                sub-01_ses-01_func_02
+                sub-01_ses-01_run_02
             ...
             0*
-                sub-01_ses-02_func_02
+                sub-01_ses-02_run_02
             ...
             ref_weighting
                 spm_refweight
@@ -147,22 +147,22 @@ derivatives
             ref_weighting
                 spm_refweight
         func_reg
-            sub-01_ses-01_func_01
-            sub-01_ses-01_func_02
+            sub-01_ses-01_run_01
+            sub-01_ses-01_run_02
             ...
-            sub-01_ses-02_func_01
-            sub-01_ses-02_func_02
+            sub-01_ses-02_run_01
+            sub-01_ses-02_run_02
             ...
         func_reg_tsnr  # tSNR & mean before topup
-            sub-01_ses-01_func_01_mean
-            sub-01_ses-01_func_01_tsnr
-            sub-01_ses-01_func_02_mean
-            sub-01_ses-01_func_02_tsnr
+            sub-01_ses-01_run_01_mean
+            sub-01_ses-01_run_01_tsnr
+            sub-01_ses-01_run_02_mean
+            sub-01_ses-01_run_02_tsnr
             ...
-            sub-01_ses-02_func_01_mean
-            sub-01_ses-02_func_01_tsnr
-            sub-01_ses-02_func_02_mean
-            sub-01_ses-02_func_02_tsnr
+            sub-01_ses-02_run_01_mean
+            sub-01_ses-02_run_01_tsnr
+            sub-01_ses-02_run_02_mean
+            sub-01_ses-02_run_02_tsnr
             ...
             sub-01_ses-01_func_mean  # Mean of 1st session
             sub-01_ses-01_func_tsnr
@@ -193,22 +193,22 @@ derivatives
         func_distcorField
             sub-01_fieldcoef
         func_distcorUnwrp
-            sub-01_ses-01_func_01
-            sub-01_ses-01_func_02
+            sub-01_ses-01_run_01
+            sub-01_ses-01_run_02
             ...
-            sub-01_ses-02_func_01
-            sub-01_ses-02_func_02
+            sub-01_ses-02_run_01
+            sub-01_ses-02_run_02
             ...
         func_unwrp_tsnr  # tSNR & mean after topup
-            sub-01_ses-01_func_01_mean
-            sub-01_ses-01_func_01_tsnr
-            sub-01_ses-01_func_02_mean
-            sub-01_ses-01_func_02_tsnr
+            sub-01_ses-01_run_01_mean
+            sub-01_ses-01_run_01_tsnr
+            sub-01_ses-01_run_02_mean
+            sub-01_ses-01_run_02_tsnr
             ...
-            sub-01_ses-02_func_01_mean
-            sub-01_ses-02_func_01_tsnr
-            sub-01_ses-02_func_02_mean
-            sub-01_ses-02_func_02_tsnr
+            sub-01_ses-02_run_01_mean
+            sub-01_ses-02_run_01_tsnr
+            sub-01_ses-02_run_02_mean
+            sub-01_ses-02_run_02_tsnr
             ...
             sub-01_ses-01_func_mean  # Mean of 1st session
             sub-01_ses-01_func_tsnr

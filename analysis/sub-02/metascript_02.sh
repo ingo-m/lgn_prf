@@ -41,22 +41,22 @@ else
 		:
 	fi
 fi
-#
-# if ${bool_from_bids};
-# then
-# 	:
-# else
-# 	echo "---Automatic: Export nii to bids."
-# 	source ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh
-# fi
-#
-# if ${bool_from_bids};
-# then
-# 	:
-# else
-# 	echo "---Automatic: Export json metadata to bids."
-# 	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
-# fi
+
+if ${bool_from_bids};
+then
+	:
+else
+	echo "---Automatic: Export nii to bids."
+	source ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh
+fi
+
+if ${bool_from_bids};
+then
+	:
+else
+	echo "---Automatic: Export json metadata to bids."
+	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
+fi
 #
 # # if ${bool_from_bids};
 # # then
@@ -92,7 +92,7 @@ fi
 # 	echo "---Manual:"
 # 	echo "   Prepare reference weights for motion correction of functional"
 # 	echo "   data and opposite-phase polarity data (based on SE EPI images,"
-# 	echo "   i.e. ~/func_distcor/func_00 and ~/func_distcor_op/func_00) and place"
+# 	echo "   i.e. ~/func_distcor/run_00 and ~/func_distcor_op/run_00) and place"
 # 	echo "   them at:"
 # 	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_${str_sub_id}_spm_refweight.nii.gz"
 # 	echo "   and"
