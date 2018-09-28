@@ -77,14 +77,16 @@ str_raw_tmp="${str_raw}ses-01/"
 str_bids_tmp="${str_bids}ses-01/func/sub-01_ses-01_"
 
 # Reorient (and copy) images:
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_01"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_02"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_03"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_04"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_05"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_06"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_07"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_08"
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run01_SERIES_013_c32 ${str_bids_tmp}run_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run02_SERIES_015_c32 ${str_bids_tmp}run_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run03_SERIES_017_c32_e1 ${str_bids_tmp}run_03
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run04_SERIES_020_c32 ${str_bids_tmp}run_04
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run05_SERIES_022_c32 ${str_bids_tmp}run_05
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run06_SERIES_024_c32 ${str_bids_tmp}run_06
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run07_SERIES_027_c32_e1 ${str_bids_tmp}run_07
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run08_SERIES_029_c32 ${str_bids_tmp}run_08
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run09_SERIES_031_c32 ${str_bids_tmp}run_09
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run10_SERIES_033_c32 ${str_bids_tmp}run_10
 #------------------------------------------------------------------------------
 
 
@@ -96,9 +98,16 @@ str_raw_tmp="${str_raw}ses-01/"
 str_bids_tmp="${str_bids}ses-01/func_op/sub-01_ses-01_"
 
 # Reorient (and copy) images:
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_01"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_02"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}run_02"
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_anti_SERIES_012_c32 ${str_bids_tmp}run_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run02_anti_SERIES_014_c32 ${str_bids_tmp}run_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run03_anti_SERIES_016_c32 ${str_bids_tmp}run_03
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run04_anti_SERIES_019_c32 ${str_bids_tmp}run_04
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run05_anti_SERIES_021_c32 ${str_bids_tmp}run_05
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run06_anti_SERIES_023_c32 ${str_bids_tmp}run_06
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run07_anti_SERIES_026_c32 ${str_bids_tmp}run_07
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run08_anti_SERIES_028_c32 ${str_bids_tmp}run_08
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run09_anti_SERIES_030_c32 ${str_bids_tmp}run_09
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run10_anti_SERIES_032_c32 ${str_bids_tmp}run_10
 #------------------------------------------------------------------------------
 
 
@@ -110,7 +119,9 @@ str_raw_tmp="${str_raw}ses-01/"
 str_bids_tmp="${str_bids}ses-01/anat/sub-01_ses-01_"
 
 # Reorient (and copy) images:
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}PD_01"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}PD_02"
-fslreorient2std "${str_raw_tmp}... ${str_bids_tmp}T1w_si"
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_010_c32 ${str_bids_tmp}PD_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_018_c32 ${str_bids_tmp}PD_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_025_c32 ${str_bids_tmp}PD_03
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_034_c32 ${str_bids_tmp}PD_04
+fslreorient2std ${str_raw_tmp}PROTOCOL_WMN_cor_0.7mm_p2_SERIES_009_c32 ${str_bids_tmp}T1w_si
 #------------------------------------------------------------------------------

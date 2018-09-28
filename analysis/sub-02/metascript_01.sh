@@ -15,25 +15,19 @@
 # via
 #    bids/sub-01/ses-01/func
 # to
-#    derivatives/sub-01/func/sub-01_ses-01_func_01
+#    derivatives/sub-01/func/sub-01_ses-01_run_01
 
 # Subject ID:
 str_sub_id="sub-02"
 
 # Session IDs:
-ary_ses_id=("ses-01" \
-            "ses-02" \
-            "ses-03")
+ary_ses_id=("ses-01")
 
 # Date strings (in same order as session IDs):
-ary_date_id=("20180926" \
-             "20180927" \
-             "20180928")
+ary_date_id=("20180926")
 
 # Number of functional runs per session (in same order as session IDs):
-ary_num_runs=(10 \
-              10 \
-              10)
+ary_num_runs=(10)
 
 # Analysis parent directory (containing scripts):
 # str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
