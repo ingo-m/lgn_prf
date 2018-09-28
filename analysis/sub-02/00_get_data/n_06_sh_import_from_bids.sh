@@ -2,62 +2,58 @@
 
 
 ###############################################################################
-# Import data from BIDS folder structure into PacMan analysis pipeline.       #
+# Import data from BIDS folder structure into LGN pRF analysis pipeline.      #
 ###############################################################################
 
 
 #------------------------------------------------------------------------------
 # *** Define paths:
 
-# Parent directory:
-strPthPrnt="${pacman_data_path}${pacman_sub_id}/nii"
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 
-# BIDS directory:
-strBidsDir="${pacman_data_path}BIDS/"
+# BIDS source directory for this subject, e.g.
+# "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "bids/" + "sub-01".
+str_bids="${str_data_path}bids/${str_sub_id}/"
 
-# BIDS directory containing functional data:
-strBidsFunc="${strBidsDir}${pacman_sub_id_bids}/func/"
-
-# Destination directory for functional data:
-strFunc="${strPthPrnt}/func/"
-
-# BIDS directory containing same-phase-polarity images:
-strBidsSe="${strBidsDir}${pacman_sub_id_bids}/func_distcor/"
-
-# Destination directory for same-phase-polarity images:
-strSe="${strPthPrnt}/func_distcor/"
-
-# BIDS directory containing opposite-phase-polarity images:
-strBidsSeOp="${strBidsDir}${pacman_sub_id_bids}/func_distcor_op/"
-
-# Destination directory for opposite-phase-polarity SE images:
-strSeOp="${strPthPrnt}/func_distcor_op/"
-
-# BIDS directory containing anatomical images:
-strBidsAnat="${strBidsDir}${pacman_sub_id_bids}/anat/"
-
-# Destination directory for anatomical images:
-strAnat="${strPthPrnt}/anat/01_orig/"
+# Target directory, e.g.
+# "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "derivatives/" + "sub-01".
+# Folder (e.g. "func/") still needs to be appended.
+str_trgt="${str_data_path}derivatives/${str_sub_id}/"
 #------------------------------------------------------------------------------
+
 
 
 #------------------------------------------------------------------------------
 # *** Copy functional data
 
-cp -r ${strBidsFunc}*.nii.gz ${strFunc}
+# Loop through sessions (e.g. "ses-01", "ses-02", etc.).
+for idx_ses_id in ${ary_ses_id[@]}
+do
+  cp -r ${str_bids}${idx_ses_id}func/*.nii.gz ${str_trgt}func/
+end
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # *** Copy opposite-phase-polarity images
 
-cp -r ${strBidsSe}*.nii.gz ${strSe}
-cp -r ${strBidsSeOp}*.nii.gz ${strSeOp}
+# Loop through sessions (e.g. "ses-01", "ses-02", etc.).
+for idx_ses_id in ${ary_ses_id[@]}
+do
+  cp -r ${str_bids}${idx_ses_id}func_op/*.nii.gz ${str_trgt}func_op/
+end
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # *** Copy anatomical images
 
-cp -r ${strBidsAnat}*.nii.gz ${strAnat}
+# Loop through sessions (e.g. "ses-01", "ses-02", etc.).
+for idx_ses_id in ${ary_ses_id[@]}
+do
+  cp -r ${str_bids}${idx_ses_id}anat/*.nii.gz ${str_trgt}anat/01_orig/
+end
 #------------------------------------------------------------------------------
