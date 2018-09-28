@@ -9,55 +9,105 @@
 #------------------------------------------------------------------------------
 # *** Define paths:
 
-# Parent directory:
-strPthPrnt="${pacman_data_path}${pacman_sub_id}/nii"
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 
-# BIDS directory:
-strBidsDir="${pacman_data_path}BIDS/"
+# BIDS target directory for this subject, e.g.
+# "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "bids/" + "sub-01".
+str_bids="${str_data_path}bids/${str_sub_id}/"
 
-# 'Raw' data directory, containing nii images after DICOM->nii conversion:
-strRaw="${strPthPrnt}/raw_data/"
-
-# Destination directory for functional data:
-strFunc="${strBidsDir}${pacman_sub_id_bids}/func/"
-
-# Destination directory for same-phase-polarity SE images:
-strSe="${strBidsDir}${pacman_sub_id_bids}/func_distcor/"
-
-# Destination directory for opposite-phase-polarity SE images:
-strSeOp="${strBidsDir}${pacman_sub_id_bids}/func_distcor_op/"
-
-# Destination directory for anatomical images:
-strAnat="${strBidsDir}${pacman_sub_id_bids}/anat/"
+# Source directory, e.g.
+# "/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/" + "derivatives/" + "sub-01"
+# + "/raw_data/". Session index (e.g. "ses-01") still needs to be appended.
+str_raw="${str_data_path}derivatives/${str_sub_id}/raw_data/"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# *** Copy metadata for functional images
+# *** Create BIDS directory tree
 
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_01_SERIES_013_c32.json ${strFunc}func_01.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_02_SERIES_014_c32.json ${strFunc}func_02.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_03_SERIES_015_c32.json ${strFunc}func_03.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_04_SERIES_016_c32.json ${strFunc}func_04.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_05_SERIES_018_c32.json ${strFunc}func_05.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_06_SERIES_019_c32_e1.json ${strFunc}func_06.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_07_SERIES_021_c32_e1.json ${strFunc}func_07.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run_08_SERIES_022_c32.json ${strFunc}func_08.json
+# Check whether the subject directory (e.g. "sub-01") already exists. If not,
+# create.
+if [ ! -d "${str_bids}" ];
+then
+	echo "------Create BIDS directory: ${str_bids}"
+
+	# Create BIDS subject parent directory:
+	mkdir "${str_bids}"
+
+else
+	echo "------Directory ${str_bids} does already exist."
+fi
+
+# Check whether the session directories (e.g. "ses-01", "ses-02", etc.) already
+# exist. If not, create them.
+for idx_ses_id in ${ary_ses_id[@]}
+do
+	if [ ! -d "${str_bids}/${idx_ses_id}" ];
+	then
+		echo "------Create session directory: ${str_bids}/${idx_ses_id}"
+
+		# Create BIDS subject parent directory:
+		mkdir "${str_bids}/${idx_ses_id}"
+
+		# Create BIDS subdirectories:
+		mkdir "${str_bids}/${idx_ses_id}/anat"
+		mkdir "${str_bids}/${idx_ses_id}/func"
+		mkdir "${str_bids}/${idx_ses_id}/func_op"
+	else
+		echo "------Session directory ${str_bids}/${idx_ses_id} already exists."
+	fi
+done
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# *** Copy metadata for opposite-phase-polarity SE images
+# *** SESSION 01 - Copy functional data
 
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_SERIES_012_c32.json ${strDistcorOp}func_00.json
-cp ${strRaw}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_SERIES_011_c32.json ${strDistcor}func_00.json
+# Automatic looping through sessions does not work here, because the raw image
+# names are likely going to differ between sessions.
+
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-01/"
+str_bids_tmp="${str_bids}ses-01/func/sub-01_ses-01_"
+
+# Reorient (and copy) images:
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_01.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_02.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_03.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_04.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_05.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_06.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_07.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_08.json"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# *** Copy metadata for anatomical images
+# *** SESSION 01 - Copy opposite-phase-polarity images
 
-cp ${strRaw}PROTOCOL_PD_cor_0.7mm_p2_SERIES_010_c32_e1.json ${strAnat}pdw_01.json
-cp ${strRaw}PROTOCOL_PD_cor_0.7mm_p2_SERIES_017_c32.json ${strAnat}pdw_02.json
-cp ${strRaw}PROTOCOL_WMN_cor_0.7mm_p2_SERIES_008_c32.json ${strAnat}sit1.json
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-01/"
+str_bids_tmp="${str_bids}ses-01/func_op/sub-01_ses-01_"
+
+# Reorient (and copy) images:
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_01.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_02.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}run_02.json"
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# *** SESSION 01 - Copy anatomical images
+
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-01/"
+str_bids_tmp="${str_bids}ses-01/anat/sub-01_ses-01_"
+
+# Reorient (and copy) images:
+cp "${str_raw_tmp}....json ${str_bids_tmp}PD_01.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}PD_02.json"
+cp "${str_raw_tmp}....json ${str_bids_tmp}T1w_si.json"
 #------------------------------------------------------------------------------
