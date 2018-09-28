@@ -66,17 +66,17 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #	python ${strPathPrnt}00_get_data/n_05_py_deface.py
 #fi
 
-echo "---Automatic: Import nii data from bids."
-source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
+#echo "---Automatic: Import nii data from bids."
+#source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # ### Preprocessing
 
-#echo "---Automatic: Reverse order of opposite PE images"
-#python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
-#date
+echo "---Automatic: Reverse order of opposite PE images"
+python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
+date
 
 # echo "---Automatic: Prepare moco of opposite phase encoding EPI images"
 # source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
