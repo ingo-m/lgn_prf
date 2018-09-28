@@ -36,10 +36,10 @@ lstPathIn = [(strDataPath
               + strSubId
               + '_ses-01_run_01.nii.gz')]
 
-# Output file paths:
+# Output file paths (replace original file):
 lstPathOt = [(strDataPath
               + strSubId
-              + '/func_op_inv/'
+              + '/func_op/'
               + strSubId
               + '_ses-01_run_01.nii.gz')]
 # *****************************************************************************

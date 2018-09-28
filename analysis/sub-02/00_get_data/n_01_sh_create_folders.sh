@@ -74,7 +74,6 @@ then
 	mkdir "${str_pth_sub}/func_reg"
 	mkdir "${str_pth_sub}/func_reg_tsnr"
 	mkdir "${str_pth_sub}/func_op"
-	mkdir "${str_pth_sub}/func_op_inv"
 	mkdir "${str_pth_sub}/func_op_reg"
 	mkdir "${str_pth_sub}/func_op_merged"
 	mkdir "${str_pth_sub}/func_distcorField"
