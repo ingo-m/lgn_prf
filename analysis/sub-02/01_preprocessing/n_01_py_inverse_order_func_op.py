@@ -26,18 +26,20 @@ import nibabel as nib
 # *** Define parameters
 
 # Load environmental variables defining the input data path:
-pacman_data_path = str(os.environ['pacman_data_path'])
-pacman_sub_id = str(os.environ['pacman_sub_id'])
+strDataPath = str(os.environ['str_data_path'])
+strSubId = str(os.environ['str_sub_id'])
 
-# Path to images to be swapped:
-lstPathIn = [(pacman_data_path
-              + pacman_sub_id
-              + '/nii/func_distcor_op/func_00.nii.gz')]
+# Path to images to be swapped. First opposite-phase run of first session.
+lstPathIn = [(strDataPath
+              + strSubId
+              + '/func_op/'
+              + strSubId
+              + '_ses-01_func_op_01.nii.gz')]
 
 # Output file paths:
-lstPathOt = [(pacman_data_path
-              + pacman_sub_id
-              + '/nii/func_distcor_op_inv/func_00.nii.gz')]
+lstPathOt = [(strDataPath
+              + strSubId
+              + '/func_op/func_00.nii.gz')]
 # *****************************************************************************
 
 

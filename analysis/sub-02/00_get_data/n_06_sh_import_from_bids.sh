@@ -32,8 +32,8 @@ str_trgt="${str_data_path}derivatives/${str_sub_id}/"
 # Loop through sessions (e.g. "ses-01", "ses-02", etc.).
 for idx_ses_id in ${ary_ses_id[@]}
 do
-  cp -r ${str_bids}${idx_ses_id}func/*.nii.gz ${str_trgt}func/
-end
+  cp -r ${str_bids}${idx_ses_id}/func/*.nii.gz ${str_trgt}func/
+done
 #------------------------------------------------------------------------------
 
 
@@ -43,8 +43,8 @@ end
 # Loop through sessions (e.g. "ses-01", "ses-02", etc.).
 for idx_ses_id in ${ary_ses_id[@]}
 do
-  cp -r ${str_bids}${idx_ses_id}func_op/*.nii.gz ${str_trgt}func_op/
-end
+  cp -r ${str_bids}${idx_ses_id}/func_op/*.nii.gz ${str_trgt}func_op/
+done
 #------------------------------------------------------------------------------
 
 
@@ -54,6 +54,6 @@ end
 # Loop through sessions (e.g. "ses-01", "ses-02", etc.).
 for idx_ses_id in ${ary_ses_id[@]}
 do
-  cp -r ${str_bids}${idx_ses_id}anat/*.nii.gz ${str_trgt}anat/01_orig/
-end
+  cp -r ${str_bids}${idx_ses_id}/anat/*.nii.gz ${str_trgt}anat/01_orig/
+done
 #------------------------------------------------------------------------------

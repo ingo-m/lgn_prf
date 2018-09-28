@@ -154,7 +154,7 @@ for idxSes in lstSesIds:
             print(('------Defacing: ' + strPthTmp))
 
             # Load image:
-            aryNiiTmp, objHdrTmp, aryAffTmp = load_nii(strPthTmp)
+            aryNiiTmp, objHdrTmp, aryAffTmp = load_nii((strPathIn + strPthTmp))
 
             # Set anterior voxels to zero:
             aryNiiTmp[:, 215:, :] = 0.0

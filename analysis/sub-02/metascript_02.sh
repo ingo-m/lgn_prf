@@ -12,72 +12,72 @@
 # Analysis parent directory, e.g.:
 # "/home/john/PhD/GitLab/lgn_prf/analysis/" + "sub-02" + "/"
 strPathPrnt="${str_anly_path}${str_sub_id}/"
+#
+# echo "-LGN pRF Analysis Pipleline --- ${str_sub_id}"
+# date
+#
+# echo "---Automatic: Prepare directory tree"
+# source ${strPathPrnt}00_get_data/n_01_sh_create_folders.sh
+#
+#if ${bool_from_bids};
+#then
+#	echo "---Skipping DICOM to nii conversion (will look for BIDS data)."
+#else
+#	echo "---Automatic: DICOM to nii conversion."
+#	source ${strPathPrnt}00_get_data/n_02_sh_dcm2nii.sh
+#
+#	if ${pacman_wait};
+#	then
+#		echo "---Manual:"
+#		echo "   Adjust file names in"
+#                echo "   ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh"
+#		echo "   and in"
+#                echo "   ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh"
+#		echo "   Type 'go' to continue"
+#		read -r -s -d $'g'
+#		read -r -s -d $'o'
+#		date
+#	else
+#		:
+#	fi
+#fi
+#
+#if ${bool_from_bids};
+#then
+#	:
+#else
+#	echo "---Automatic: Export nii to bids."
+#	source ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh
+#fi
+#
+#if ${bool_from_bids};
+#then
+#	:
+#else
+#	echo "---Automatic: Export json metadata to bids."
+#	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
+#fi
 
- echo "-LGN pRF Analysis Pipleline --- ${str_sub_id}"
- date
-
- echo "---Automatic: Prepare directory tree"
- source ${strPathPrnt}00_get_data/n_01_sh_create_folders.sh
-
-if ${bool_from_bids};
-then
-	echo "---Skipping DICOM to nii conversion (will look for BIDS data)."
-else
-	echo "---Automatic: DICOM to nii conversion."
-	source ${strPathPrnt}00_get_data/n_02_sh_dcm2nii.sh
-
-	if ${pacman_wait};
-	then
-		echo "---Manual:"
-		echo "   Adjust file names in"
-                echo "   ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh"
-		echo "   and in"
-                echo "   ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh"
-		echo "   Type 'go' to continue"
-		read -r -s -d $'g'
-		read -r -s -d $'o'
-		date
-	else
-		:
-	fi
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Export nii to bids."
-	source ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Export json metadata to bids."
-	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Deface nii data in bids folder."
-	python ${strPathPrnt}00_get_data/n_05_py_deface.py
-fi
+#if ${bool_from_bids};
+#then
+#	:
+#else
+#	echo "---Automatic: Deface nii data in bids folder."
+#	python ${strPathPrnt}00_get_data/n_05_py_deface.py
+#fi
 
 echo "---Automatic: Import nii data from bids."
 source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
-# #-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 
-# #-------------------------------------------------------------------------------
-# # ### Preprocessing
-#
-# echo "---Automatic: Reverse order of opposite PE images"
-# python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
-# date
-#
+#------------------------------------------------------------------------------
+# ### Preprocessing
+
+#echo "---Automatic: Reverse order of opposite PE images"
+#python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
+#date
+
 # echo "---Automatic: Prepare moco of opposite phase encoding EPI images"
 # source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
 # source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco.sh
