@@ -130,7 +130,7 @@ strSesIds = str(os.environ['str_ses_id'])
 lstSesIds = strSesIds.split(' ')
 
 # Loop through sessions (for given subject). E.g. "ses-01", "ses-02", etc.
-for idxSes in strSesIds:
+for idxSes in lstSesIds:
 
     # Full input data path:
     strPathIn = (strDataPth

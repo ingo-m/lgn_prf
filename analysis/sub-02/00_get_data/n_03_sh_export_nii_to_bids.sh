@@ -48,19 +48,19 @@ fi
 # exist. If not, create them.
 for idx_ses_id in ${ary_ses_id[@]}
 do
-	if [ ! -d "${str_bids}/${idx_ses_id}" ];
+	if [ ! -d "${str_bids}${idx_ses_id}" ];
 	then
-		echo "------Create session directory: ${str_bids}/${idx_ses_id}"
+		echo "------Create session directory: ${str_bids}${idx_ses_id}"
 
 		# Create BIDS subject parent directory:
-		mkdir "${str_bids}/${idx_ses_id}"
+		mkdir "${str_bids}${idx_ses_id}"
 
 		# Create BIDS subdirectories:
-		mkdir "${str_bids}/${idx_ses_id}/anat"
-		mkdir "${str_bids}/${idx_ses_id}/func"
-		mkdir "${str_bids}/${idx_ses_id}/func_op"
+		mkdir "${str_bids}${idx_ses_id}/anat"
+		mkdir "${str_bids}${idx_ses_id}/func"
+		mkdir "${str_bids}${idx_ses_id}/func_op"
 	else
-		echo "------Session directory ${str_bids}/${idx_ses_id} already exists."
+		echo "------Session directory ${str_bids}${idx_ses_id} already exists."
 	fi
 done
 #------------------------------------------------------------------------------
