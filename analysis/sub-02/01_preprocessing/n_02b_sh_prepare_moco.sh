@@ -2,8 +2,8 @@
 
 
 ###############################################################################
-# Prepare motion correction of opposite phase encoding runs. The following    #
-# steps are performed:                                                                  #
+# Prepare motion correction of functional runs. The following steps are       #
+# performed:                                                                  #
 #   - Copy files into SPM directory tree                                      #
 #   - Remove input files                                                      #
 # Motion correction and registrations can be  performed with SPM afterwards.  #

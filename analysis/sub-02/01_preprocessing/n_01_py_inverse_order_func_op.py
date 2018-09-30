@@ -31,6 +31,7 @@ strSubId = str(os.environ['str_sub_id'])
 
 # Path to images to be swapped. First opposite-phase run of first session.
 lstPathIn = [(strDataPath
+              + 'derivatives/'
               + strSubId
               + '/func_op/'
               + strSubId
@@ -38,6 +39,7 @@ lstPathIn = [(strDataPath
 
 # Output file paths (replace original file):
 lstPathOt = [(strDataPath
+              + 'derivatives/'
               + strSubId
               + '/func_op/'
               + strSubId
