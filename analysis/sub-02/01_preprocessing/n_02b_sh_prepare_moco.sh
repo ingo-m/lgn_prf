@@ -35,8 +35,9 @@ strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_op/"
 echo "-----Change filetype and save resulting nii file to SPM directory:-----"
 date
 
-# Counter for total number of runs (across sessions):
-var_cnt_run=0
+# Counter for total number of runs (across sessions). Because moco is with SPM,
+# we count from one (matlab convention).
+var_cnt_run=1
 
 # Session counter:
 var_cnt_ses=0
