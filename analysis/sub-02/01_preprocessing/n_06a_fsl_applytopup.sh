@@ -98,8 +98,36 @@ date
 # Swap dimensions
 
 # Topup can only be performed on the first or second dimensions. Because phase
-# encode direction is head-foot (third dimensions), we have to swap dimensions.
+# encode direction is head-foot (third dimensions), we had to swap dimensions.
+# Now, we swap dimensions back to normal.
 
-# Swap dimensions for topup:
-# fslswapdim ${strAllMerged} z x y ${strAllMerged}_swapped
+echo "---Swap dimensions"
+date
+
+# Session counter:
+var_cnt_ses=0
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
+
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
+
+    # Path of functional run - input & output (replace):
+    strTmp03="${strPathRes02}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+    # swap dimensions back to normal:
+    fslswapdim ${strTmp03} y z x ${strTmp03}
+
+  done
+
+  # Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
+done
+date
 #------------------------------------------------------------------------------
