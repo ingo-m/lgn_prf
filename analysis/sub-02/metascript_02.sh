@@ -29,7 +29,7 @@ else
 	echo "---Automatic: Rename nii images (remove `_e1` suffix)."
 	python ${strPathPrnt}00_get_data/n_03_py_rename.py
 
-	if ${pacman_wait};
+	if ${bool_wait};
 	then
 		echo "---Manual:"
 		echo "   Adjust file names in"
@@ -90,7 +90,7 @@ echo "---Automatic: Prepare moco"
 source ${strPathPrnt}01_preprocessing/n_02c_sh_prepare_moco.sh
 date
 
-if ${pacman_wait};
+if ${bool_wait};
 then
 	echo "---Manual:"
 	echo "   Prepare reference weights for motion correction of functional"
@@ -215,7 +215,7 @@ date
 # source ${strPathPrnt}06_mp2rage/n_03_postprocess_spm_bf_correction.sh
 # date
 #
-# if ${pacman_wait};
+# if ${bool_wait};
 # then
 # 	echo "---Manual:"
 # 	cat ${strPathPrnt}06_mp2rage/n_04a_info_brainmask.txt
