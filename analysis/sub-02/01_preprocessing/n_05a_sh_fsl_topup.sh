@@ -24,11 +24,11 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strPathParent="${str_data_path}derivatives/${str_sub_id}/"
 
 # Name of configuration file:
-strPathCnf="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_05b_highres.cnf"
+strPathCnf="${str_anly_path}${str_sub_id}/01_preprocessing/n_05b_highres.cnf"
 
 # Path for 'datain' text file with acquisition parameters for topup (see TOPUP
 # documentation for details):
-strDatain01="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_05c_datain_topup.txt"
+strDatain01="${str_anly_path}${str_sub_id}/01_preprocessing/n_05c_datain_topup.txt"
 
 # Path of images to be undistorted (input):
 strPathFunc="${strPathParent}func_reg/"
@@ -77,7 +77,7 @@ do
 
 		# Merge first five volumes of functional run with opposite-phase encoding
 		# run:
-		fslmerge -t ${strTmp03} ${strTmp02} ${strTmp01}
+		fslmerge -t ${strTmp03} ${strTmp02} ${strTmp01}_5vols
 
   done
 
@@ -137,7 +137,7 @@ fslswapdim ${strAllMerged} z x y ${strAllMerged}_swapped
 #------------------------------------------------------------------------------
 # Calculate field map:
 
-echo "------Calculate field maps"
+echo "------Calculate field map"
 date
 
 topup \
