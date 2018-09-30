@@ -2,43 +2,42 @@
 
 
 ###############################################################################
-# The purpose of this script is to calculate field maps for distortion        #
-# correction from opposite-phase-polarity data. The input data need to be     #
-# motion-corrected beforehands. A modified topup configuration may be used.   #
+# Calculate field maps for distortion correction from opposite-phase-polarity #
+# data. The input data need to be motion-corrected beforehands. A modified    #
+# topup configuration may be used.                                            #
 ###############################################################################
 
 
-echo "-Distortion correction"
+echo "---Distortion correction"
 
 
 #------------------------------------------------------------------------------
 # Define session IDs & paths:
 
-# Parent directory:
-strPathParent="${pacman_data_path}${pacman_sub_id}/nii/"
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
-# Functional runs (input & output):
-aryRun=(func_00)
+# Data directory:
+strPathParent="${str_data_path}derivatives/${str_sub_id}/"
 
 # Name of configuration file:
-strPathCnf="${pacman_anly_path}${pacman_sub_id}/01_preprocessing/n_05b_highres.cnf"
-
+strPathCnf="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_05b_highres.cnf"
 
 # Path for 'datain' text file with acquisition parameters for topup (see TOPUP
 # documentation for details):
-strDatain01="${pacman_anly_path}${pacman_sub_id}/01_preprocessing/n_05c_datain_topup.txt"
-
-# Parallelisation factor:
-varPar=1
+strDatain01="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_05c_datain_topup.txt"
 
 # Path of images to be undistorted (input):
-strPathFunc="${strPathParent}func_distcor_reg/"
+strPathFunc="${strPathParent}func_reg/"
 
-# Path of opposite-phase encode run (input):
-strPathOpp="${strPathParent}func_distcor_op_inv_reg/"
+# Path of opposite-phase encode images (input):
+strPathOpp="${strPathParent}func_op_reg/"
 
 # Path for merged opposite-phase encode pair (intermediate output):
-strPathMerged="${strPathParent}func_distcor_merged/"
+strPathMerged="${strPathParent}func_distcorMerged/"
 
 # Path for bias field (intermediate output):
 strPathRes01="${strPathParent}func_distcorField/"
@@ -46,84 +45,106 @@ strPathRes01="${strPathParent}func_distcorField/"
 
 
 #------------------------------------------------------------------------------
-# Preparations
+# Merge opposite-phase-polarity images within runs
 
-echo "---Preparations"
-
-# Number of runs:
-varNumRun=${#aryRun[@]}
-#------------------------------------------------------------------------------
-
-
-#------------------------------------------------------------------------------
-# Merge opposite-phase-polarity image pairs:
-
-echo "---Merge opposite-phase-polarity image pairs"
+echo "---Merge opposite-phase-polarity images within runs"
 date
 
-for idxRun in $(seq 0 $((${varNumRun} - 1)))
+# Session counter:
+var_cnt_ses=0
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
 do
 
-	#echo "------Run: ${aryRun[idxRun]}" &
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
 
-	fslmerge \
-	-t \
-	${strPathMerged}${aryRun[idxRun]} \
-	${strPathFunc}${aryRun[idxRun]} \
-	${strPathOpp}${aryRun[idxRun]} &
+    # Path of functional run:
+    strTmp01="${strPathFunc}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-	# Check whether it's time to issue a wait command (if the modulus of the
-	# index and the parallelisation-value is zero):
-	if [[ $((${idxRun} + 1))%${varPar} -eq 0 ]]
-	then
-		# Only issue a wait command if the index is greater than zero (i.e.,
-		# not for the first segment):
-		if [[ ${idxRun} -gt 0 ]]
-		then
-			wait
-			echo "------Progress: $((${idxRun} + 1)) runs out of" \
-				"${varNumRun}"
-		fi
-	fi
+		# Get first five volumes of functional run:
+		fslroi ${strTmp01} ${strTmp01}_5vols 0 5
+
+		# Path of opposite phase encoding run:
+		strTmp02="${strPathOpp}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+		# Ouput path for merged images:
+		strTmp03="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+		# Merge first five volumes of functional run with opposite-phase encoding
+		# run:
+		fslmerge -t ${strTmp03} ${strTmp02} ${strTmp01}
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
-wait
+
+#------------------------------------------------------------------------------
+# Merge opposite-phase-polarity images across runs
+
+echo "---Merge opposite-phase-polarity images across runs & sessions"
 date
+
+# Session counter:
+var_cnt_ses=0
+
+# Output path for across runs & sessions file:
+strAllMerged="${strPathMerged}${str_sub_id}_func_topup_merged"
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
+
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
+
+		# Path of input image (merged OP run + functional run):
+		strTmp04="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+		# Merge current run to across-runs/sessions image:
+		fslmerge -t ${strAllMerged} ${strAllMerged} ${strTmp04}
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
+done
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# Calculate field maps:
+# Swap dimensions
+
+# Topup can only be performed on the first or second dimensions. Because phase
+# encode direction is head-foot (third dimensions), we have to swap dimensions.
+
+# Swap dimensions for topup:
+fslswapdim ${strAllMerged} z x y ${strAllMerged}_swapped
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# Calculate field map:
 
 echo "------Calculate field maps"
 date
 
-# Parallelisation over runs:
-for idxRun in $(seq 0 $((${varNumRun} - 1)))
-do
+topup \
+--imain=${strAllMerged}_swapped \
+--datain=${strDatain01} \
+--config=${strPathCnf} \
+--out=${strPathRes01}${str_sub_id}
 
-	#echo "------Run: ${aryRun[idxRun]}" &
-
-	topup \
-	--imain=${strPathMerged}${aryRun[idxRun]} \
-	--datain=${strDatain01} \
-	--config=${strPathCnf} \
-	--out=${strPathRes01}${aryRun[idxRun]} &
-
-	# Check whether it's time to issue a wait command (if the modulus of the
-	# index and the parallelisation-value is zero):
-	if [[ $((${idxRun} + 1))%${varPar} -eq 0 ]]
-	then
-		# Only issue a wait command if the index is greater than zero (i.e.,
-		# not for the first segment):
-		if [[ ${idxRun} -gt 0 ]]
-		then
-			wait
-			echo "------Progress: $((${idxRun} + 1)) runs out of" \
-				"${varNumRun}"
-		fi
-	fi
-done
-wait
 date
 #------------------------------------------------------------------------------

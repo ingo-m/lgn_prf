@@ -1,38 +1,26 @@
 #!/bin/bash
 
 
-################################################################################
-# The purpose of this script is to perform distortion correction on opposite   #
-# phase-encoding data. The input data need to be motion-corrected beforehands. #
-# You may use a modified topup configuration file for better results.          #
-################################################################################
-
-
-echo "-Distortion correction"
+###############################################################################
+# Apply distortion correction.                                                #
+###############################################################################
 
 
 #------------------------------------------------------------------------------
 # Define session IDs & paths:
 
-# Parent directory"
-strPathParent="${pacman_data_path}${pacman_sub_id}/nii/"
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
-# Functional runs (input & output):
-aryRun=(func_01 \
-        func_02 \
-        func_03 \
-        func_04 \
-        func_05 \
-        func_06 \
-        func_07 \
-        func_08)
+# Data directory:
+strPathParent="${str_data_path}derivatives/${str_sub_id}/"
 
 # Path for 'datain' text file with acquisition parameters for applytopup (see
 # TOPUP documentation for details):
-strDatain02="${pacman_anly_path}${pacman_sub_id}/01_preprocessing/n_06c_datain_applytopup.txt"
-
-# Parallelisation factor:
-varPar=5
+strDatain02="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_06b_datain_applytopup.txt"
 
 # Path of images to be undistorted (input):
 strPathFunc="${strPathParent}func_reg/"
@@ -41,17 +29,10 @@ strPathFunc="${strPathParent}func_reg/"
 strPathRes01="${strPathParent}func_distcorField/"
 
 # Path for undistorted images (output):
-strPathRes02="${strPathParent}func_reg_distcorUnwrp/"
-#------------------------------------------------------------------------------
+strPathRes02="${strPathParent}func_distcorUnwrp/"
 
-
-#------------------------------------------------------------------------------
-# Preparations
-
-echo "---Preparations"
-
-# Number of runs:
-varNumRun=${#aryRun[@]}
+# Parallelisation factor:
+varPar=5
 #------------------------------------------------------------------------------
 
 
@@ -61,34 +42,64 @@ varNumRun=${#aryRun[@]}
 echo "---Apply distortion correction"
 date
 
-# Parallelisation over runs:
-for idxRun in $(seq 0 $((${varNumRun} - 1)))
+# Session counter:
+var_cnt_ses=0
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
 do
 
-	#echo "------Run: ${aryRun[idxRun]}" &
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
 
-	applytopup \
-	--imain=${strPathFunc}${aryRun[idxRun]} \
-	--datain=${strDatain02} \
-	--inindex=1 \
-	--topup=${strPathRes01}func_00 \
-	--out=${strPathRes02}${aryRun[idxRun]} \
-	--method=jac &
+    # Path of functional run - input:
+    strTmp01="${strPathFunc}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-	# Check whether it's time to issue a wait command (if the modulus of the
-	# index and the parallelisation-value is zero):
-	if [[ $((${idxRun} + 1))%${varPar} -eq 0 ]]
-	then
-		# Only issue a wait command if the index is greater than zero (i.e.,
-		# not for the first segment):
-		if [[ ${idxRun} -gt 0 ]]
-		then
-			wait
-			echo "------Progress: $((${idxRun} + 1)) runs out of" \
-				"${varNumRun}"
-		fi
-	fi
+    # Path of functional run - output:
+    strTmp02="${strPathRes02}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+    applytopup \
+  	--imain=${strTmp01} \
+  	--datain=${strDatain02} \
+  	--inindex=1 \
+  	--topup=${strPathRes01}${str_sub_id} \
+  	--out=${strTmp02} \
+  	--method=jac &
+
+    # Check whether it's time to issue a wait command (if the modulus of the
+  	# index and the parallelisation-value is zero):
+  	if [[ $((${idxRun} + 1))%${varPar} -eq 0 ]]
+  	then
+  		# Only issue a wait command if the index is greater than zero (i.e.,
+  		# not for the first segment):
+  		if [[ ${idxRun} -gt 0 ]]
+  		then
+  			wait
+  			echo "------Progress: $((${idxRun} + 1)) runs out of" \
+  				"${varNumRun}"
+  		fi
+  	fi
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
 done
 wait
 date
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# Swap dimensions
+
+# Topup can only be performed on the first or second dimensions. Because phase
+# encode direction is head-foot (third dimensions), we have to swap dimensions.
+
+# Swap dimensions for topup:
+# fslswapdim ${strAllMerged} z x y ${strAllMerged}_swapped
 #------------------------------------------------------------------------------
