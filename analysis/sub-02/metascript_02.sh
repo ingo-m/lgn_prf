@@ -130,17 +130,14 @@ echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
 /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03c_spm_create_moco_batch_op.m
 date
 
-# echo "---Automatic: Copy moco results"
-# source ${strPathPrnt}01_preprocessing/n_04a_sh_postprocess_moco.sh
-# date
-#
-# echo "---Automatic: Copy moco results of distcor EPI images"
-# source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco.sh
-# date
-#
-# echo "---Automatic: Copy moco results of opposite-phase polarity distcor EPI images"
-# source ${strPathPrnt}01_preprocessing/n_04c_sh_postprocess_moco.sh
-# date
+echo "---Automatic: Copy moco results"
+source ${strPathPrnt}01_preprocessing/n_04a_sh_postprocess_moco.sh
+date
+
+echo "---Automatic: Copy moco results of opposite phase encoding images"
+source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco_op.sh
+date
+
 #
 #echo "---Automatic: Calculate fieldmaps"
 #source ${strPathPrnt}01_preprocessing/n_05a_sh_fsl_topup.sh
