@@ -52,13 +52,13 @@ do
   do
 
     # Complete input path:
-    strTmpIn="${strPathInput}${str_sub_id}_${idx_ses_id}_run${idx_num_run}"
+    strTmpIn="${strPathInput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Zero pad the counter for SPM directory name:
     strTmpSpmCnt=`printf %02d ${var_cnt_run}`
 
     # Complete output path:
-  	strTmpOt="${strPathSpm}${strTmpSpmCnt}/${str_sub_id}_${idx_ses_id}_run${idx_num_run}"
+  	strTmpOt="${strPathSpm}${strTmpSpmCnt}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
   	echo "------fslchfiletype on: ${strTmpIn}"
   	echo "----------------output: ${strTmpOt}"
