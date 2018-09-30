@@ -116,7 +116,7 @@ fslchfiletype \
 fslchfiletype \
    NIFTI \
    ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op \
-   ${str_data_path}derivatives/${str_sub_id}/spm_reg/ref_weighting/n_03d_${str_sub_id}_spm_refweight_op
+   ${str_data_path}derivatives/${str_sub_id}/spm_reg_op/ref_weighting/n_03d_${str_sub_id}_spm_refweight_op
 
 echo "---Automatic: Run SPM motion correction on functional data"
 # matlab -nodisplay -nojvm -nosplash -nodesktop \
@@ -127,7 +127,7 @@ date
 echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
 # matlab -nodisplay -nojvm -nosplash -nodesktop \
 #   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_spm_create_moco_batch_op.m
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03c_spm_create_moco_batch_op.m
 date
 
 # echo "---Automatic: Copy moco results"
