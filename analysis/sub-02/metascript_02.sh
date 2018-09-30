@@ -26,13 +26,16 @@ else
 	echo "---Automatic: DICOM to nii conversion."
 	source ${strPathPrnt}00_get_data/n_02_sh_dcm2nii.sh
 
+	echo "---Automatic: Rename nii images (remove `_e1` suffix)."
+	python ${strPathPrnt}00_get_data/n_03_py_rename.py
+
 	if ${pacman_wait};
 	then
 		echo "---Manual:"
 		echo "   Adjust file names in"
-                echo "   ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh"
+                echo "   ${strPathPrnt}00_get_data/n_04_sh_export_nii_to_bids.sh"
 		echo "   and in"
-                echo "   ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh"
+                echo "   ${strPathPrnt}00_get_data/n_05_sh_export_json_to_bids.sh"
 		echo "   Type 'go' to continue"
 		read -r -s -d $'g'
 		read -r -s -d $'o'
@@ -47,7 +50,7 @@ then
 	:
 else
 	echo "---Automatic: Export nii to bids."
-	source ${strPathPrnt}00_get_data/n_03_sh_export_nii_to_bids.sh
+	source ${strPathPrnt}00_get_data/n_04_sh_export_nii_to_bids.sh
 fi
 
 if ${bool_from_bids};
@@ -55,7 +58,7 @@ then
 	:
 else
 	echo "---Automatic: Export json metadata to bids."
-	source ${strPathPrnt}00_get_data/n_04_sh_export_json_to_bids.sh
+	source ${strPathPrnt}00_get_data/n_05_sh_export_json_to_bids.sh
 fi
 
 if ${bool_from_bids};
@@ -63,11 +66,11 @@ then
 	:
 else
 	echo "---Automatic: Deface nii data in bids folder."
-	python ${strPathPrnt}00_get_data/n_05_py_deface.py
+	python ${strPathPrnt}00_get_data/n_06_py_deface.py
 fi
 
 echo "---Automatic: Import nii data from bids."
-source ${strPathPrnt}00_get_data/n_06_sh_import_from_bids.sh
+source ${strPathPrnt}00_get_data/n_07_sh_import_from_bids.sh
 #------------------------------------------------------------------------------
 
 

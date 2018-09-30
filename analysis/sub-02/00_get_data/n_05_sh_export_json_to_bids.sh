@@ -76,11 +76,11 @@ str_bids_tmp="${str_bids}ses-01/func/sub-01_ses-01_"
 # Copy metadata:
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run01_SERIES_013_c32.json ${str_bids_tmp}run_01.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run02_SERIES_015_c32.json ${str_bids_tmp}run_02.json
-cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run03_SERIES_017_c32_e1.json ${str_bids_tmp}run_03.json
+cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run03_SERIES_017_c32.json ${str_bids_tmp}run_03.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run04_SERIES_020_c32.json ${str_bids_tmp}run_04.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run05_SERIES_022_c32.json ${str_bids_tmp}run_05.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run06_SERIES_024_c32.json ${str_bids_tmp}run_06.json
-cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run07_SERIES_027_c32_e1.json ${str_bids_tmp}run_07.json
+cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run07_SERIES_027_c32.json ${str_bids_tmp}run_07.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run08_SERIES_029_c32.json ${str_bids_tmp}run_08.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run09_SERIES_031_c32.json ${str_bids_tmp}run_09.json
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run10_SERIES_033_c32.json ${str_bids_tmp}run_10.json

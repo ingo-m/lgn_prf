@@ -30,8 +30,8 @@ ary_date_id=("20180926")
 ary_num_runs=(10)
 
 # Analysis parent directory (containing scripts):
-# str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
-str_anly_path="/Users/john/1_PhD/GitLab/lgn_prf/analysis/"
+str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
+# str_anly_path="/Users/john/1_PhD/GitLab/lgn_prf/analysis/"
 
 # Parent data directory (containing subfolders 'bids', 'derivatives',
 # 'sourcedata').
@@ -51,7 +51,7 @@ bool_from_bids=false
 bool_wait=true
 
 # Number of parallel processes to use (for pRF finding):
-var_num_cpu=3
+var_num_cpu=11
 #------------------------------------------------------------------------------
 
 
