@@ -48,7 +48,7 @@ bool_from_bids=true
 # wait until the user provides the manual input. However, if the manual input
 # is already available (when re-running the analysis), these breaks can be
 # skipped. Set to 'true' if script should wait.
-bool_wait=true
+bool_wait=false
 
 # Number of parallel processes to use (for pRF finding):
 var_num_cpu=11

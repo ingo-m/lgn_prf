@@ -138,23 +138,14 @@ echo "---Automatic: Copy moco results of opposite phase encoding images"
 source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco_op.sh
 date
 
-#
-#echo "---Automatic: Calculate fieldmaps"
-#source ${strPathPrnt}01_preprocessing/n_05a_sh_fsl_topup.sh
-#date
-#
-#echo "---Automatic: Apply TOPUP on functional data"
-#source ${strPathPrnt}01_preprocessing/n_06a_fsl_applytopup.sh
-#date
-#
-#echo "---Automatic: Apply TOPUP on distcor EPI data"
-#source ${strPathPrnt}01_preprocessing/n_06b_fsl_applytopup.sh
-#date
-#
-#echo "---Automatic: Create mean undistorted distcor EPI image."
-#source ${strPathPrnt}01_preprocessing/n_07_sh_mean_se.sh
-#date
-##-------------------------------------------------------------------------------
+echo "---Automatic: Calculate fieldmaps"
+source ${strPathPrnt}01_preprocessing/n_05a_sh_fsl_topup.sh
+date
+
+echo "---Automatic: Apply TOPUP on functional data"
+source ${strPathPrnt}01_preprocessing/n_06a_fsl_applytopup.sh
+date
+#-------------------------------------------------------------------------------
 #
 #
 ##-------------------------------------------------------------------------------
