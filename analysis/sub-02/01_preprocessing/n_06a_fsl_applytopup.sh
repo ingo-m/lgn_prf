@@ -20,7 +20,7 @@ strPathParent="${str_data_path}derivatives/${str_sub_id}/"
 
 # Path for 'datain' text file with acquisition parameters for applytopup (see
 # TOPUP documentation for details):
-strDatain02="${str_data_path}analysis/${str_sub_id}/01_preprocessing/n_06b_datain_applytopup.txt"
+strDatain02="${str_anly_path}${str_sub_id}/01_preprocessing/n_06b_datain_applytopup.txt"
 
 # Path of images to be undistorted (input):
 strPathFunc="${strPathParent}func_reg/"
