@@ -16,134 +16,14 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 echo "-LGN pRF Analysis Pipleline --- ${str_sub_id}"
 date
 
-echo "---Automatic: Prepare directory tree"
-source ${strPathPrnt}00_get_data/n_01_sh_create_folders.sh
-
-if ${bool_from_bids};
-then
-	echo "---Skipping DICOM to nii conversion (will look for BIDS data)."
-else
-	echo "---Automatic: DICOM to nii conversion."
-	source ${strPathPrnt}00_get_data/n_02_sh_dcm2nii.sh
-
-	echo "---Automatic: Rename nii images (remove `_e1` suffix)."
-	python ${strPathPrnt}00_get_data/n_03_py_rename.py
-
-	if ${bool_wait};
-	then
-		echo "---Manual:"
-		echo "   Adjust file names in"
-                echo "   ${strPathPrnt}00_get_data/n_04_sh_export_nii_to_bids.sh"
-		echo "   and in"
-                echo "   ${strPathPrnt}00_get_data/n_05_sh_export_json_to_bids.sh"
-		echo "   Type 'go' to continue"
-		read -r -s -d $'g'
-		read -r -s -d $'o'
-		date
-	else
-		:
-	fi
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Export nii to bids."
-	source ${strPathPrnt}00_get_data/n_04_sh_export_nii_to_bids.sh
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Export json metadata to bids."
-	source ${strPathPrnt}00_get_data/n_05_sh_export_json_to_bids.sh
-fi
-
-if ${bool_from_bids};
-then
-	:
-else
-	echo "---Automatic: Deface nii data in bids folder."
-	python ${strPathPrnt}00_get_data/n_06_py_deface.py
-fi
-
-echo "---Automatic: Import nii data from bids."
-source ${strPathPrnt}00_get_data/n_07_sh_import_from_bids.sh
-#------------------------------------------------------------------------------
-
-
-#------------------------------------------------------------------------------
-# ### Preprocessing
-
-echo "---Automatic: Reverse order of opposite PE images"
-python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
-date
-
-echo "---Automatic: Prepare moco of opposite phase encoding EPI images"
-source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
-source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco.sh
-date
-
-echo "---Automatic: Prepare moco"
-source ${strPathPrnt}01_preprocessing/n_02c_sh_prepare_moco.sh
-date
-
-if ${bool_wait};
-then
-	echo "---Manual:"
-	echo "   Prepare reference weights for motion correction of functional"
-	echo "   data and opposite-phase polarity data and place them at:"
-	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_${str_sub_id}_spm_refweight.nii.gz"
-	echo "   and"
-	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op.nii.gz"
-	echo "   Type 'go' to continue"
-	read -r -s -d $'g'
-	read -r -s -d $'o'
-	date
-else
-	:
-fi
-
-# Copy reference weight to spm directory:
-fslchfiletype \
-   NIFTI \
-   ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_${str_sub_id}_spm_refweight \
-   ${str_data_path}derivatives/${str_sub_id}/spm_reg/ref_weighting/n_03b_${str_sub_id}_spm_refweight
-
-# Copy reference weight for opposite-phase encoding data to spm directory:
-fslchfiletype \
-   NIFTI \
-   ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op \
-   ${str_data_path}derivatives/${str_sub_id}/spm_reg_op/ref_weighting/n_03d_${str_sub_id}_spm_refweight_op
-
-echo "---Automatic: Run SPM motion correction on functional data"
-# matlab -nodisplay -nojvm -nosplash -nodesktop \
-#   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03a_spm_create_moco_batch.m
-date
-
-echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
-# matlab -nodisplay -nojvm -nosplash -nodesktop \
-#   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03c_spm_create_moco_batch_op.m
-date
-
-echo "---Automatic: Copy moco results"
-source ${strPathPrnt}01_preprocessing/n_04a_sh_postprocess_moco.sh
-date
-
-echo "---Automatic: Copy moco results of opposite phase encoding images"
-source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco_op.sh
-date
+# ...
 
 echo "---Automatic: Calculate fieldmaps"
-source ${strPathPrnt}01_preprocessing/n_05a_sh_fsl_topup.sh
+source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
 date
 
 echo "---Automatic: Apply TOPUP on functional data"
-source ${strPathPrnt}01_preprocessing/n_06a_fsl_applytopup.sh
+source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
 date
 #-------------------------------------------------------------------------------
 #

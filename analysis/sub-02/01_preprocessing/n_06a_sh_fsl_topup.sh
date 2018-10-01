@@ -24,11 +24,11 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strPathParent="${str_data_path}derivatives/${str_sub_id}/"
 
 # Name of configuration file:
-strPathCnf="${str_anly_path}${str_sub_id}/01_preprocessing/n_05b_highres.cnf"
+strPathCnf="${str_anly_path}${str_sub_id}/01_preprocessing/n_06b_highres.cnf"
 
 # Path for 'datain' text file with acquisition parameters for topup (see TOPUP
 # documentation for details):
-strDatain01="${str_anly_path}${str_sub_id}/01_preprocessing/n_05c_datain_topup.txt"
+strDatain01="${str_anly_path}${str_sub_id}/01_preprocessing/n_06c_datain_topup.txt"
 
 # Path of images to be undistorted (input):
 strPathFunc="${strPathParent}func_reg/"
@@ -111,8 +111,15 @@ do
 		# Path of input image (merged OP run + functional run):
 		strTmp04="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-		# Merge current run to across-runs/sessions image:
-		fslmerge -t ${strAllMerged} ${strAllMerged} ${strTmp04}
+		# For first run of first session, don't append (there's nothing to append
+		# to yet), but copy the first run.
+		if [[ "${idx_num_run}" -eq "0" ] && [ "${var_cnt_ses}" -eq "0" ]]
+		then
+			cp ${strTmp04}.nii.gz ${strAllMerged}.nii.gz
+		else
+			# Merge current run to across-runs/sessions image:
+			fslmerge -t ${strAllMerged} ${strAllMerged} ${strTmp04}
+		fi
 
   done
 
