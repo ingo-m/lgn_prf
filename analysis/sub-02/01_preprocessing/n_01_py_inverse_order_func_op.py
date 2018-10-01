@@ -29,21 +29,52 @@ import nibabel as nib
 strDataPath = str(os.environ['str_data_path'])
 strSubId = str(os.environ['str_sub_id'])
 
-# Path to images to be swapped. First opposite-phase run of first session.
-lstPathIn = [(strDataPath
-              + 'derivatives/'
-              + strSubId
-              + '/func_op/'
-              + strSubId
-              + '_ses-01_run_01.nii.gz')]
+# Load environmental variable defining session IDs (e.g. "ses-01 ses-02"). Bash
+# does not (currently) support export of arrays. Therefore, we need to turn the
+# arrays into strings, and export the strings. Here the string is converted
+# into a python list.
+strSesIds = str(os.environ['str_ses_id'])
+lstSesIds = strSesIds.split(' ')
 
-# Output file paths (replace original file):
-lstPathOt = [(strDataPath
-              + 'derivatives/'
-              + strSubId
-              + '/func_op/'
-              + strSubId
-              + '_ses-01_run_01.nii.gz')]
+# Get list of number of runs per session.
+strNumRuns = str(os.environ['var_num_runs'])
+lstNumRuns = strNumRuns.split(' ')
+lstNumRuns = [int(x) for x in lstNumRuns]
+
+lstPathIn = []
+lstPathOt = []
+
+# Create lists of input and output files
+for idxSes in range(len(lstSesIds)):
+    for idxRun in range(lstNumRuns[idxSes]):
+
+        # Current run (plus one, because runs are coutned from one, an
+        # zero-filled.
+        strTmpRun = (str(idxRun + 1)).zfill(2)
+
+        # Path to images to be swapped.
+        lstPathIn.append([(strDataPath
+                         + 'derivatives/'
+                         + strSubId
+                         + '/func_op/'
+                         + strSubId
+                         + '_'
+                         + lstSesIds[idxSes]
+                         + '_run_'
+                         + strTmpRun
+                         + '.nii.gz')])
+
+        # Output file paths (replace original file):
+        lstPathOt.append([(strDataPath
+                         + 'derivatives/'
+                         + strSubId
+                         + '/func_op_inv/'
+                         + strSubId
+                         + '_'
+                         + lstSesIds[idxSes]
+                         + '_run_'
+                         + strTmpRun
+                         + '.nii.gz')])
 # *****************************************************************************
 
 
