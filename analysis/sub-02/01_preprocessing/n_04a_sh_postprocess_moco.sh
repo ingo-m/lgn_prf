@@ -63,7 +63,7 @@ do
 
   	echo "------fslchfiletype on: ${strTmpIn}"
   	echo "----------------output: ${strTmpOt}"
-  	fslchfiletype NIFTI ${strTmpIn} ${strTmpOt}
+  	fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOt}
 
     echo "------Removing uncompressed nii files"
 
