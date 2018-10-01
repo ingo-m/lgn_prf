@@ -80,23 +80,43 @@ then
 	mkdir "${str_pth_sub}/func_distcorUnwrp"
 	mkdir "${str_pth_sub}/func_unwrp_tsnr"
 
-	# Motion correction of functional images.
-	mkdir "${str_pth_sub}/spm_reg"
+	# Motion correction of functional images. First round of moco, within runs,
+	# without refweight.
+	mkdir "${str_pth_sub}/spm_reg_within_runs"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg/${idx_num_run}"
+		mkdir "${str_pth_sub}/spm_reg_within_runs/${idx_num_run}"
 	done
-	mkdir "${str_pth_sub}/spm_reg/ref_weighting"
 
-	# Motion correction of opposite phase encoding data.
-	mkdir "${str_pth_sub}/spm_reg_op"
+	# Motion correction of opposite phase encoding data. First round of moco,
+	# within runs, without refweight.
+	mkdir "${str_pth_sub}/spm_reg_within_runs"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg_op/${idx_num_run}"
+		mkdir "${str_pth_sub}/spm_reg_within_runs/${idx_num_run}"
 	done
-	mkdir "${str_pth_sub}/spm_reg_op/ref_weighting"
+
+	# Motion correction of functional images. Second round of moco, across runs,
+	# with refweight.
+	mkdir "${str_pth_sub}/spm_reg_across_runs"
+	# Zero filled directoy names for SPM moco ("01", "02", etc.).
+	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
+	do
+		mkdir "${str_pth_sub}/spm_reg_across_runs/${idx_num_run}"
+	done
+	mkdir "${str_pth_sub}/spm_reg_across_runs/ref_weighting"
+
+	# Motion correction of opposite phase encoding data. Second round of moco,
+	# across runs, with refweight.
+	mkdir "${str_pth_sub}/spm_reg_op_across_runs"
+	# Zero filled directoy names for SPM moco ("01", "02", etc.).
+	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
+	do
+		mkdir "${str_pth_sub}/spm_reg_op_across_runs/${idx_num_run}"
+	done
+	mkdir "${str_pth_sub}/spm_reg_op_across_runs/ref_weighting"
 
 	# Population receptive field mapping results.
 	mkdir "${str_pth_sub}/retinotopy"

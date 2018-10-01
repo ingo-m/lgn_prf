@@ -200,7 +200,23 @@ derivatives
                 ...
             pRF_results_reg
                 ...
-        spm_reg
+        spm_reg_within_runs  # First round of moco, within runs, without refweight
+            01
+                sub-01_ses-01_run_01
+            02
+                sub-01_ses-01_run_02
+            ...
+            0*
+                sub-01_ses-02_run_02
+        spm_reg_op_within_runs
+            01
+                sub-01_ses-01_run_01
+            02
+                sub-01_ses-01_run_02
+            ...
+            0*
+                sub-01_ses-02_run_01
+        spm_reg_across_runs  # Second round of moco, across runs, with refweight
             01
                 sub-01_ses-01_run_01
             02
@@ -211,7 +227,7 @@ derivatives
             ...
             ref_weighting
                 spm_refweight
-        spm_reg_op
+        spm_reg_op_across_runs
             01
                 sub-01_ses-01_run_01
             02
