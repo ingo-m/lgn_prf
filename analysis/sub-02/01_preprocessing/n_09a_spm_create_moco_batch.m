@@ -11,7 +11,7 @@ strAnalyPth = getenv('str_anly_path');
 strDataPth = getenv('str_data_path');
 varNumRuns = int16(str2num(getenv('var_num_runs')));
 % Path of the SPM moco directory:
-strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg/');
+strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg_across_runs/');
 % Name of the 'SPM batch' to be created:
 strPathOut = [strPathParent, 'spm_moco_batch.mat'];
 %--------------------------------------------------------------------------

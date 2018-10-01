@@ -86,13 +86,13 @@ source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
 source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco.sh
 date
 
-echo "---Automatic: Run SPM motion correction on functional data"
+echo "---Automatic: Run within-run SPM motion correction on functional data"
 # matlab -nodisplay -nojvm -nosplash -nodesktop \
 #   -r "run('....m');"
 /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03a_spm_create_moco_batch.m
 date
 
-echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
+echo "---Automatic: Run within-run SPM motion correction on opposite-phase polarity data"
 # matlab -nodisplay -nojvm -nosplash -nodesktop \
 #   -r "run('....m');"
 /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_spm_create_moco_batch_op.m
@@ -114,21 +114,16 @@ echo "---Automatic: Calculate fieldmaps"
 source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
 date
 
-#echo "---Automatic: Apply TOPUP on functional data"
-#source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
-#date
-
-
-# TODO: 2nd round moco
+echo "---Automatic: Apply TOPUP on functional data"
+source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
+date
 
 if ${bool_wait};
 then
 	echo "---Manual:"
-	echo "   Prepare reference weights for motion correction of functional"
-	echo "   data and opposite-phase polarity data and place them at:"
-	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_${str_sub_id}_spm_refweight.nii.gz"
-	echo "   and"
-	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op.nii.gz"
+	echo "   Prepare reference weight for motion correction of functional data"
+	echo "   and place it at:"
+	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_09b_${str_sub_id}_spm_refweight.nii.gz"
 	echo "   Type 'go' to continue"
 	read -r -s -d $'g'
 	read -r -s -d $'o'
@@ -140,15 +135,14 @@ fi
 # Copy reference weight to spm directory:
 fslchfiletype \
    NIFTI \
-   ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_${str_sub_id}_spm_refweight \
-   ${str_data_path}derivatives/${str_sub_id}/spm_reg/ref_weighting/n_03b_${str_sub_id}_spm_refweight
+   ${str_anly_path}${str_sub_id}/01_preprocessing/n_09b_${str_sub_id}_spm_refweight \
+   ${str_data_path}derivatives/${str_sub_id}/spm_reg_across_runs/ref_weighting/n_09b_${str_sub_id}_spm_refweight
 
-# Copy reference weight for opposite-phase encoding data to spm directory:
-fslchfiletype \
-   NIFTI \
-   ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op \
-   ${str_data_path}derivatives/${str_sub_id}/spm_reg_op/ref_weighting/n_03d_${str_sub_id}_spm_refweight_op
-
+echo "---Automatic: Run across-runs SPM motion correction"
+# matlab -nodisplay -nojvm -nosplash -nodesktop \
+#   -r "run('....m');"
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_09a_spm_create_moco_batch.m
+date
 #-------------------------------------------------------------------------------
 #
 #
