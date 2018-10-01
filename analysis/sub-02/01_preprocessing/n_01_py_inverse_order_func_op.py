@@ -54,7 +54,7 @@ for idxSes in range(len(lstSesIds)):
         strTmpRun = (str(idxRun + 1)).zfill(2)
 
         # Path to images to be swapped.
-        lstPathIn.append([(strDataPath
+        lstPathIn.append((strDataPath
                          + 'derivatives/'
                          + strSubId
                          + '/func_op/'
@@ -63,10 +63,10 @@ for idxSes in range(len(lstSesIds)):
                          + lstSesIds[idxSes]
                          + '_run_'
                          + strTmpRun
-                         + '.nii.gz')])
+                         + '.nii.gz'))
 
         # Output file paths (replace original file):
-        lstPathOt.append([(strDataPath
+        lstPathOt.append((strDataPath
                          + 'derivatives/'
                          + strSubId
                          + '/func_op_inv/'
@@ -75,7 +75,7 @@ for idxSes in range(len(lstSesIds)):
                          + lstSesIds[idxSes]
                          + '_run_'
                          + strTmpRun
-                         + '.nii.gz')])
+                         + '.nii.gz'))
 # *****************************************************************************
 
 
