@@ -81,9 +81,9 @@ echo "---Automatic: Reverse order of opposite PE images"
 python ${strPathPrnt}01_preprocessing/n_01_py_inverse_order_func_op.py
 date
 
-echo "---Automatic: Prepare moco of opposite phase encoding EPI images"
+echo "---Automatic: Prepare within-run SPM motion correction"
 source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
-source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco.sh
+source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco_op.sh
 date
 
 echo "---Automatic: Run within-run SPM motion correction on functional data"
@@ -118,19 +118,19 @@ echo "---Automatic: Apply TOPUP on functional data"
 source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
 date
 
-################################################if ${bool_wait};
-################################################then
-################################################	echo "---Manual:"
-################################################	echo "   Prepare reference weight for motion correction of functional data"
-################################################	echo "   and place it at:"
-################################################	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_09b_${str_sub_id}_spm_refweight.nii.gz"
-################################################	echo "   Type 'go' to continue"
-################################################	read -r -s -d $'g'
-################################################	read -r -s -d $'o'
-################################################	date
-################################################else
-################################################	:
-################################################fi
+if ${bool_wait};
+then
+	echo "---Manual:"
+	echo "   Prepare reference weight for motion correction of functional data"
+	echo "   and place it at:"
+	echo "       ${str_anly_path}${str_sub_id}/01_preprocessing/n_09b_${str_sub_id}_spm_refweight.nii.gz"
+	echo "   Type 'go' to continue"
+	read -r -s -d $'g'
+	read -r -s -d $'o'
+	date
+else
+	:
+fi
 
 # Copy reference weight to spm directory:
 fslchfiletype \

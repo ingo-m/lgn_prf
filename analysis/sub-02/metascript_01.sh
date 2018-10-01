@@ -43,7 +43,7 @@ str_data_path="/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/"
 # Whether to load data from BIDS structure. If 'true', data is loaded from BIDS
 # structure. If 'false', DICOM data is converted into BIDS-compatible nii
 # first.
-bool_from_bids=false
+bool_from_bids=true
 
 # Wait for manual user input? When running the analysis for the first time,
 # some steps need to be performed manually (e.g. creation of brain masks for
@@ -51,7 +51,7 @@ bool_from_bids=false
 # wait until the user provides the manual input. However, if the manual input
 # is already available (when re-running the analysis), these breaks can be
 # skipped. Set to 'true' if script should wait.
-bool_wait=true
+bool_wait=false
 
 # Number of parallel processes to use (for pRF finding):
 var_num_cpu=11
