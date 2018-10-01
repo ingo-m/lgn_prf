@@ -37,10 +37,11 @@ strSesIds = str(os.environ['str_ses_id'])
 lstSesIds = strSesIds.split(' ')
 
 # Get list of number of runs per session.
-strNumRuns = str(os.environ['var_num_runs'])
+strNumRuns = str(os.environ['str_num_runs'])
 lstNumRuns = strNumRuns.split(' ')
 lstNumRuns = [int(x) for x in lstNumRuns]
 
+# Lists for input and output file paths:
 lstPathIn = []
 lstPathOt = []
 
