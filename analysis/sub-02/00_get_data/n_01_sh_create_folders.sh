@@ -71,11 +71,13 @@ then
 
 	# Functional images.
 	mkdir "${str_pth_sub}/func"
-	mkdir "${str_pth_sub}/func_reg"
-	mkdir "${str_pth_sub}/func_reg_tsnr"
+	mkdir "${str_pth_sub}/func_reg_within_runs"
+	mkdir "${str_pth_sub}/func_reg_within_runs_tsnr"
+	mkdir "${str_pth_sub}/func_reg_across_runs"
+	mkdir "${str_pth_sub}/func_reg_across_runs_tsnr"
 	mkdir "${str_pth_sub}/func_op"
 	mkdir "${str_pth_sub}/func_op_inv"
-	mkdir "${str_pth_sub}/func_op_reg"
+	mkdir "${str_pth_sub}/func_op_reg_within_runs"
 	mkdir "${str_pth_sub}/func_distcorMerged"
 	mkdir "${str_pth_sub}/func_distcorField"
 	mkdir "${str_pth_sub}/func_distcorUnwrp"
@@ -92,11 +94,11 @@ then
 
 	# Motion correction of opposite phase encoding data. First round of moco,
 	# within runs, without refweight.
-	mkdir "${str_pth_sub}/spm_reg_within_runs"
+	mkdir "${str_pth_sub}/spm_reg_within_runs_op"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg_within_runs/${idx_num_run}"
+		mkdir "${str_pth_sub}/spm_reg_within_runs_op/${idx_num_run}"
 	done
 
 	# Motion correction of functional images. Second round of moco, across runs,
@@ -111,13 +113,13 @@ then
 
 	# Motion correction of opposite phase encoding data. Second round of moco,
 	# across runs, with refweight.
-	mkdir "${str_pth_sub}/spm_reg_op_across_runs"
+	mkdir "${str_pth_sub}/spm_reg_across_runs_op"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg_op_across_runs/${idx_num_run}"
+		mkdir "${str_pth_sub}/spm_reg_across_runs_op/${idx_num_run}"
 	done
-	mkdir "${str_pth_sub}/spm_reg_op_across_runs/ref_weighting"
+	mkdir "${str_pth_sub}/spm_reg_across_runs_op/ref_weighting"
 
 	# Population receptive field mapping results.
 	mkdir "${str_pth_sub}/retinotopy"

@@ -16,10 +16,10 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPathFunc="${str_data_path}derivatives/${str_sub_id}/func_reg/"
+strPathFunc="${str_data_path}derivatives/${str_sub_id}/func_reg_within_runs/"
 
 # Output directory:
-strPathOut="${str_data_path}derivatives/${str_sub_id}/func_reg_tsnr/"
+strPathOut="${str_data_path}derivatives/${str_sub_id}/func_reg_within_runs_tsnr/"
 #------------------------------------------------------------------------------
 
 

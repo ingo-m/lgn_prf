@@ -31,16 +31,19 @@ strPathCnf="${str_anly_path}${str_sub_id}/01_preprocessing/n_06b_highres.cnf"
 strDatain01="${str_anly_path}${str_sub_id}/01_preprocessing/n_06c_datain_topup.txt"
 
 # Path of images to be undistorted (input):
-strPathFunc="${strPathParent}func_reg/"
+strPathFunc="${strPathParent}func_reg_within_runs/"
 
 # Path of opposite-phase encode images (input):
-strPathOpp="${strPathParent}func_op_reg/"
+strPathOpp="${strPathParent}func_op_reg_within_runs/"
 
 # Path for merged opposite-phase encode pair (intermediate output):
 strPathMerged="${strPathParent}func_distcorMerged/"
 
 # Path for bias field (intermediate output):
 strPathRes01="${strPathParent}func_distcorField/"
+
+# Parallelisation factor:
+varPar=10
 #------------------------------------------------------------------------------
 
 
@@ -85,18 +88,61 @@ do
   var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
+#------------------------------------------------------------------------------
+
+
+##------------------------------------------------------------------------------
+## Merge opposite-phase-polarity images across runs
+#
+#echo "---Merge opposite-phase-polarity images across runs & sessions"
+#date
+#
+## Session counter:
+#var_cnt_ses=0
+#
+## Output path for across runs & sessions file:
+#strAllMerged="${strPathMerged}${str_sub_id}_func_topup_merged"
+#
+## Loop through sessions (e.g. "ses-01"):
+#for idx_ses_id in ${ary_ses_id[@]}
+#do
+#
+#  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+#  # etc.). Note that the number of runs may not be identical throughout
+#  # sessions.
+#	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+#  do
+#
+#		# Path of input image (merged OP run + functional run):
+#		strTmp04="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+#
+#		# For first run of first session, don't append (there's nothing to append
+#		# to yet), but copy the first run.
+#		if [[ "${idx_num_run}" -eq "0" ] && [ "${var_cnt_ses}" -eq "0" ]]
+#		then
+#			cp ${strTmp04}.nii.gz ${strAllMerged}.nii.gz
+#		else
+#			# Merge current run to across-runs/sessions image:
+#			fslmerge -t ${strAllMerged} ${strAllMerged} ${strTmp04}
+#		fi
+#
+#  done
+#
+#	# Increment session counter:
+#  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+#
+#done
+##------------------------------------------------------------------------------
+
 
 #------------------------------------------------------------------------------
-# Merge opposite-phase-polarity images across runs
+# Swap dimensions
 
-echo "---Merge opposite-phase-polarity images across runs & sessions"
-date
+# Topup can only be performed on the first or second dimensions. Because phase
+# encode direction is head-foot (third dimensions), we have to swap dimensions.
 
 # Session counter:
 var_cnt_ses=0
-
-# Output path for across runs & sessions file:
-strAllMerged="${strPathMerged}${str_sub_id}_func_topup_merged"
 
 # Loop through sessions (e.g. "ses-01"):
 for idx_ses_id in ${ary_ses_id[@]}
@@ -108,18 +154,11 @@ do
 	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
   do
 
-		# Path of input image (merged OP run + functional run):
+		# Path of merged image:
 		strTmp04="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-		# For first run of first session, don't append (there's nothing to append
-		# to yet), but copy the first run.
-		if [[ "${idx_num_run}" -eq "0" ] && [ "${var_cnt_ses}" -eq "0" ]]
-		then
-			cp ${strTmp04}.nii.gz ${strAllMerged}.nii.gz
-		else
-			# Merge current run to across-runs/sessions image:
-			fslmerge -t ${strAllMerged} ${strAllMerged} ${strTmp04}
-		fi
+		# Swap dimensions for topup:
+		fslswapdim ${strTmp04} z x y ${strTmp04}_swapped
 
   done
 
@@ -131,27 +170,56 @@ done
 
 
 #------------------------------------------------------------------------------
-# Swap dimensions
+# Calculate field maps
 
-# Topup can only be performed on the first or second dimensions. Because phase
-# encode direction is head-foot (third dimensions), we have to swap dimensions.
-
-# Swap dimensions for topup:
-fslswapdim ${strAllMerged} z x y ${strAllMerged}_swapped
-#------------------------------------------------------------------------------
-
-
-#------------------------------------------------------------------------------
-# Calculate field map:
-
-echo "------Calculate field map"
+echo "------Calculate field maps"
 date
 
-topup \
---imain=${strAllMerged}_swapped \
---datain=${strDatain01} \
---config=${strPathCnf} \
---out=${strPathRes01}${str_sub_id}
+# Session counter:
+var_cnt_ses=0
 
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
+
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
+
+		# Input path of merged opposite PE & 'normal' image:
+		# strTmp05="${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}_swapped"
+
+		# Output path for field map:
+    # strTmp06="${strPathRes01}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+		topup \
+		--imain=${strPathMerged}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}_swapped \
+		--datain=${strDatain01} \
+		--config=${strPathCnf} \
+		--out=${strPathRes01}${str_sub_id}_${idx_ses_id}_run_${idx_num_run} &
+
+		# Check whether it's time to issue a wait command (if the modulus of the
+		# index and the parallelisation-value is zero):
+		if [[ $((${idx_num_run} + 1))%${varPar} -eq 0 ]]
+		then
+			# Only issue a wait command if the index is greater than zero (i.e.,
+			# not for the first segment):
+			if [[ ${idx_num_run} -gt 0 ]]
+			then
+				wait
+				echo "------Progress: $((${idx_num_run})) runs out of" \
+					"${ary_num_runs[var_cnt_ses]}"
+			fi
+		fi
+
+  done
+	wait
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
+done
 date
 #------------------------------------------------------------------------------

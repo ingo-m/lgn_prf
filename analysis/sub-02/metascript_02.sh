@@ -86,9 +86,40 @@ source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
 source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco.sh
 date
 
-echo "---Automatic: Prepare moco"
-source ${strPathPrnt}01_preprocessing/n_02c_sh_prepare_moco.sh
+echo "---Automatic: Run SPM motion correction on functional data"
+# matlab -nodisplay -nojvm -nosplash -nodesktop \
+#   -r "run('....m');"
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03a_spm_create_moco_batch.m
 date
+
+echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
+# matlab -nodisplay -nojvm -nosplash -nodesktop \
+#   -r "run('....m');"
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_spm_create_moco_batch_op.m
+date
+
+echo "---Automatic: Copy moco results"
+source ${strPathPrnt}01_preprocessing/n_04a_sh_postprocess_moco.sh
+date
+
+echo "---Automatic: Copy moco results of opposite phase encoding images"
+source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco_op.sh
+date
+
+echo "---Automatic: Calculate tSNR maps before distortion correction."
+source ${strPathPrnt}01_preprocessing/n_05_sh_tSNR.sh
+date
+
+echo "---Automatic: Calculate fieldmaps"
+source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
+date
+
+#echo "---Automatic: Apply TOPUP on functional data"
+#source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
+#date
+
+
+# TODO: 2nd round moco
 
 if ${bool_wait};
 then
@@ -118,37 +149,6 @@ fslchfiletype \
    ${str_anly_path}${str_sub_id}/01_preprocessing/n_03d_${str_sub_id}_spm_refweight_op \
    ${str_data_path}derivatives/${str_sub_id}/spm_reg_op/ref_weighting/n_03d_${str_sub_id}_spm_refweight_op
 
-echo "---Automatic: Run SPM motion correction on functional data"
-# matlab -nodisplay -nojvm -nosplash -nodesktop \
-#   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03a_spm_create_moco_batch.m
-date
-
-echo "---Automatic: Run SPM motion correction on opposite-phase polarity data"
-# matlab -nodisplay -nojvm -nosplash -nodesktop \
-#   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03c_spm_create_moco_batch_op.m
-date
-
-echo "---Automatic: Copy moco results"
-source ${strPathPrnt}01_preprocessing/n_04a_sh_postprocess_moco.sh
-date
-
-echo "---Automatic: Copy moco results of opposite phase encoding images"
-source ${strPathPrnt}01_preprocessing/n_04b_sh_postprocess_moco_op.sh
-date
-
-echo "---Automatic: Calculate tSNR maps before distortion correction."
-source ${strPathPrnt}01_preprocessing/n_05_sh_tSNR.sh
-date
-
-#echo "---Automatic: Calculate fieldmaps"
-#source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
-#date
-
-#echo "---Automatic: Apply TOPUP on functional data"
-#source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
-#date
 #-------------------------------------------------------------------------------
 #
 #
