@@ -71,7 +71,7 @@ done
 
 # Complete input & output paths for this session:
 str_raw_tmp="${str_raw}ses-01/"
-str_bids_tmp="${str_bids}ses-01/func/sub-01_ses-01_"
+str_bids_tmp="${str_bids}ses-01/func/${str_sub_id}_ses-01_"
 
 # Copy metadata:
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run01_SERIES_013_c32.json ${str_bids_tmp}run_01.json
@@ -92,7 +92,7 @@ cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run10_SERIES_033_c32.json $
 
 # Complete input & output paths for this session:
 str_raw_tmp="${str_raw}ses-01/"
-str_bids_tmp="${str_bids}ses-01/func_op/sub-01_ses-01_"
+str_bids_tmp="${str_bids}ses-01/func_op/${str_sub_id}_ses-01_"
 
 # Copy metadata:
 cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_anti_SERIES_012_c32.json ${str_bids_tmp}run_01.json
@@ -113,7 +113,7 @@ cp ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run10_anti_SERIES_032_c32.j
 
 # Complete input & output paths for this session:
 str_raw_tmp="${str_raw}ses-01/"
-str_bids_tmp="${str_bids}ses-01/anat/sub-01_ses-01_"
+str_bids_tmp="${str_bids}ses-01/anat/${str_sub_id}_ses-01_"
 
 # Copy metadata:
 cp ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_010_c32.json ${str_bids_tmp}PD_01.json
