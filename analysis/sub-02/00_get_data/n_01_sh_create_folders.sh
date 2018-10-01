@@ -111,16 +111,6 @@ then
 	done
 	mkdir "${str_pth_sub}/spm_reg_across_runs/ref_weighting"
 
-	# Motion correction of opposite phase encoding data. Second round of moco,
-	# across runs, with refweight.
-	mkdir "${str_pth_sub}/spm_reg_across_runs_op"
-	# Zero filled directoy names for SPM moco ("01", "02", etc.).
-	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
-	do
-		mkdir "${str_pth_sub}/spm_reg_across_runs_op/${idx_num_run}"
-	done
-	mkdir "${str_pth_sub}/spm_reg_across_runs_op/ref_weighting"
-
 	# Population receptive field mapping results.
 	mkdir "${str_pth_sub}/retinotopy"
 	mkdir "${str_pth_sub}/retinotopy/mask"
