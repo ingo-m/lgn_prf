@@ -18,13 +18,17 @@ date
 
 # ...
 
-echo "---Automatic: Calculate fieldmaps"
-source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
+echo "---Automatic: Calculate tSNR maps before distortion correction."
+source ${strPathPrnt}01_preprocessing/n_05_sh_tSNR.sh
 date
 
-echo "---Automatic: Apply TOPUP on functional data"
-source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
-date
+#echo "---Automatic: Calculate fieldmaps"
+#source ${strPathPrnt}01_preprocessing/n_06a_sh_fsl_topup.sh
+#date
+
+#echo "---Automatic: Apply TOPUP on functional data"
+#source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
+#date
 #-------------------------------------------------------------------------------
 #
 #
