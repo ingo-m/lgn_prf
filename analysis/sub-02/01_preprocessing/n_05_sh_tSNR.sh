@@ -24,7 +24,7 @@ strPathOut="${str_data_path}derivatives/${str_sub_id}/func_reg_tsnr/"
 
 
 #------------------------------------------------------------------------------
-# Calculate single run mean & tSNR images before distortion correction:
+# Calculate within-run mean & tSNR images before distortion correction:
 
 echo "---Calculate single run mean & tSNR images before distortion correction"
 
@@ -94,7 +94,7 @@ do
 
     # For first run, don't append (there's nothing to append to yet), but copy
     # the first run.
-		if [[ "${idx_num_run}" -eq "0" ]
+		if [ "${idx_num_run}" -eq "1" ]
 		then
 
       # The name of the across-runs, within-session tSNR image:
@@ -155,7 +155,7 @@ do
 
     # For first run, don't append (there's nothing to append to yet), but copy
     # the first run.
-		if [[ "${idx_num_run}" -eq "0" ]
+		if [ "${idx_num_run}" -eq "1" ]
 		then
 
       # The name of the across-runs, within-session mean image:
