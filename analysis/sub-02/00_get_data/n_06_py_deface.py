@@ -165,5 +165,5 @@ for idxSes in lstSesIds:
                                     header=objHdrTmp
                                     )
             # Save nii:
-            nb.save(niiOut, strPthTmp)
+            nb.save(niiOut, (strPathIn + strPthTmp))
 # ------------------------------------------------------------------------------
