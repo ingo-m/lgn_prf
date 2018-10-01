@@ -75,6 +75,7 @@ for idxRun = 1:varNumRuns
   spm_jobman('initcfg');
   % Run 'job':
   spm_jobman('run', matlabbatch);
+end
 %------------------------------------------------------------------------------
 %% Exit matlab
 % Because this matlab scrit gets called from command line, we have to
