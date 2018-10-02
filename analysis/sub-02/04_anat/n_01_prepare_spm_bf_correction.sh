@@ -23,6 +23,9 @@ strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/02_spm_bf_correction/"
 # To prevent problems in case of empty target directory:
 shopt -s nullglob
 
+# Save original path in order to cd back to this path in the end:
+strPathPwd=( $(pwd) )
+
 # cd into input directory:
 cd ${strPathIn}
 
@@ -41,4 +44,7 @@ do
   # Change file type to nii (uncompressed):
   fslchfiletype NIFTI ${strTmpPthIn} ${strTmpPthOut}
 done
+
+# cd back to original directory:
+cd "${strPathPwd}"
 #------------------------------------------------------------------------------
