@@ -70,16 +70,18 @@ do
   	--method=jac &
 
     # Check whether it's time to issue a wait command (if the modulus of the
-  	# index and the parallelisation-value is zero):
-  	if [[ $((${idxRun} + 1))%${varPar} -eq 0 ]]
+  	# index and the parallelisation-value is zero). The purpose of the prefix
+		# "10#" is to interpret the zero-filled run number (e.g. "08") as a decimal
+		# number, and not as an octal number.
+		if [[ $((10#${idx_num_run} + 1))%${varPar} -eq 0 ]]
   	then
   		# Only issue a wait command if the index is greater than zero (i.e.,
   		# not for the first segment):
-  		if [[ ${idxRun} -gt 0 ]]
+			if [[ 10#${idx_num_run} -gt 0 ]]
   		then
   			wait
-  			echo "------Progress: $((${idxRun} + 1)) runs out of" \
-  				"${varNumRun}"
+				echo "------Progress: $((10#${idx_num_run})) runs out of" \
+					"${ary_num_runs[var_cnt_ses]}"
   		fi
   	fi
 

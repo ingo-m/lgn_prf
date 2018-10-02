@@ -43,7 +43,7 @@ strPathMerged="${strPathParent}func_distcorMerged/"
 strPathRes01="${strPathParent}func_distcorField/"
 
 # Parallelisation factor:
-varPar=10
+varPar=6
 #------------------------------------------------------------------------------
 
 
@@ -201,20 +201,22 @@ do
 		--out=${strPathRes01}${str_sub_id}_${idx_ses_id}_run_${idx_num_run} &
 
 		# Check whether it's time to issue a wait command (if the modulus of the
-		# index and the parallelisation-value is zero):
-		if [[ $((${idx_num_run} + 1))%${varPar} -eq 0 ]]
-		then
-			# Only issue a wait command if the index is greater than zero (i.e.,
-			# not for the first segment):
-			if [[ ${idx_num_run} -gt 0 ]]
-			then
-				wait
-				echo "------Progress: $((${idx_num_run})) runs out of" \
+  	# index and the parallelisation-value is zero). The purpose of the prefix
+		# "10#" is to interpret the zero-filled run number (e.g. "08") as a decimal
+		# number, and not as an octal number.
+		if [[ $((10#${idx_num_run} + 1))%${varPar} -eq 0 ]]
+  	then
+  		# Only issue a wait command if the index is greater than zero (i.e.,
+  		# not for the first segment):
+			if [[ 10#${idx_num_run} -gt 0 ]]
+  		then
+  			wait
+				echo "------Progress: $((10#${idx_num_run})) runs out of" \
 					"${ary_num_runs[var_cnt_ses]}"
-			fi
-		fi
+  		fi
+  	fi
 
-  done
+	done
 	wait
 
 	# Increment session counter:
