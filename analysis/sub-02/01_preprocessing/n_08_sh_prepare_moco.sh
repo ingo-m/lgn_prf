@@ -65,10 +65,6 @@ do
   	echo "----------------output: ${strTmpOt}"
   	fslchfiletype NIFTI ${strTmpIn} ${strTmpOt}
 
-  	# Remove input:
-  	echo "------rm ${strTmpIn}.nii.gz"
-  	rm "${strTmpIn}.nii.gz"
-
     # Increment run counter:
     var_cnt_run=`bc <<< ${var_cnt_run}+1`
 

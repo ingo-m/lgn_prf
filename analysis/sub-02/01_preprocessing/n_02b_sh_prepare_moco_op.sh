@@ -20,7 +20,7 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPathInput="${str_data_path}derivatives/${str_sub_id}/func_op/"
+strPathInput="${str_data_path}derivatives/${str_sub_id}/func_op_inv/"
 
 # SPM directory:
 strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_within_runs_op/"
@@ -64,10 +64,6 @@ do
   	echo "------fslchfiletype on: ${strTmpIn}"
   	echo "----------------output: ${strTmpOt}"
   	fslchfiletype NIFTI ${strTmpIn} ${strTmpOt}
-
-  	# Remove input:
-  	echo "------rm ${strTmpIn}.nii.gz"
-  	rm "${strTmpIn}.nii.gz"
 
     # Increment run counter:
     var_cnt_run=`bc <<< ${var_cnt_run}+1`
