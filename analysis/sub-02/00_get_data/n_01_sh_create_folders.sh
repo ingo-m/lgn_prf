@@ -83,6 +83,9 @@ then
 	mkdir "${str_pth_sub}/func_distcorUnwrp"
 	mkdir "${str_pth_sub}/func_unwrp_tsnr"
 
+	# FSL feat direcoty (feat is used for filtering).
+	mkdir "${str_pth_sub}/feat_level_1"
+
 	# Motion correction of functional images. First round of moco, within runs,
 	# without refweight.
 	mkdir "${str_pth_sub}/spm_reg_within_runs"

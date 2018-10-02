@@ -7,13 +7,31 @@
 # resulting feat files are identical to the original one, with the exception   #
 # of the string refering to the run ID (i.e. "func_01", "func_02", etc.).      #
 # Required inputs:                                                             #
-#	- parent path                                                          #
-#	- array containing the name of the original fsf file (first entry) and #
-#	  of all the fsf files to be created (arySessionIDs01)               #
-#	- array with the strings to be used as run IDs in the files to be      #
-#	  created (and the respective string that will be replaced as the      #
-#	  first entry)                                                         #
+#	- parent path                                                                #
+#	- array containing the name of the original fsf file (first entry) and       #
+#	  of all the fsf files to be created (arySessionIDs01)                       #
+#	- array with the strings to be used as run IDs in the files to be            #
+#	  created (and the respective string that will be replaced as the            #
+#	  first entry)                                                               #
 ################################################################################
+
+
+#------------------------------------------------------------------------------
+# Define session IDs & paths:
+
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
+
+# Input directory:
+strPathInput="${str_data_path}derivatives/${str_sub_id}/func/"
+
+# SPM directory:
+strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_within_runs/"
+#------------------------------------------------------------------------------
+
 
 
 #-------------------------------------------------------------------------------
@@ -21,7 +39,7 @@
 
 # Parent path:
 # strPathParent="${pacman_anly_path}${pacman_sub_id}/02_feat/level_1_fsf/"
-strPathParent="/home/john/PhD/GitLab/lgn_prf/analysis/20180924/02_feat/level_1_fsf/"
+strPathParent="/home/john/PhD/GitLab/lgn_prf/analysis/sub-02/02_feat/level_1_fsf/"
 
 # Array with the file names of the fsf file (first entry = existing fsf file)
 arySessionIDs01=(feat_level_1_func_01 \

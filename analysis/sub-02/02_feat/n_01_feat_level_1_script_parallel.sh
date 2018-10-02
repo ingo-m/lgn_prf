@@ -1,65 +1,73 @@
 #!/bin/bash
 
-#-------------------------------------------------------------------------------
-# ### Prepare fsf files
 
-# Get path of fsf files from environmental variables:
-str_path="${pacman_anly_path}${pacman_sub_id}/02_feat/level_1_fsf/"
+###############################################################################
+# Copy template FSF file for FEAT analysis, and replace placeholders with     #
+# data paths.                                                                 #
+###############################################################################
 
-# Replace path placeholders in fsf files, creating temporary fsf files (it does
-# not seem to be possible to pipe the result from sed directly into feat).
-NEW_DATA_PATH="${pacman_data_path}${pacman_sub_id}/"
-NEW_ANALYSIS_PATH="${pacman_anly_path}"
 
-# Functional runs:
-arySessionIDs=(func_01 \
-               func_02 \
-               func_03 \
-               func_04 \
-               func_05 \
-               func_06 \
-               func_07 \
-               func_08)
+#------------------------------------------------------------------------------
+# Define session IDs & paths:
 
-for index01 in ${arySessionIDs[@]}
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
+
+# Input directory:
+strPathIn="${str_data_path}derivatives/${str_sub_id}/func_distcorUnwrp/"
+
+# Output directory:
+strPathOut="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
+
+# Path of template FSF file:
+strTmplt="${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/feat_level_1_template.fsf"
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# Prepare FSF file:
+
+# FSF files for FEAT analysis are prepared from template (text replacement of
+# placeholder variables.
+
+# Session counter:
+var_cnt_ses=0
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
 do
-	# Copy the existing fsf file:
-	cp ${str_path}feat_level_1_${index01}.fsf ${str_path}feat_level_1_${index01}_sed.fsf
 
-	# Replace placeholders with path of current subject:
-	sed -i "s|PLACEHOLDER_FOR_DATA_PATH|${NEW_DATA_PATH}|g" ${str_path}feat_level_1_${index01}_sed.fsf
-	sed -i "s|PLACEHOLDER_FOR_ANALYSIS_PATH|${NEW_ANALYSIS_PATH}|g" ${str_path}feat_level_1_${index01}_sed.fsf
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
+
+    # Input path for current run:
+    strTmpIn="${strPathIn}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+    # Output path for current run:
+    strTmpOt="${strPathOut}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+
+    # File name for new FSF file:
+    strTmpFsf="${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.fsf"
+
+    # Copy template FSF file:
+    cp ${strTmplt} ${strTmpFsf}
+
+    # Replace placeholder input path:
+  	sed -i "s|PLACEHOLDER_INPUT_PATH|${strTmpIn}|g" ${strTmpFsf}
+
+    # Replace placeholder output path:
+  	sed -i "s|PLACEHOLDER_OUTPUT_PATH|${strTmpOt}|g" ${strTmpFsf}
+
+  done
+
+  # Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
 done
-#-------------------------------------------------------------------------------
-
-
-#-------------------------------------------------------------------------------
-# ### Run FEAT analysis
-
-echo "-----------First level feat:-----------"
-
-echo "---Runs 01, 02, 03, 04"
-
-date
-
-feat "${str_path}feat_level_1_func_01_sed.fsf" &
-feat "${str_path}feat_level_1_func_02_sed.fsf" &
-feat "${str_path}feat_level_1_func_03_sed.fsf" &
-feat "${str_path}feat_level_1_func_04_sed.fsf" &
-
-wait
-
-date
-
-echo "---Runs 05, 06, 07, 08"
-
-feat "${str_path}feat_level_1_func_05_sed.fsf" &
-feat "${str_path}feat_level_1_func_06_sed.fsf" &
-feat "${str_path}feat_level_1_func_07_sed.fsf" &
-feat "${str_path}feat_level_1_func_08_sed.fsf" &
-wait
-
-date
-
-echo "done"
 #-------------------------------------------------------------------------------

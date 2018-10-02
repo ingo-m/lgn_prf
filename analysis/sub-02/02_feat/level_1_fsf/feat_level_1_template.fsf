@@ -30,7 +30,7 @@ set fmri(featwatcher_yn) 0
 set fmri(sscleanup_yn) 0
 
 # Output directory
-set fmri(outputdir) "PLACEHOLDER_FOR_DATA_PATHnii/feat_level_1/func_03"
+set fmri(outputdir) "PLACEHOLDER_OUTPUT_PATH"
 
 # TR(s)
 set fmri(tr) 1.8
@@ -267,7 +267,7 @@ set fmri(totalVoxels) 233416040
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "PLACEHOLDER_FOR_DATA_PATHnii/func_reg_distcorUnwrp/func_03"
+set feat_files(1) "PLACEHOLDER_INPUT_PATH"
 
 # Add confound EVs text file
 set fmri(confoundevs) 0
