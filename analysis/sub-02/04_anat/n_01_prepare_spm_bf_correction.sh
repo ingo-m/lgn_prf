@@ -10,10 +10,10 @@
 # *** Define parameters:
 
 # Input directory:
-strPathIn="${str_data_path}derivatives/${str_sub_id}/01_orig/"
+strPathIn="${str_data_path}derivatives/${str_sub_id}/anat/01_orig/"
 
 # Output directory:
-strPthOut="${str_data_path}derivatives/${str_sub_id}/02_spm_bf_correction/"
+strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/02_spm_bf_correction/"
 #------------------------------------------------------------------------------
 
 

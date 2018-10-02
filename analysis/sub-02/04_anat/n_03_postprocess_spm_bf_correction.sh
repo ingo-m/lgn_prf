@@ -9,20 +9,11 @@
 #------------------------------------------------------------------------------
 # *** Define parameters:
 
-# Parent directory:
-strPthPrnt="${pacman_data_path}${pacman_sub_id}/nii/"
+# Input directory:
+strPthIn="${str_data_path}derivatives/${str_sub_id}/anat/02_spm_bf_correction/"
 
-# Input folder:
-strPthIn="mp2rage/02_spm_bf_correction/"
-
-# Output folder:
-strPthOut="mp2rage/03_reg/01_in/"
-
-# Array of files:
-aryIn=(mp2rage_inv1 \
-       mp2rage_pdw \
-       mp2rage_t1 \
-       mp2rage_uni)
+# Output directory:
+strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/03_sess_reg/01_in/"
 #------------------------------------------------------------------------------
 
 
