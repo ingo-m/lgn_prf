@@ -9,34 +9,34 @@
 #------------------------------------------------------------------------------
 # *** Define parameters:
 
-# Parent directory:
-strPthPrnt="${pacman_data_path}${pacman_sub_id}/nii/"
+# Input directory:
+strPathIn="${str_data_path}derivatives/${str_sub_id}/01_orig/"
 
-# Input folder:
-strPthIn="mp2rage/01_orig/"
-
-# Output folder:
-strPthOut="mp2rage/02_spm_bf_correction/"
-
-# Array of files:
-aryIn=(mp2rage_inv1 \
-       mp2rage_pdw \
-       mp2rage_t1 \
-       mp2rage_uni)
+# Output directory:
+strPthOut="${str_data_path}derivatives/${str_sub_id}/02_spm_bf_correction/"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # *** Copy files
 
+# To prevent problems in case of empty target directory:
+shopt -s nullglob
+
+# cd into input directory:
+cd ${strPathIn}
+
+# Get names of all input files:
+aryIn=(*)
+
 # Loop through files:
 for strTmp in ${aryIn[@]}
 do
 	# Input file:
-  strTmpPthIn="${strPthPrnt}${strPthIn}${strTmp}"
+  strTmpPthIn="${strPathIn}${strTmp}"
 
   # Output file:
-  strTmpPthOut="${strPthPrnt}${strPthOut}${strTmp}"
+  strTmpPthOut="${strPthOut}${strTmp}"
 
   # Change file type to nii (uncompressed):
   fslchfiletype NIFTI ${strTmpPthIn} ${strTmpPthOut}

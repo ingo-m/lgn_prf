@@ -1,18 +1,18 @@
 %--------------------------------------------------------------------------
-% SPM bias field correction of MP2RAGE images.
+% SPM bias field correction of anatomical images.
 %--------------------------------------------------------------------------
 % Ingo Marquardt, 2018
 %--------------------------------------------------------------------------
 %% Define parameters
 clear;
 % Get environmental variables (for input & output path):
-pacman_sub_id = getenv('pacman_sub_id');
-pacman_anly_path = getenv('pacman_anly_path');
-pacman_data_path = getenv('pacman_data_path');
+str_sub_id = getenv('str_sub_id');
+str_anly_path = getenv('str_anly_path');
+str_data_path = getenv('str_data_path');
 % Path of the default SPM batch:
-strPthDflt = strcat(pacman_anly_path, 'SPM_Metadata/spm_default_bf_correction_batch.mat');
+strPthDflt = strcat(str_anly_path, 'spm_metadata/spm_default_bf_correction_batch.mat');
 % Directory with images to be corrected:
-strPthIn = strcat(pacman_data_path, pacman_sub_id, '/nii/mp2rage/02_spm_bf_correction/');
+strPthIn = strcat(str_data_path, 'derivatives/', str_sub_id, '/anat/02_spm_bf_correction/');
 %--------------------------------------------------------------------------
 %% Prepare input cell array
 % The cell array with the file name of the images to be bias field
