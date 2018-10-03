@@ -25,8 +25,8 @@ strPathOut="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
 # Path of template FSF file:
 strTmplt="${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/feat_level_1_template.fsf"
 
-# Number of processes to run in parallel:
-varPar=6
+# Get parallelisation factor from environmental variable:
+varPar=${var_par_feat}
 #------------------------------------------------------------------------------
 
 
@@ -36,7 +36,7 @@ varPar=6
 echo "------Prepare FSF files for feat analysis"
 
 # FSF files for FEAT analysis are prepared from template (text replacement of
-# placeholder variables.
+# placeholder variables).
 
 # Session counter:
 var_cnt_ses=0
@@ -97,7 +97,7 @@ do
 	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
   do
 
-    echo "${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.fsf" &
+    feat ${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.fsf &
 
 		# Check whether it's time to issue a wait command (if the modulus of the
   	# index and the parallelisation-value is zero). The purpose of the prefix
