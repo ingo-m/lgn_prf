@@ -83,7 +83,7 @@ date
 
 echo "---Automatic: Prepare within-run SPM motion correction"
 source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
-source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco_op.sh
+ source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco_op.sh
 date
 
 echo "---Automatic: Run within-run SPM motion correction on functional data"
@@ -132,6 +132,10 @@ else
 	:
 fi
 
+echo "---Automatic: Prepare across-runs SPM motion correction"
+source ${strPathPrnt}01_preprocessing/n_08_sh_prepare_moco.sh
+date
+
 # Copy reference weight to spm directory:
 fslchfiletype \
    NIFTI \
@@ -143,36 +147,35 @@ echo "---Automatic: Run across-runs SPM motion correction"
 #   -r "run('....m');"
 /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_09a_spm_create_moco_batch.m
 date
+
+echo "---Automatic: Copy moco results"
+source ${strPathPrnt}01_preprocessing/n_10_sh_postprocess_moco.sh
+date
 #-------------------------------------------------------------------------------
-#
-#
-##-------------------------------------------------------------------------------
-## ### First level FEAT
-#
-#echo "---Automatic: 1st level FSL FEAT."
-#source ${strPathPrnt}02_feat/n_01_feat_level_1_script_parallel.sh
-#date
-##-------------------------------------------------------------------------------
-#
-#
-##-------------------------------------------------------------------------------
-## ### Intermediate steps
-#
-#
-#echo "---Automatic: Calculate tSNR maps."
-#source ${strPathPrnt}03_intermediate_steps/n_01_sh_tSNR.sh
-#date
-#
-#echo "---Automatic: Update FEAT directories (dummy registration)."
-#source ${strPathPrnt}03_intermediate_steps/n_02a_sh_fsl_updatefeatreg.sh
-#date
-#
-#echo "---Automatic: Calculate spatial correlation."
-#python ${strPathPrnt}03_intermediate_steps/n_12_py_spatial_correlation.py
-#date
-##-------------------------------------------------------------------------------
-#
-#
+
+
+#-------------------------------------------------------------------------------
+# ### FSL FEAT (temporal filtering)
+
+echo "---Automatic: FSL FEAT (temporal filtering)."
+source ${strPathPrnt}02_feat/n_01_feat_level_1_script_parallel.sh
+date
+#-------------------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------------------
+# ### Intermediate steps
+
+echo "---Automatic: Calculate tSNR maps."
+source ${strPathPrnt}03_intermediate_steps/n_01_sh_tSNR.sh
+date
+
+echo "---Automatic: Calculate spatial correlation."
+python ${strPathPrnt}03_intermediate_steps/n_02_py_spatial_correlation.py
+date
+#-------------------------------------------------------------------------------
+
+
 ## #------------------------------------------------------------------------------
 # # ### pRF analysis
 #
