@@ -19,7 +19,7 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strTmplt="${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_spm_create_moco_batch_template.m"
 
 # Get parallelisation factor from environmental variable:
-varPar=${var_par_moco}
+varPar=`bc <<< ${var_par_moco}+1`
 #------------------------------------------------------------------------------
 
 

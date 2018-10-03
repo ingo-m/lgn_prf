@@ -43,7 +43,7 @@ strPathMerged="${strPathParent}func_distcorMerged/"
 strPathRes01="${strPathParent}func_distcorField/"
 
 # Get parallelisation factor from environmental variable:
-varPar=${var_par_topup}
+varPar=`bc <<< ${var_par_topup}+1`
 #------------------------------------------------------------------------------
 
 

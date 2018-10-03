@@ -26,7 +26,7 @@ strPathOut="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
 strTmplt="${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/feat_level_1_template.fsf"
 
 # Get parallelisation factor from environmental variable:
-varPar=${var_par_feat}
+varPar=`bc <<< ${var_par_feat}+1`
 #------------------------------------------------------------------------------
 
 

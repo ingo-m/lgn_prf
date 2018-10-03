@@ -32,7 +32,7 @@ strPathRes01="${strPathParent}func_distcorField/"
 strPathRes02="${strPathParent}func_distcorUnwrp/"
 
 # Get parallelisation factor from environmental variable:
-varPar=${var_par_applytopup}
+varPar=`bc <<< ${var_par_applytopup}+1`
 #------------------------------------------------------------------------------
 
 
