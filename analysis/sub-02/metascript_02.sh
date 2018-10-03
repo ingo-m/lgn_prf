@@ -83,19 +83,19 @@ date
 
 echo "---Automatic: Prepare within-run SPM motion correction"
 source ${strPathPrnt}01_preprocessing/n_02a_sh_prepare_moco.sh
- source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco_op.sh
+source ${strPathPrnt}01_preprocessing/n_02b_sh_prepare_moco_op.sh
 date
 
+# The within-run motion correction can be parallelised (several runs at the
+# same time).
 echo "---Automatic: Run within-run SPM motion correction on functional data"
-# matlab -nodisplay -nojvm -nosplash -nodesktop \
-#   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03a_spm_create_moco_batch.m
+source ${strPathPrnt}01_preprocessing/n_03a_spm_moco_parallel.sh
 date
 
 echo "---Automatic: Run within-run SPM motion correction on opposite-phase polarity data"
 # matlab -nodisplay -nojvm -nosplash -nodesktop \
 #   -r "run('....m');"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03b_spm_create_moco_batch_op.m
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${str_anly_path}${str_sub_id}/01_preprocessing/n_03c_spm_create_moco_batch_op.m
 date
 
 echo "---Automatic: Copy moco results"
