@@ -31,8 +31,8 @@ strPathRes01="${strPathParent}func_distcorField/"
 # Path for undistorted images (output):
 strPathRes02="${strPathParent}func_distcorUnwrp/"
 
-# Parallelisation factor:
-varPar=5
+# Get parallelisation factor from environmental variable:
+varPar=${var_par_applytopup}
 #------------------------------------------------------------------------------
 
 

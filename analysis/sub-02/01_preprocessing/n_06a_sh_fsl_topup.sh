@@ -42,8 +42,8 @@ strPathMerged="${strPathParent}func_distcorMerged/"
 # Path for bias field (intermediate output):
 strPathRes01="${strPathParent}func_distcorField/"
 
-# Parallelisation factor:
-varPar=6
+# Get parallelisation factor from environmental variable:
+varPar=${var_par_topup}
 #------------------------------------------------------------------------------
 
 

@@ -22,14 +22,17 @@ str_sub_id="sub-02"
 
 # Session IDs:
 ary_ses_id=("ses-01" \
-            "ses-02")
+            "ses-02" \
+            "ses-03")
 
 # Date strings (in same order as session IDs):
 ary_date_id=("20180926" \
-             "20181001")
+             "20181001" \
+             "20181003")
 
 # Number of functional runs per session (in same order as session IDs):
 ary_num_runs=(10 \
+              9 \
               9)
 
 # Analysis parent directory (containing scripts):
@@ -43,7 +46,7 @@ str_data_path="/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/"
 # Whether to load data from BIDS structure. If 'true', data is loaded from BIDS
 # structure. If 'false', DICOM data is converted into BIDS-compatible nii
 # first.
-bool_from_bids=true
+bool_from_bids=false
 
 # Wait for manual user input? When running the analysis for the first time,
 # some steps need to be performed manually (e.g. creation of brain masks for
@@ -53,8 +56,25 @@ bool_from_bids=true
 # skipped. Set to 'true' if script should wait.
 bool_wait=true
 
-# Number of parallel processes to use (for pRF finding):
-var_num_cpu=11
+# Parallelisation factors (how many processes to run in parallel) can be
+# specified individually for each processing step. This is necessary because
+# some processes (e.g. applytopup) may run out of RAM when employing too many
+# processes.
+
+# Number of parallel processes to use for within-run motion correction:
+var_par_moco=10
+
+# Number of parallel processes to use for topup (calculation of fieldmap):
+var_par_topup=10
+
+# Number of parallel processes to use for apply-topup (applying field map):
+var_par_applytopup=5
+
+# Number of parallel processes to use for FSL feat (temporal filtering):
+var_par_feat=5
+
+# Number of parallel processes to use for pRF mapping:
+var_par_prf=11
 #------------------------------------------------------------------------------
 
 
@@ -93,7 +113,11 @@ export str_anly_path
 export str_data_path
 export bool_from_bids
 export bool_wait
-export var_num_cpu
+export var_par_moco
+export var_par_topup
+export var_par_applytopup
+export var_par_feat
+export var_par_prf
 export var_num_runs
 export USER=john
 #------------------------------------------------------------------------------
@@ -115,7 +139,11 @@ docker run -it --rm \
     -e str_data_path \
     -e bool_from_bids \
     -e bool_wait \
-    -e var_num_cpu \
+    -e var_par_moco \
+    -e var_par_topup \
+    -e var_par_applytopup \
+    -e var_par_feat \
+    -e var_par_prf \
     -e var_num_runs \
     -e USER \
     dockerimage_pacman_jessie ${str_anly_path}${str_sub_id}/metascript_02.sh
