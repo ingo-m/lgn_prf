@@ -17,7 +17,7 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPathIn="${str_data_path}derivatives/${str_sub_id}/func_distcorUnwrp/"
+strPathIn="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
 
 # Output directory:
 strPathOut="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
