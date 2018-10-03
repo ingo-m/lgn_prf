@@ -185,3 +185,60 @@ fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_019_c32 ${str_bids
 fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_028_c32 ${str_bids_tmp}PD_03
 fslreorient2std ${str_raw_tmp}PROTOCOL_WMN_cor_0.7mm_p2_SERIES_006_c32 ${str_bids_tmp}T1w_si
 #------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# *** SESSION 03 - Copy functional data
+
+# Automatic looping through sessions does not work here, because the raw image
+# names are likely going to differ between sessions.
+
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-03/"
+str_bids_tmp="${str_bids}ses-03/func/${str_sub_id}_ses-03_"
+
+# Reorient (and copy) images:
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run01_SERIES_011_c32 ${str_bids_tmp}run_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run02_SERIES_013_c32 ${str_bids_tmp}run_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run03_SERIES_015_c32 ${str_bids_tmp}run_03
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run04_SERIES_017_c32 ${str_bids_tmp}run_04
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run05_SERIES_019_c32 ${str_bids_tmp}run_05
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run06_SERIES_022_c32 ${str_bids_tmp}run_06
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run07_SERIES_024_c32 ${str_bids_tmp}run_07
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run08_SERIES_026_c32 ${str_bids_tmp}run_08
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_HF_run09_SERIES_028_c32 ${str_bids_tmp}run_09
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# *** SESSION 03 - Copy opposite-phase-polarity images
+
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-03/"
+str_bids_tmp="${str_bids}ses-03/func_op/${str_sub_id}_ses-03_"
+
+# Reorient (and copy) images:
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run01_anti_SERIES_010_c32 ${str_bids_tmp}run_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run02_anti_SERIES_012_c32 ${str_bids_tmp}run_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run03_anti_SERIES_014_c32 ${str_bids_tmp}run_03
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run04_anti_SERIES_016_c32 ${str_bids_tmp}run_04
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run05_anti_SERIES_018_c32 ${str_bids_tmp}run_05
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run06_anti_SERIES_021_c32 ${str_bids_tmp}run_06
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run07_anti_SERIES_023_c32 ${str_bids_tmp}run_07
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run08_anti_SERIES_025_c32 ${str_bids_tmp}run_08
+fslreorient2std ${str_raw_tmp}PROTOCOL_BP_ep3d_bold_func01_FOV_FH_run09_anti_SERIES_027_c32 ${str_bids_tmp}run_09
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# *** SESSION 03 - Copy anatomical images
+
+# Complete input & output paths for this session:
+str_raw_tmp="${str_raw}ses-03/"
+str_bids_tmp="${str_bids}ses-03/anat/${str_sub_id}_ses-03_"
+
+# Reorient (and copy) images:
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_007_c32 ${str_bids_tmp}PD_01
+fslreorient2std ${str_raw_tmp}PROTOCOL_PD_cor_0.7mm_p2_SERIES_020_c32 ${str_bids_tmp}PD_02
+fslreorient2std ${str_raw_tmp}PROTOCOL_WMN_cor_0.7mm_p2_SERIES_006_c32 ${str_bids_tmp}T1w_si
+#------------------------------------------------------------------------------
