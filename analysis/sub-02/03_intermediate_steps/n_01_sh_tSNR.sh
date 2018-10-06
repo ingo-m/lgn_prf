@@ -209,7 +209,7 @@ do
 
   # For first session, don't append (there's nothing to append to yet), but
   # copy the first session.
-	if [ "${idx_num_run}" -eq "1" ]
+	if [ "${var_cnt_div}" -eq "0" ]
 	then
 
     # The starting point for the mean tSNR image is the first tSNR image. The
@@ -256,7 +256,7 @@ do
 
   # For first session, don't append (there's nothing to append to yet), but
   # copy the first session.
-	if [ "${idx_num_run}" -eq "1" ]
+	if [ "${var_cnt_div}" -eq "0" ]
 	then
 
     # The starting point for the mean image is the first mean image. The
