@@ -100,7 +100,7 @@ var_par_prf=11
 str_ses_id=${ary_ses_id[@]}
 str_date_id=${ary_date_id[@]}
 str_num_runs=${ary_num_runs[@]}
-str_num_anat=${ary_num_anat}
+str_num_anat=${ary_num_anat[@]}
 
 # Calculate total number of runs (i.e. all runs of all session for given
 # subject).
