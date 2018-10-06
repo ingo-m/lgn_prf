@@ -35,6 +35,11 @@ ary_num_runs=(10 \
               9 \
               9)
 
+# Number of anatomical PD images per session (in same order as session IDs):
+ary_num_anat=(4 \
+              3 \
+              2)
+
 # Analysis parent directory (containing scripts):
 str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
 # str_anly_path="/Users/john/1_PhD/GitLab/lgn_prf/analysis/"
@@ -95,6 +100,7 @@ var_par_prf=11
 str_ses_id=${ary_ses_id[@]}
 str_date_id=${ary_date_id[@]}
 str_num_runs=${ary_num_runs[@]}
+str_num_anat=${ary_num_anat}
 
 # Calculate total number of runs (i.e. all runs of all session for given
 # subject).
@@ -109,6 +115,7 @@ export str_sub_id
 export str_ses_id
 export str_date_id
 export str_num_runs
+export str_num_anat
 export str_anly_path
 export str_data_path
 export bool_from_bids
@@ -135,6 +142,7 @@ docker run -it --rm \
     -e str_ses_id \
     -e str_date_id \
     -e str_num_runs \
+    -e str_num_anat \
     -e str_anly_path \
     -e str_data_path \
     -e bool_from_bids \

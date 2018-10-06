@@ -55,19 +55,15 @@ then
 	mkdir "${str_pth_sub}/anat"
 	mkdir "${str_pth_sub}/anat/01_orig"
 	mkdir "${str_pth_sub}/anat/02_spm_bf_correction"
-	mkdir "${str_pth_sub}/anat/03_sess_reg"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/01_in"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/02_brainmask"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg/target"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/03_spm_reg/source"
-	mkdir "${str_pth_sub}/anat/03_sess_reg/04_mean_anat"
-	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg"
-	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg"
-	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/target"
-	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/source"
-	mkdir "${str_pth_sub}/anat/05_func_to_anat_reg/01_spm_reg/other"
-	mkdir "${str_pth_sub}/anat/06_seg"
+	mkdir "${str_pth_sub}/anat/03_reg_within_sess"
+	for idx_ses_id in ${ary_ses_id[@]}
+	do
+	  mkdir "${str_pth_sub}/anat/03_reg_within_sess/${idx_ses_id}"
+	  mkdir "${str_pth_sub}/anat/03_reg_within_sess/${idx_ses_id}/01_in"
+	  mkdir "${str_pth_sub}/anat/03_reg_within_sess/${idx_ses_id}/02_brainmask"
+	  mkdir "${str_pth_sub}/anat/03_reg_within_sess/${idx_ses_id}/03_reg_PD"
+	  mkdir "${str_pth_sub}/anat/03_reg_within_sess/${idx_ses_id}/04_mean_PD"
+  done
 
 	# Functional images.
 	mkdir "${str_pth_sub}/func"
@@ -75,6 +71,8 @@ then
 	mkdir "${str_pth_sub}/func_reg_within_runs_tsnr"
 	mkdir "${str_pth_sub}/func_reg_across_runs"
 	mkdir "${str_pth_sub}/func_reg_across_runs_tsnr"
+	mkdir "${str_pth_sub}/func_reg_across_ses"
+	mkdir "${str_pth_sub}/func_reg_across_ses_tsnr"
 	mkdir "${str_pth_sub}/func_op"
 	mkdir "${str_pth_sub}/func_op_inv"
 	mkdir "${str_pth_sub}/func_op_reg_within_runs"
@@ -88,31 +86,59 @@ then
 
 	# Motion correction of functional images. First round of moco, within runs,
 	# without refweight.
-	mkdir "${str_pth_sub}/spm_reg_within_runs"
+	mkdir "${str_pth_sub}/reg_within_runs"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg_within_runs/${idx_num_run}"
+		mkdir "${str_pth_sub}/reg_within_runs/${idx_num_run}"
 	done
 
 	# Motion correction of opposite phase encoding data. First round of moco,
 	# within runs, without refweight.
-	mkdir "${str_pth_sub}/spm_reg_within_runs_op"
+	mkdir "${str_pth_sub}/reg_within_runs_op"
 	# Zero filled directoy names for SPM moco ("01", "02", etc.).
 	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
 	do
-		mkdir "${str_pth_sub}/spm_reg_within_runs_op/${idx_num_run}"
+		mkdir "${str_pth_sub}/reg_within_runs_op/${idx_num_run}"
 	done
 
-	# Motion correction of functional images. Second round of moco, across runs,
-	# with refweight.
-	mkdir "${str_pth_sub}/spm_reg_across_runs"
-	# Zero filled directoy names for SPM moco ("01", "02", etc.).
-	for idx_num_run in $(seq -f "%02g" 1 $var_num_runs)
+	# Session counter:
+	var_cnt_ses=0
+
+	# Registration of functional images across runs, within session.
+	mkdir "${str_pth_sub}/reg_across_runs"
+	for idx_ses_id in ${ary_ses_id[@]}
 	do
-		mkdir "${str_pth_sub}/spm_reg_across_runs/${idx_num_run}"
-	done
-	mkdir "${str_pth_sub}/spm_reg_across_runs/ref_weighting"
+	  mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}"
+
+		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
+		# the number of runs may not be identical throughout # sessions.
+		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+		do
+	  	mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/${idx_num_run}"
+		done
+
+		mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/anat"
+		mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/ref_weighting"
+
+		# Increment session counter:
+	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+  done
+
+	# Registration of PD & functional images across sessions.
+	mkdir "${str_pth_sub}/reg_across_ses"
+	for idx_ses_id in ${ary_ses_id[@]}
+	do
+	  mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/func"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat_reg"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/func_reg"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/ref_weighting"
+
+		# Increment session counter:
+	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+  done
 
 	# Population receptive field mapping results.
 	mkdir "${str_pth_sub}/retinotopy"

@@ -12,43 +12,60 @@
 # Input directory:
 strPthIn="${str_data_path}derivatives/${str_sub_id}/anat/02_spm_bf_correction/"
 
-# Output directory:
-strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/03_sess_reg/01_in/"
-
+# Output directory basename ("ses-01"):
+strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/03_reg_within_sess/"
 
 # In order to select the correct files for further processing and removal, we
 # need the original input file names. To get them, we simply cd into the
 # respective directory. Path of original input directory of anatomy pipeline:
 strPathOrig="${str_data_path}derivatives/${str_sub_id}/anat/01_orig/"
+
+# Bash does not currently support export of arrays. Therefore, arrays (e.g.
+# with session IDs) are turned into strings before export. Here, we turn them
+# back into arrays.
+IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
+IFS=" " read -r -a ary_num_anat <<< "$str_num_anat"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # *** Copy files for further processing
 
-# To prevent problems in case of empty target directory:
-shopt -s nullglob
+# Session counter:
+var_cnt_ses=0
 
-# Save original path in order to cd back to this path in the end:
-strPathPwd=( $(pwd) )
-
-# cd into original input directory of anatomy pipeline:
-cd ${strPathOrig}
-
-# Get names of original input files:
-aryIn=(*)
-
-# Loop through files:
-for strTmp in ${aryIn[@]}
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
 do
+
+  # Copy T1 image (only one pre session).
+
   # Path and file name of bias-corrected image (SPM prepends an "m"):
-  strTmpPthIn="${strPthIn}m${strTmp}"
+  strTmpIn="${strPthIn}m${str_sub_id}_${idx_ses_id}_T1w_si"
 
-  # Output file:
-  strTmpPthOut="${strPthOut}${strTmp}"
+  strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_T1w_si"
 
-  # Change file type to nii.gz & move image:
-  fslchfiletype NIFTI_GZ ${strTmpPthIn} ${strTmpPthOut}
+  fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
+
+  # Loop through PD images (e.g. "01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of PD images may not be identical throughout
+  # sessions.
+	for idx_num_anat in $(seq -f "%02g" 1 ${ary_num_anat[var_cnt_ses]})
+  do
+
+    # Input path for current PD image:
+    strTmpIn="${strPthIn}m${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
+
+    # Output path for current PD image:
+    strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
+
+  fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
+
+  done
+
+  # Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
 done
 #------------------------------------------------------------------------------
 
