@@ -12,13 +12,8 @@
 # Input directory:
 strPthIn="${str_data_path}derivatives/${str_sub_id}/anat/02_spm_bf_correction/"
 
-# Output directory basename ("ses-01"):
+# Output directory basename (child directories: "ses-01", "ses-02", etc.):
 strPthOut="${str_data_path}derivatives/${str_sub_id}/anat/03_reg_within_sess/"
-
-# In order to select the correct files for further processing and removal, we
-# need the original input file names. To get them, we simply cd into the
-# respective directory. Path of original input directory of anatomy pipeline:
-strPathOrig="${str_data_path}derivatives/${str_sub_id}/anat/01_orig/"
 
 # Bash does not currently support export of arrays. Therefore, arrays (e.g.
 # with session IDs) are turned into strings before export. Here, we turn them
@@ -59,7 +54,9 @@ do
     # Output path for current PD image:
     strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
 
-  fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
+    echo "${idx_num_anat}"
+
+    fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
 
   done
 
@@ -77,7 +74,7 @@ done
 cd "${strPthIn}"
 
 # First list of files to be removed:
-aryRm=( $(ls | grep '\<c.*.nii\>') )
+aryRm=( $(ls | grep '\<c*.nii\>') )
 
 # Loop through files:
 for strTmp in ${aryRm[@]}
@@ -86,7 +83,7 @@ do
 done
 
 # Second list of files to be removed:
-aryRm=( $(ls | grep '\<m.*.nii\>') )
+aryRm=( $(ls | grep '\<s.*.nii\>') )
 
 # Loop through files:
 for strTmp in ${aryRm[@]}
