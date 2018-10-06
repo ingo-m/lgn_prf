@@ -54,8 +54,6 @@ do
     # Output path for current PD image:
     strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
 
-    echo "${idx_num_anat}"
-
     fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
 
   done
@@ -74,7 +72,7 @@ done
 cd "${strPthIn}"
 
 # First list of files to be removed:
-aryRm=( $(ls | grep '\<c*.nii\>') )
+aryRm=( $(ls | grep '\<c.*.nii\>') )
 
 # Loop through files:
 for strTmp in ${aryRm[@]}
@@ -84,6 +82,15 @@ done
 
 # Second list of files to be removed:
 aryRm=( $(ls | grep '\<s.*.nii\>') )
+
+# Loop through files:
+for strTmp in ${aryRm[@]}
+do
+  rm ${strTmp}
+done
+
+# Third list of files to be removed:
+aryRm=( $(ls | grep '\<m.*.nii\>') )
 
 # Loop through files:
 for strTmp in ${aryRm[@]}

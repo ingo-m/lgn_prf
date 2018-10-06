@@ -24,11 +24,14 @@ source ${strPathPrnt}00_get_data/n_01_sh_create_folders.sh
 #------------------------------------------------------------------------------
 # ### Anatomy & across runs & session registration
 
-source ${strPathPrnt}04_anat/n_01_prepare_spm_bf_correction.sh
+#echo "---Automatic: Prepare SPM bias field correction"
+#source ${strPathPrnt}04_anat/n_01_prepare_spm_bf_correction.sh
 
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}04_anat/n_02_spm_bf_correction.m
+#echo "---Automatic: SPM bias field correction"
+#/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}04_anat/n_02_spm_bf_correction.m
 
-source n_03_postprocess_spm_bf_correction.sh
+echo "---Automatic: Postprocess bias field corrected data"
+source ${strPathPrnt}04_anat/n_03_postprocess_spm_bf_correction.sh
 
 if ${bool_wait};
 then
