@@ -66,7 +66,7 @@ lgcLinTrnd = True
 varNumVol = 227
 
 # Number of processes to run in parallel:
-varPar = 11
+varPar = 7
 
 # Size of high-resolution visual space model in which the pRF models are
 # created (x- and y-dimension). The x and y dimensions specified here need to
@@ -81,7 +81,7 @@ varVslSpcSzeY = 100
 # functional runs. The order of functional volumes, and their number, has to
 # correspond to the order and number of PNG files containing the stimulus
 # information. Note: Do not insert a line break.
-lstPathNiiFunc = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_09.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_op_reg_within_runs/sub-02_ses-01_run_10.nii.gz']
+lstPathNiiFunc = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_09.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_10.nii.gz']
 
 # Path of mask (to restrict pRF model finding):
 strPathNiiMask = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/retinotopy/mask/mask.nii.gz'
@@ -94,7 +94,7 @@ strPathOut = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/reti
 strVersion = 'cython'
 
 # Create pRF time course models?
-lgcCrteMdl = True
+lgcCrteMdl = False
 
 # If we create new pRF time course models, the following parameters have to
 # be provided:
@@ -104,7 +104,7 @@ lgcCrteMdl = True
 # `~/pyprf/stimulus_presentation/code/stimulus.py` with 'Logging mode' set to
 # 'True'. (Number & order of entries in `lstPathNiiFunc` and `lstPathPng` has
 # to match). Note: Do not insert a line break (i.e. all runs on one line).
-lstPathPng = [ '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_01_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_02_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_03_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_04_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_05_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_06_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_07_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_08_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_09_frames/frame_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_10_frames/frame_']
+lstPathPng = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_01_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_02_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_03_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_04_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_05_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_06_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_07_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_08_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_09_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_10_']
 
 # Start index of PNG files. For instance, `varStrtIdx = 0` if the name of
 # the first PNG file is `file_000.png`, or `varStrtIdx = 1` if it is

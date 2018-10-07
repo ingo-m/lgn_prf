@@ -169,8 +169,82 @@ date
 echo "---Automatic: Calculate tSNR maps."
 source ${strPathPrnt}01_preprocessing/01_preprocessing/n_11_sh_tSNR.sh
 date
+#------------------------------------------------------------------------------
+
 
 #------------------------------------------------------------------------------
+# ### Register anatomy within session
+
+#echo "---Automatic: Prepare SPM bias field correction"
+#source ${strPathPrnt}02_anat/n_01_prepare_spm_bf_correction.sh
+
+#echo "---Automatic: SPM bias field correction"
+#/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_02_spm_bf_correction.m
+
+#echo "---Automatic: Postprocess bias field corrected data"
+#source ${strPathPrnt}02_anat/n_03_postprocess_spm_bf_correction.sh
+
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#  echo "   Prepare brain masks for all proton density images and place them at"
+#  echo "   ${strPathPrnt}02_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_01"
+#  echo "   ${strPathPrnt}02_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_02"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
+
+#echo "---Automatic: Register proton density images within sessions"
+#source ${strPathPrnt}02_anat/n_04_reg_PDs_within_ses.sh
+
+#echo "---Automatic: Create within-session mean proton density image"
+#source ${strPathPrnt}02_anat/n_05_PD_within_ses_mean.sh
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# ### Register functional to anatomy within session
+
+# for each session
+
+# mask
+# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
+# with refweight (from within session, across-run moco)
+
+# mask
+# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
+# with new mask (similar to func coverage, one per session)
+# place mask in analysis folder
+
+# NEW FODLER STRUCTURE with one folder per func run (separately for each session)
+# needed
+
+# reg
+# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
+# to
+# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
+# other
+# /media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_runs/${str_sub_id}_${idx_ses_id}_run_${idx_run}
+
+
+
+# reg
+# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
+# to
+# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_ses-01_T1w_si  <-- session 1
+# other
+# ~~~NEW FODLER~~~ /${str_sub_id}_${idx_ses_id}_run_${idx_run}
+
+
+
+#------------------------------------------------------------------------------
+
+
 
 
 #------------------------------------------------------------------------------
@@ -197,38 +271,7 @@ date
 
 
 
-#------------------------------------------------------------------------------
-# ### Anatomy & across runs & session registration
 
-#echo "---Automatic: Prepare SPM bias field correction"
-#source ${strPathPrnt}04_anat/n_01_prepare_spm_bf_correction.sh
-
-#echo "---Automatic: SPM bias field correction"
-#/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}04_anat/n_02_spm_bf_correction.m
-
-#echo "---Automatic: Postprocess bias field corrected data"
-#source ${strPathPrnt}04_anat/n_03_postprocess_spm_bf_correction.sh
-
-#if ${bool_wait};
-#then
-#  echo "---Manual:"
-#  echo "   Prepare brain masks for all proton density images and place them at"
-#  echo "   ${strPathPrnt}04_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_01"
-#  echo "   ${strPathPrnt}04_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_02"
-#  echo "   ..."
-#  echo "   Type 'go' to continue"
-#  read -r -s -d $'g'
-#  read -r -s -d $'o'
-#  date
-#else
-#  :
-#fi
-
-#echo "---Automatic: Register proton density images within sessions"
-#source ${strPathPrnt}04_anat/n_04_reg_PDs_within_ses.sh
-
-#echo "---Automatic: Create within-session mean proton density image"
-#source ${strPathPrnt}04_anat/n_05_PD_within_ses_mean.sh
 
 ## #------------------------------------------------------------------------------
 # # ### pRF analysis
