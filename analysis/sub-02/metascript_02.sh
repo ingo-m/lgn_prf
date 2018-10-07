@@ -150,6 +150,7 @@ else
 fi
 
 # Loop through sessions and copy reference weights:
+echo "---Automatic: Copy reference weights for motion correction."
 for idx_ses_id in ${ary_ses_id[@]}
 do
   fslchfiletype NIFTI \
