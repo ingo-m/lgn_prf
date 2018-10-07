@@ -57,7 +57,7 @@ do
     strPthMat="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}_to_${str_sub_id}_${idx_ses_id}_PD_01_mat"
 
     # Path of registered image:
-    strPthReg="${idx_ses_id}/03_reg_PD/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
+    strPthReg="${strPthOut}${idx_ses_id}/03_reg_PD/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
 
     # Calculate transformation matrix:
     flirt \
@@ -95,7 +95,7 @@ do
   strPthMat="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_T1w_si_${idx_num_anat}_to_${str_sub_id}_${idx_ses_id}_PD_01_mat"
 
   # Path of registered image:
-  strPthReg="${idx_ses_id}/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si"
+  strPthReg="${strPthOut}${idx_ses_id}/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si"
 
   # Calculate transformation matrix:
   flirt \

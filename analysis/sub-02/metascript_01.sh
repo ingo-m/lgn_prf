@@ -59,7 +59,7 @@ bool_from_bids=true
 # wait until the user provides the manual input. However, if the manual input
 # is already available (when re-running the analysis), these breaks can be
 # skipped. Set to 'true' if script should wait.
-bool_wait=false
+bool_wait=true
 
 # Parallelisation factors (how many processes to run in parallel) can be
 # specified individually for each processing step. This is necessary because

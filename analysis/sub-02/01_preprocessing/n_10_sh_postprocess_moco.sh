@@ -22,8 +22,8 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 # Output directory:
 strPathOutput="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
 
-# SPM directory:
-strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_across_runs/"
+# SPM directory base (followed by session ID, e.g. "ses-01"):
+strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_runs/"
 #------------------------------------------------------------------------------
 
 
@@ -34,10 +34,6 @@ strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_across_runs/"
 
 echo "-----------Compress SPM output and delete uncompressed files-----------"
 date
-
-# Counter for total number of runs (across sessions). Because moco is with SPM,
-# we count from one (matlab convention).
-var_cnt_run=1
 
 # Session counter:
 var_cnt_ses=0
@@ -52,11 +48,8 @@ do
 	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
   do
 
-    # Zero pad the counter for SPM directory name:
-    strTmpSpmCnt=`printf %02d ${var_cnt_run}`
-
     # Complete input path:
-  	strTmpIn="${strPathSpm}${strTmpSpmCnt}/r${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+  	strTmpIn="${strPathSpm}${idx_ses_id}/${idx_num_run}/r${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Complete output path:
     strTmpOt="${strPathOutput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
@@ -68,10 +61,10 @@ do
     echo "------Removing uncompressed nii files"
 
     # The time series that motion corretion was performed on:
-  	strTmp01="${strPathSpm}${strTmpSpmCnt}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii"
+  	strTmp01="${strPathSpm}${idx_ses_id}/${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # The time series that has been 'resliced':
-  	strTmp02="${strPathSpm}${strTmpSpmCnt}/r${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii"
+  	strTmp02="${strTmpIn}.nii"
 
 
     echo "------rm ${strTmp01}"
@@ -79,9 +72,6 @@ do
 
     echo "------rm ${strTmp02}"
     rm ${strTmp02}
-
-    # Increment run counter:
-    var_cnt_run=`bc <<< ${var_cnt_run}+1`
 
   done
 

@@ -23,7 +23,7 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strPathInput="${str_data_path}derivatives/${str_sub_id}/func/"
 
 # SPM directory:
-strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_within_runs/"
+strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_within_runs/"
 #------------------------------------------------------------------------------
 
 

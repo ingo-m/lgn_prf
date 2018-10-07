@@ -9,9 +9,15 @@ clear;
 strSubId = getenv('str_sub_id');
 strAnalyPth = getenv('str_anly_path');
 strDataPth = getenv('str_data_path');
-varNumRuns = int16(str2num(getenv('var_num_runs')));
+% Placeholder for number of runs (will be substituted through sed text
+% replacement (e.g. '10').
+varNumRuns = PLACEHOLDER_NUM_RUNs;
+% Placeholder for session ID (will be substituted through sed text replacement
+% (e.g. 'ses-01').
+strSesId = 'PLACEHOLDER_SES_ID',
 % Path of the SPM moco directory:
-strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg_across_runs/');
+strPathParent = strcat(strDataPth, 'derivatives/', strSubId, ...
+    '/reg_across_runs/', strSesId, '/');
 % Name of the 'SPM batch' to be created:
 strPathOut = [strPathParent, 'spm_moco_batch.mat'];
 %--------------------------------------------------------------------------

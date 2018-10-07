@@ -12,7 +12,7 @@ strSubId = getenv('str_sub_id');
 strDataPth = getenv('str_data_path');
 varNumRuns = int16(str2num(getenv('var_num_runs')));
 % Path of the SPM moco directory:
-strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg_within_runs_op/');
+strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/reg_within_runs_op/');
 %------------------------------------------------------------------------------
 %% Loop through runs:
 for idxRun = 1:varNumRuns

@@ -5,7 +5,6 @@
 # Prepare motion correction of functional runs. The following steps are       #
 # performed:                                                                  #
 #   - Copy files into SPM directory tree                                      #
-#   - Remove input files                                                      #
 # Motion correction and registrations can be  performed with SPM afterwards.  #
 ###############################################################################
 
@@ -23,7 +22,7 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strPathInput="${str_data_path}derivatives/${str_sub_id}/func_distcorUnwrp/"
 
 # SPM directory:
-strPathSpm="${str_data_path}derivatives/${str_sub_id}/spm_reg_across_runs/"
+strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_runs/"
 #------------------------------------------------------------------------------
 
 
@@ -37,7 +36,7 @@ date
 
 # Counter for total number of runs (across sessions). Because moco is with SPM,
 # we count from one (matlab convention).
-var_cnt_run=1
+# var_cnt_run=1
 
 # Session counter:
 var_cnt_ses=0
@@ -56,17 +55,17 @@ do
     strTmpIn="${strPathInput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Zero pad the counter for SPM directory name:
-    strTmpSpmCnt=`printf %02d ${var_cnt_run}`
+    # strTmpSpmCnt=`printf %02d ${var_cnt_run}`
 
     # Complete output path:
-  	strTmpOt="${strPathSpm}${strTmpSpmCnt}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+  	strTmpOt="${strPathSpm}${idx_ses_id}/${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
   	echo "------fslchfiletype on: ${strTmpIn}"
   	echo "----------------output: ${strTmpOt}"
   	fslchfiletype NIFTI ${strTmpIn} ${strTmpOt}
 
     # Increment run counter:
-    var_cnt_run=`bc <<< ${var_cnt_run}+1`
+    # var_cnt_run=`bc <<< ${var_cnt_run}+1`
 
   done
 

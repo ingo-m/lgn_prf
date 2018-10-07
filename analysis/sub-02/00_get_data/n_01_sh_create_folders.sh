@@ -118,7 +118,6 @@ then
 	  	mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/${idx_num_run}"
 		done
 
-		mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/anat"
 		mkdir "${str_pth_sub}/reg_across_runs/${idx_ses_id}/ref_weighting"
 
 		# Increment session counter:

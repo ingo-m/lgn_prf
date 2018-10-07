@@ -11,7 +11,7 @@ strSubId = getenv('str_sub_id');
 % strAnalyPth = getenv('str_anly_path');
 strDataPth = getenv('str_data_path');
 % Path of the SPM moco directory:
-strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/spm_reg_within_runs/');
+strPathParent = strcat(strDataPth, 'derivatives/', strSubId, '/reg_within_runs/');
 % Run index (will be replaced with bash sed text replacement before this script
 % is executed, e.g."01").
 strRun = 'PLACEHOLDER_RUN';
