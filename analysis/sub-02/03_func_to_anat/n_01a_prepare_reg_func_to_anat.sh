@@ -127,6 +127,9 @@ do
     # Change filetype to uncompressed nii:
     fslchfiletype NIFTI ${strPthTmp01} ${strPthTmp02}
 
+    # Remove input:
+    # rm ${strPthTmp01}.nii.gz
+
   done
 
 	# Increment session counter:

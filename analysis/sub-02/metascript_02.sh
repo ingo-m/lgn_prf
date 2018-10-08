@@ -162,13 +162,13 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #source ${strPathPrnt}01_preprocessing/n_09a_spm_moco_parallel.sh
 #date
 
-echo "---Automatic: Postprocess within-session, across-runs motion correction."
-source ${strPathPrnt}01_preprocessing/n_10_sh_postprocess_moco.sh
-date
+#echo "---Automatic: Postprocess within-session, across-runs motion correction."
+#source ${strPathPrnt}01_preprocessing/n_10_sh_postprocess_moco.sh
+#date
 
-echo "---Automatic: Calculate tSNR maps."
-source ${strPathPrnt}01_preprocessing/n_11_sh_tSNR.sh
-date
+#echo "---Automatic: Calculate tSNR maps."
+#source ${strPathPrnt}01_preprocessing/n_11_sh_tSNR.sh
+#date
 #------------------------------------------------------------------------------
 
 
@@ -210,19 +210,46 @@ date
 #------------------------------------------------------------------------------
 # ### Register functional to anatomy within session
 
-# for each session
+# manual mask creation for anat
 
-# mask
-# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
-# with refweight (from within session, across-run moco)
+if ${bool_wait};
+then
+  echo "---Manual:"
+
+  echo "   Prepare registration masks for all proton density images. The masks"
+  echo "   should cover the field of view of the functional images, plus some"
+  echo "   margin (especially in anterior & posterior directions). Regions"
+  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
+  echo "   the masks at:"
+  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
+  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
+  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
+  echo "   ..."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
+
+
 
 # mask
 # ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
 # with new mask (similar to func coverage, one per session)
 # place mask in analysis folder
 
-# NEW FODLER STRUCTURE with one folder per func run (separately for each session)
-# needed
+# for each session
+
+# bash prep script:
+# mask
+# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
+# with refweight (from within session, across-run moco)
+
+
+
+
 
 # reg
 # ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
