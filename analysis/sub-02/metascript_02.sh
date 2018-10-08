@@ -129,45 +129,45 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
 #date
 
-echo "---Automatic: Prepare within-session, across-runs motion correction."
-source ${strPathPrnt}01_preprocessing/n_08_sh_prepare_moco.sh
-date
+#echo "---Automatic: Prepare within-session, across-runs motion correction."
+#source ${strPathPrnt}01_preprocessing/n_08_sh_prepare_moco.sh
+#date
 
-if ${bool_wait};
-then
-  echo "---Manual:"
-  echo "   Reference weights for SPM motion correction, and place them at"
-  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-01.nii.gz"
-  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-02.nii.gz"
-  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-03.nii.gz"
-  echo "   ..."
-  echo "   Type 'go' to continue"
-  read -r -s -d $'g'
-  read -r -s -d $'o'
-  date
-else
-  :
-fi
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#  echo "   Reference weights for SPM motion correction, and place them at"
+#  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-01.nii.gz"
+#  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-02.nii.gz"
+#  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-03.nii.gz"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
 
-# Loop through sessions and copy reference weights:
-echo "---Automatic: Copy reference weights for motion correction."
-for idx_ses_id in ${ary_ses_id[@]}
-do
-  fslchfiletype NIFTI \
-  ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id} \
-  ${str_data_path}derivatives/${str_sub_id}/reg_across_runs/${idx_ses_id}/ref_weighting/refweight_${str_sub_id}_${idx_ses_id}
-done
+## Loop through sessions and copy reference weights:
+#echo "---Automatic: Copy reference weights for motion correction."
+#for idx_ses_id in ${ary_ses_id[@]}
+#do
+#  fslchfiletype NIFTI \
+#  ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id} \
+#  ${str_data_path}derivatives/${str_sub_id}/reg_across_runs/${idx_ses_id}/ref_weighting/refweight_${str_sub_id}_${idx_ses_id}
+#done
 
-echo "---Automatic: Within-session, across-runs motion correction."
-source ${strPathPrnt}01_preprocessing/n_09a_spm_moco_parallel.sh
-date
+#echo "---Automatic: Within-session, across-runs motion correction."
+#source ${strPathPrnt}01_preprocessing/n_09a_spm_moco_parallel.sh
+#date
 
 echo "---Automatic: Postprocess within-session, across-runs motion correction."
 source ${strPathPrnt}01_preprocessing/n_10_sh_postprocess_moco.sh
 date
 
 echo "---Automatic: Calculate tSNR maps."
-source ${strPathPrnt}01_preprocessing/01_preprocessing/n_11_sh_tSNR.sh
+source ${strPathPrnt}01_preprocessing/n_11_sh_tSNR.sh
 date
 #------------------------------------------------------------------------------
 
