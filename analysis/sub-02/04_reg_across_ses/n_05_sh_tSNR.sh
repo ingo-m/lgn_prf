@@ -2,7 +2,7 @@
 
 
 ###############################################################################
-# Calculate tSNR of functional time series before distortion correction.      #
+# Calculate tSNR of functional time series after within-session moco.         #
 ###############################################################################
 
 
@@ -16,17 +16,17 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPathFunc="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
+strPathFunc="${str_data_path}derivatives/${str_sub_id}/func_reg_across_ses/"
 
 # Output directory:
-strPathOut="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/"
+strPathOut="${str_data_path}derivatives/${str_sub_id}/func_reg_across_ses_tsnr/"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# Calculate within-run mean & tSNR images after distortion correction:
+# Calculate within-run mean & tSNR images before distortion correction:
 
-echo "---Calculate single run mean & tSNR images after distortion correction"
+echo "---Calculate single run mean & tSNR images before distortion correction"
 
 # Session counter:
 var_cnt_ses=0

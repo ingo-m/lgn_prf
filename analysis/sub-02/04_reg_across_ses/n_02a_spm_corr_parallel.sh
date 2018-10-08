@@ -2,8 +2,7 @@
 
 
 ###############################################################################
-# Parallelised across-runs, within-session SPM motion correction (several     #
-# sessions at once).                                                          #
+# Register anatomical and functional images to first session.                 #
 ###############################################################################
 
 
@@ -17,47 +16,56 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Path of template SPM file:
-strTmplt="${str_anly_path}${str_sub_id}/03_func_to_anat/n_02b_spm_create_corr_template.m"
+strTmplt="${str_anly_path}${str_sub_id}/04_reg_across_ses/n_02b_spm_create_corr_template.m"
 
 # Target directory for SPM files to create from template:
-strTrgt="${str_anly_path}${str_sub_id}/03_func_to_anat/spm_corr_batches/"
+strTrgt="${str_anly_path}${str_sub_id}/04_reg_across_ses/spm_corr_batches/"
 
 # Directory with data to register (basepath, followed by session ID, e.g.
 # "ses-01").
-strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/"
+strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_ses/"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # ### Prepare SPM files
 
-echo "------Prepare SPM files for registration (functional to anatomical)"
+echo "------Prepare SPM files for registration (across sessions)"
 
 # SPM files for motion correction are prepared from template (text replacement
 # of placeholder variables).
 
-# Session counter:
-var_cnt_ses=0
+# Session counter (starting from one, because first session is reference and is
+# therefore skipped).
+var_cnt_ses=1
 
-# Loop through sessions (e.g. "ses-01"):
-for idx_ses_id in ${ary_ses_id[@]}
+# Loop through sessions (e.g. "ses-02", "ses-03"), skipping the first session,
+# because sessions are registered to first session.
+for idx_ses_id in ${ary_ses_id[@]:1}
 do
 
   # File name for new SPM file (to be created):
-  strTmpSpm="${strTrgt}${idx_ses_id}_reg_func_to_anat.m"
+  strTmpSpm="${strTrgt}${idx_ses_id}_reg_across_ses.m"
 
   # Copy template SPM file:
   cp ${strTmplt} ${strTmpSpm}
 
-  # Replace placeholder with path of reference image:
+  # Replace placeholder with path of reference image (mean anatomy of first
+  # session):
+  strPthTmp="${strPthSpm}ses-01/anat/"
+  sed -i "s|PLACEHOLDER_PATH_REF|${strPthTmp}|g" ${strTmpSpm}
+
+  # Replace placeholder with path of source image (mean anatomy of current
+  # session):
   strPthTmp="${strPthSpm}${idx_ses_id}/anat/"
-  sed -i "s|PLACEHOLDER_PATH_ANAT|${strPthTmp}|g" ${strTmpSpm}
+  sed -i "s|PLACEHOLDER_PATH_SRC|${strPthTmp}|g" ${strTmpSpm}
 
-  # Replace placeholder with path of source image (to be registered):
-  strPthTmp="${strPthSpm}${idx_ses_id}/mean_func/"
-  sed -i "s|PLACEHOLDER_PATH_MEAN_FUNC|${strPthTmp}|g" ${strTmpSpm}
+  # Replace placeholder with path of additional image to be registered (T1 or
+  # PD, depending on  which one is used as reference).
+  strPthTmp="${strPthSpm}${idx_ses_id}/other/"
+  sed -i "s|PLACEHOLDER_PATH_ADD|${strPthTmp}|g" ${strTmpSpm}
 
-  # Replace placeholder with path of other images to be registered:
+  # Replace placeholder with path of functional images to be registered:
   strPthTmp="${strPthSpm}${idx_ses_id}/"
   sed -i "s|PLACEHOLDER_PATH_FUNC_RUNS|${strPthTmp}|g" ${strTmpSpm}
 
@@ -85,12 +93,13 @@ done
 echo "------Run SPM registration (functional to anatomical)"
 date
 
-# Loop through sessions (e.g. "ses-01"):
-for idx_ses_id in ${ary_ses_id[@]}
+# Loop through sessions (e.g. "ses-02", "ses-03"), skipping the first session,
+# because sessions are registered to first session.
+for idx_ses_id in ${ary_ses_id[@]:1}
 do
 
   # Run SPM moco:
-  /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strTrgt}${idx_ses_id}_reg_func_to_anat.m &
+  /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strTrgt}${idx_ses_id}_reg_across_ses.m &
 
   # Wait for SPM startup:
   sleep 20

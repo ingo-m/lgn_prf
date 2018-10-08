@@ -177,12 +177,15 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 
 #echo "---Automatic: Prepare SPM bias field correction"
 #source ${strPathPrnt}02_anat/n_01_prepare_spm_bf_correction.sh
+#date
 
 #echo "---Automatic: SPM bias field correction"
 #/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_02_spm_bf_correction.m
+#date
 
 #echo "---Automatic: Postprocess bias field corrected data"
 #source ${strPathPrnt}02_anat/n_03_postprocess_spm_bf_correction.sh
+#date
 
 #if ${bool_wait};
 #then
@@ -201,29 +204,34 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 
 #echo "---Automatic: Register proton density images within sessions"
 #source ${strPathPrnt}02_anat/n_04_reg_PDs_within_ses.sh
+#date
 
 #echo "---Automatic: Create within-session mean proton density image"
 #source ${strPathPrnt}02_anat/n_05_PD_within_ses_mean.sh
+#date
 
 echo "---Automatic: Move anatomical images"
 source ${strPathPrnt}02_anat/n_06_move_anat.sh
+date
 
 echo "---Automatic: Prepare SPM bias field correction (within session mean PD)"
 source ${strPathPrnt}02_anat/n_07_prepare_spm_bf_correction.sh
+date
 
 echo "---Automatic: SPM bias field correction (within session mean PD)"
 /opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_08_spm_bf_correction.m
+date
 
 echo "---Automatic: Postprocess bias field corrected data"
 source ${strPathPrnt}02_anat/n_09_postprocess_spm_bf_correction.sh
+date
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # ### Register functional to anatomy within session
 
-# manual mask creation for anat
-
+# Manual mask creation for anatomical images.
 if ${bool_wait};
 then
   echo "---Manual:"
@@ -245,55 +253,79 @@ else
   :
 fi
 
+echo "---Automatic: Prepare registration functional to anatomy"
+source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+date
 
+echo "---Automatic: Registration functional to anatomy (SPM)"
+source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
+date
 
-
-# reg
-# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
-# to
-# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
-# other
-# /media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_runs/${str_sub_id}_${idx_ses_id}_run_${idx_run}
-
-
-
-# reg
-# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
-# to
-# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_ses-01_T1w_si  <-- session 1
-# other
-# ~~~NEW FODLER~~~ /${str_sub_id}_${idx_ses_id}_run_${idx_run}
-
+echo "---Automatic: Postprocess registration results"
+source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
+date
+#------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
+# ### Across-session registration
 
+# Manual mask creation for anatomical images (within-session mean PD images).
+if ${bool_wait};
+then
+  echo "---Manual:"
+
+  echo "   Prepare registration masks for all proton density images. The masks"
+  echo "   should cover the field of view of the functional images, plus some"
+  echo "   margin (especially in anterior & posterior directions). Regions"
+  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
+  echo "   the masks at:"
+  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
+  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
+  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
+  echo "   ..."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
+
+echo "---Automatic: Prepare across-sessions registration"
+source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_func_to_anat.sh
+date
+
+echo "---Automatic: Across-sessions registration"
+source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
+date
+
+echo "---Automatic: Postprocess results from across sessions registration"
+source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
+date
+
+echo "---Automatic: Copy images from reference session"
+source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
+date
+
+echo "---Automatic: Calculate tSNR maps"
+source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+date
+
+echo "---Automatic: Calculate spatial correlation."
+python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
+date
+#------------------------------------------------------------------------------
 
 
 
 #------------------------------------------------------------------------------
 # ### FSL FEAT (temporal filtering)
 
-#echo "---Automatic: FSL FEAT (temporal filtering)."
-#source ${strPathPrnt}02_feat/n_01_feat_level_1_script_parallel.sh
-#date
+echo "---Automatic: FSL FEAT (temporal filtering)."
+source ${strPathPrnt}05_feat/n_01_feat_level_1_script_parallel.sh
+date
 #------------------------------------------------------------------------------
-
-
-#------------------------------------------------------------------------------
-# ### Intermediate steps
-
-#echo "---Automatic: Calculate tSNR maps."
-#source ${strPathPrnt}03_intermediate_steps/n_01_sh_tSNR.sh
-#date
-
-#echo "---Automatic: Calculate spatial correlation."
-#python ${strPathPrnt}03_intermediate_steps/n_02_py_spatial_correlation.py
-#date
-#------------------------------------------------------------------------------
-
-
-
 
 
 

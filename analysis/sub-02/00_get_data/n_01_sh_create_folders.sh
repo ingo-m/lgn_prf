@@ -162,8 +162,7 @@ then
 	do
 	  mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
 		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/mask_anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/mask_func"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other"
 
 		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
 		# the number of runs may not be identical throughout # sessions.

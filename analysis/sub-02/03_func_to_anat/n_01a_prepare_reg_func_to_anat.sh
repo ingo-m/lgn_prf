@@ -16,8 +16,8 @@
 IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
-# Basepath of anatomical directory (followed by session ID, e.g. "ses-01").
-strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/03_reg_within_sess/"
+# Anatomical input directory:
+strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/04_intermediate/"
 
 # Location of masks for T1 images (within analysis folder):
 strPthMskT1="${str_data_path}analysis/${str_sub_id}/03_func_to_anat/"
@@ -47,7 +47,7 @@ for idx_ses_id in ${ary_ses_id[@]}
 do
 
   # Input path of short inversion T1 weighted image:
-  strPthT1="${strPthAnat}${idx_ses_id}/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si"
+  strPthT1="${strPthAnat}${str_sub_id}_${idx_ses_id}_T1w_si"
 
   # Path of mask for T1 weighted image:
   strPthMskTmp="${strPthMskT1}n_01b_${str_sub_id}_${idx_ses_id}_PD_reg_mask"

@@ -54,7 +54,7 @@ for idxSes in range(len(lstSesIds)):
         lstPathIn.append((strDataPath
                           + 'derivatives/'
                           + strSubId
-                          + '/func_reg_across_runs/'
+                          + '/func_reg_across_ses/'
                           + strSubId
                           + '_'
                           + lstSesIds[idxSes]
@@ -71,7 +71,7 @@ varThr = 0.90
 strPathRef = (strDataPath
               + 'derivatives/'
               + strSubId
-              + '/func_reg_across_runs_tsnr/'
+              + '/func_reg_across_ses_tsnr/'
               + strSubId
               + '_mean.nii.gz')
 
@@ -79,7 +79,7 @@ strPathRef = (strDataPath
 strPathOut = (strDataPath
               + 'derivatives/'
               + strSubId
-              + '/spm_reg_across_runs/'
+              + '/reg_across_ses/'
               + strSubId
               + '_correlation_plot_refweight.png')
 
@@ -88,7 +88,7 @@ strPathOut = (strDataPath
 # registration was performed using reference weighting, it makes sense to
 # assess the quality of the registration only at those voxels that were
 # weighted highly. (Subject ID left open twice.)
-lgcMsk = True
+lgcMsk = False
 if lgcMsk:
     strPathMsk = (strDataPath
                   + 'derivatives/'
