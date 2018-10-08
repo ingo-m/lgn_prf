@@ -65,6 +65,39 @@ done
 #------------------------------------------------------------------------------
 
 
+# -----------------------------------------------------------------------------
+# *** Smoothing
+
+# Perform anisotropic diffusion based smoothing in order to enhance contrast
+# between grey matter and white matter.
+
+# Activate segmentator conda environment
+source activate py_segmentator
+
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
+
+  # Path of within-session mean functional image:
+  strPthTmp01="${strPthFncMne}${str_sub_id}_${idx_ses_id}_mean"
+
+  # Perform smoothing:
+  segmentator_filters \
+      ${strPthTmp01}.nii.gz \
+      --smoothing cCED \
+      --nr_iterations 7 \
+      --save_every 7
+
+  # Rename output:
+  mv -T ${strPthTmp01}*cCED*.nii.gz ${strPthTmp01}_smooth.nii.gz
+
+done
+
+# Switch back to default conda environment
+source activate py_main
+# -----------------------------------------------------------------------------
+
+
 #------------------------------------------------------------------------------
 # ### Apply mask to mean functional images
 
@@ -75,7 +108,7 @@ for idx_ses_id in ${ary_ses_id[@]}
 do
 
   # Path of within-session mean functional image:
-  strPthTmp01="${strPthFncMne}${str_sub_id}_${idx_ses_id}_mean"
+  strPthTmp01="${strPthFncMne}${str_sub_id}_${idx_ses_id}_mean_smooth"
 
   # Mask for mean functional image:
   stPthTmp02="${strPthMskFnc}n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id}"
