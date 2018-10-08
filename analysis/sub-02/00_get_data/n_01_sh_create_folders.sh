@@ -122,7 +122,34 @@ then
 
 		# Increment session counter:
 	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+	done
+
+	# Session counter:
+	var_cnt_ses=0
+
+	# Registration of functional images to anatomical, within sessions.
+	mkdir "${str_pth_sub}/reg_func_to_anat"
+	for idx_ses_id in ${ary_ses_id[@]}
+	do
+	  mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}"
+		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/anat"
+		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mean_func"
+		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mask_anat"
+		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mask_func"
+
+		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
+		# the number of runs may not be identical throughout # sessions.
+		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+		do
+	  	mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/run_${idx_num_run}"
+		done
+
+		# Increment session counter:
+	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
   done
+
+	# Session counter:
+	var_cnt_ses=0
 
 	# Registration of PD & functional images across sessions.
 	mkdir "${str_pth_sub}/reg_across_ses"
@@ -130,10 +157,15 @@ then
 	do
 	  mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
 		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/func"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat_reg"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/func_reg"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/ref_weighting"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/mask_anat"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/mask_func"
+
+		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
+		# the number of runs may not be identical throughout # sessions.
+		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+		do
+	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}"
+		done
 
 		# Increment session counter:
 	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
