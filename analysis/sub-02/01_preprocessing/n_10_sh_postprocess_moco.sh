@@ -61,7 +61,7 @@ do
     echo "------Removing uncompressed nii files"
 
     # The time series that motion corretion was performed on:
-  	strTmp01="${strPathSpm}${idx_ses_id}/${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+  	strTmp01="${strPathSpm}${idx_ses_id}/${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii"
 
     # The time series that has been 'resliced':
   	strTmp02="${strTmpIn}.nii"
