@@ -19,18 +19,22 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 # Basepath of anatomical directory (followed by session ID, e.g. "ses-01").
 strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/03_reg_within_sess/"
 
-# Location of masks for T1 image(within analysis folder):
+# Location of masks for T1 images (within analysis folder):
 strPthMskT1="${str_data_path}analysis/${str_sub_id}/03_func_to_anat/"
+
+# Location of mean functional images (within session means):
+strPthFncMne="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/"
+
+# Location of masks for functional images (within analysis folder). Same as SPM
+# moco refweights.
+strPthMskFnc="${str_data_path}analysis/${str_sub_id}/01_preprocessing/"
+
+# Location of functional time series:
+strPthFnc="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
 
 # Target directory basepath (followed by session ID, e.g. "ses-01").
 strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/"
-
-
-
-
 #------------------------------------------------------------------------------
-str_anly_path="/home/john/PhD/GitLab/lgn_prf/analysis/"
-str_data_path="/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/"
 
 
 #------------------------------------------------------------------------------
@@ -66,26 +70,67 @@ done
 
 echo "------Apply mask to mean functional images"
 
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
+
+  # Path of within-session mean functional image:
+  strPthTmp01="${strPthFncMne}${str_sub_id}_${idx_ses_id}_mean"
+
+  # Mask for mean functional image:
+  stPthTmp02="${strPthMskFnc}n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id}"
+
+  # The mask (moco reference weight image) first needs to be binarised. Target
+  # directory for binarised masks:
+  strPthTmp03="${strPthSpm}${idx_ses_id}/mask_func/${str_sub_id}_${idx_ses_id}_mask"
+
+  # Output path for masked mean functional image:
+  strPthTmp04="${strPthSpm}${idx_ses_id}/mean_func/${str_sub_id}_${idx_ses_id}_mean"
+
+  # Binarise moco reference weight image:
+  fslmaths ${stPthTmp02} -bin ${strPthTmp03}
+
+  # Apply mask:
+  fslmaths ${strPthTmp01} -mul ${strPthTmp03} ${strPthTmp04}
+
+  # Change filetype to uncompressed nii:
+  fslchfiletype NIFTI ${strPthTmp04} ${strPthTmp04}
+
+done
+#------------------------------------------------------------------------------
 
 
+#------------------------------------------------------------------------------
+# ### Copy & uncompress functional time series
 
-for image
+echo "------Copy & uncompress functional time series"
 
-/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_runs_tsnr/sub-02_ses-01_mean.nii.gz
+# Session counter:
+var_cnt_ses=0
 
-apply mask
+# Loop through sessions (e.g. "ses-01"):
+for idx_ses_id in ${ary_ses_id[@]}
+do
 
-/home/john/PhD/GitLab/lgn_prf/analysis/sub-02/01_preprocessing/n_09c_spm_moco_refweight_sub-02_ses-01.nii.gz
+  # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
+  # etc.). Note that the number of runs may not be identical throughout
+  # sessions.
+	for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
+  do
 
-save to
+    # Input path functional run:
+    strPthTmp01="${strPthFnc}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/mask_func
-/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/mean_func
+    # Output path functional run:
+    strPthTmp02="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
-for images
+    # Change filetype to uncompressed nii:
+    fslchfiletype NIFTI ${strPthTmp01} ${strPthTmp02}
 
-/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_runs/sub-02_ses-01_run_01.nii.gz
+  done
 
-savefiletype and save to
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
-/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/run_01
+done
+#------------------------------------------------------------------------------
