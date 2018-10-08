@@ -20,7 +20,7 @@ IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/06_intermediate/"
 
 # Location of masks for anatomical images (within analysis folder):
-strPthMskPd="${str_data_path}analysis/${str_sub_id}/04_reg_across_ses/"
+strPthMskPd="${str_anly_path}${str_sub_id}/04_reg_across_ses/"
 
 # Location of functional time series:
 strPthFnc="${str_data_path}derivatives/${str_sub_id}/func_reg_to_anat/"

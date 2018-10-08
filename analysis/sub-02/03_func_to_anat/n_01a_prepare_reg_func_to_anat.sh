@@ -17,17 +17,17 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Anatomical input directory:
-strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/04_intermediate/"
+strPthAnat="${str_data_path}derivatives/${str_sub_id}/anat/06_intermediate/"
 
 # Location of masks for T1 images (within analysis folder):
-strPthMskT1="${str_data_path}analysis/${str_sub_id}/03_func_to_anat/"
+strPthMskT1="${str_anly_path}${str_sub_id}/03_func_to_anat/"
 
 # Location of mean functional images (within session means):
 strPthFncMne="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/"
 
 # Location of masks for functional images (within analysis folder). Same as SPM
 # moco refweights.
-strPthMskFnc="${str_data_path}analysis/${str_sub_id}/01_preprocessing/"
+strPthMskFnc="${str_anly_path}${str_sub_id}/01_preprocessing/"
 
 # Location of functional time series:
 strPthFnc="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
