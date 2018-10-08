@@ -26,40 +26,27 @@ IFS=" " read -r -a ary_num_anat <<< "$str_num_anat"
 #------------------------------------------------------------------------------
 # *** Copy files for further processing
 
-# Session counter:
-var_cnt_ses=0
-
 # Loop through sessions (e.g. "ses-01"):
 for idx_ses_id in ${ary_ses_id[@]}
 do
 
-  # Copy T1 image (only one pre session).
+  # Copy T1 image.
 
   # Path and file name of bias-corrected image (SPM prepends an "m"):
   strTmpIn="${strPthIn}m${str_sub_id}_${idx_ses_id}_T1w_si"
 
-  strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_T1w_si"
+  strTmpOut="${strPthOut}${str_sub_id}_${idx_ses_id}_T1w_si"
 
   fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
 
-  # Loop through PD images (e.g. "01"); i.e. zero filled indices ("01", "02",
-  # etc.). Note that the number of PD images may not be identical throughout
-  # sessions.
-	for idx_num_anat in $(seq -f "%02g" 1 ${ary_num_anat[var_cnt_ses]})
-  do
+  # Copy PD image.
 
-    # Input path for current PD image:
-    strTmpIn="${strPthIn}m${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
+  # Path and file name of bias-corrected image (SPM prepends an "m"):
+  strTmpIn="${strPthIn}m${str_sub_id}_${idx_ses_id}_PD"
 
-    # Output path for current PD image:
-    strTmpOut="${strPthOut}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
+  strTmpOut="${strPthOut}${str_sub_id}_${idx_ses_id}_PD"
 
-    fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
-
-  done
-
-  # Increment session counter:
-  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+  fslchfiletype NIFTI_GZ ${strTmpIn} ${strTmpOut}
 
 done
 #------------------------------------------------------------------------------
