@@ -204,6 +204,18 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 
 #echo "---Automatic: Create within-session mean proton density image"
 #source ${strPathPrnt}02_anat/n_05_PD_within_ses_mean.sh
+
+echo "---Automatic: Move anatomical images"
+source ${strPathPrnt}02_anat/n_06_move_anat.sh
+
+echo "---Automatic: Prepare SPM bias field correction (within session mean PD)"
+source ${strPathPrnt}02_anat/n_07_prepare_spm_bf_correction.sh
+
+echo "---Automatic: SPM bias field correction (within session mean PD)"
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_08_spm_bf_correction.m
+
+echo "---Automatic: Postprocess bias field corrected data"
+source ${strPathPrnt}02_anat/n_09_postprocess_spm_bf_correction.sh
 #------------------------------------------------------------------------------
 
 
@@ -232,21 +244,6 @@ then
 else
   :
 fi
-
-
-
-# mask
-# ~/sub-02/anat/03_reg_within_sess/ses-01/03_reg_PD/${str_sub_id}_${idx_ses_id}_T1w_si
-# with new mask (similar to func coverage, one per session)
-# place mask in analysis folder
-
-# for each session
-
-# bash prep script:
-# mask
-# ~/sub-02/func_reg_across_runs_tsnr/${str_sub_id}_${idx_ses_id}_mean
-# with refweight (from within session, across-run moco)
-
 
 
 
