@@ -71,6 +71,7 @@ then
 	mkdir "${str_pth_sub}/func_reg_within_runs_tsnr"
 	mkdir "${str_pth_sub}/func_reg_across_runs"
 	mkdir "${str_pth_sub}/func_reg_across_runs_tsnr"
+	mkdir "${str_pth_sub}/func_reg_to_anat"
 	mkdir "${str_pth_sub}/func_reg_across_ses"
 	mkdir "${str_pth_sub}/func_reg_across_ses_tsnr"
 	mkdir "${str_pth_sub}/func_op"
