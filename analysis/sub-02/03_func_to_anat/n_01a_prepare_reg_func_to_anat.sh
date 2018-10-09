@@ -42,6 +42,9 @@ strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/"
 
 echo "------Apply mask to anatomical images"
 
+# Session counter:
+var_cnt_ses=0
+
 # Loop through sessions (e.g. "ses-01"):
 for idx_ses_id in ${ary_ses_id[@]}
 do
@@ -53,13 +56,34 @@ do
   strPthMskTmp="${strPthMskT1}n_01b_${str_sub_id}_${idx_ses_id}_PD_reg_mask"
 
   # Target path for masked anatomcial image:
-  strPthTrgt="${strPthSpm}${idx_ses_id}/anat/${str_sub_id}_${idx_ses_id}_T1w_si"
+  strPthTrgt="${strPthSpm}${idx_ses_id}/run_01/anat/${str_sub_id}_${idx_ses_id}_T1w_si"
 
   # Apply mask:
   fslmaths ${strPthT1} -mul ${strPthMskTmp} ${strPthTrgt}
 
   # Change filetype to uncompressed nii:
   fslchfiletype NIFTI ${strPthTrgt} ${strPthTrgt}
+
+  # Remove compressed file:
+  rm ${strPthTrgt}.nii.gz
+
+  # Because of SPM, the registration has to be performed separately for each
+  # run (the same transformation is performed on each run). Copy files for
+  # registration of each run. Loop through runs, starting from second run
+  # (because the image is already present for the first run).
+	for idx_num_run in $(seq -f "%02g" 2 ${ary_num_runs[var_cnt_ses]})
+  do
+
+    # Destination path:
+    strPthTmp01="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/anat/${str_sub_id}_${idx_ses_id}_T1w_si"
+
+    # Copy image form first run to current run:
+    cp ${strPthTrgt}.nii ${strPthTmp01}.nii
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
 #------------------------------------------------------------------------------
@@ -103,6 +127,9 @@ source activate py_main
 
 echo "------Apply mask to mean functional images"
 
+# Session counter:
+var_cnt_ses=0
+
 # Loop through sessions (e.g. "ses-01"):
 for idx_ses_id in ${ary_ses_id[@]}
 do
@@ -115,10 +142,10 @@ do
 
   # The mask (moco reference weight image) first needs to be binarised. Target
   # directory for binarised masks:
-  strPthTmp03="${strPthSpm}${idx_ses_id}/mask_func/${str_sub_id}_${idx_ses_id}_mask"
+  strPthTmp03="${strPthSpm}${idx_ses_id}/run_01/mean_func/${str_sub_id}_${idx_ses_id}_mask"
 
   # Output path for masked mean functional image:
-  strPthTmp04="${strPthSpm}${idx_ses_id}/mean_func/${str_sub_id}_${idx_ses_id}_mean"
+  strPthTmp04="${strPthSpm}${idx_ses_id}/run_01/mean_func/${str_sub_id}_${idx_ses_id}_mean"
 
   # Binarise moco reference weight image:
   fslmaths ${stPthTmp02} -bin ${strPthTmp03}
@@ -128,6 +155,30 @@ do
 
   # Change filetype to uncompressed nii:
   fslchfiletype NIFTI ${strPthTmp04} ${strPthTmp04}
+
+  # Remove compressed file:
+  rm ${strPthTmp04}.nii.gz
+
+  # Remove mask (so as not to upset SPM):
+  rm ${strPthTmp03}.nii.gz
+
+  # Because of SPM, the registration has to be performed separately for each
+  # run (the same transformation is performed on each run). Copy files for
+  # registration of each run. Loop through runs, starting from second run
+  # (because the image is already present for the first run).
+	for idx_num_run in $(seq -f "%02g" 2 ${ary_num_runs[var_cnt_ses]})
+  do
+
+    # Destination path:
+    strPthTmp01="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/mean_func/${str_sub_id}_${idx_ses_id}_mean"
+
+    # Copy image form first run to current run:
+    cp ${strPthTmp04}.nii ${strPthTmp01}.nii
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
 #------------------------------------------------------------------------------
@@ -155,7 +206,7 @@ do
     strPthTmp01="${strPthFnc}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Output path functional run:
-    strPthTmp02="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+    strPthTmp02="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/func/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Change filetype to uncompressed nii:
     fslchfiletype NIFTI ${strPthTmp01} ${strPthTmp02}

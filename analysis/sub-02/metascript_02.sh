@@ -210,60 +210,60 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #source ${strPathPrnt}02_anat/n_05_PD_within_ses_mean.sh
 #date
 
-echo "---Automatic: Move anatomical images"
-source ${strPathPrnt}02_anat/n_06_move_anat.sh
-date
+#echo "---Automatic: Move anatomical images"
+#source ${strPathPrnt}02_anat/n_06_move_anat.sh
+#date
 
-echo "---Automatic: Prepare SPM bias field correction (within session mean PD)"
-source ${strPathPrnt}02_anat/n_07_prepare_spm_bf_correction.sh
-date
+#echo "---Automatic: Prepare SPM bias field correction (within session mean PD)"
+#source ${strPathPrnt}02_anat/n_07_prepare_spm_bf_correction.sh
+#date
 
-echo "---Automatic: SPM bias field correction (within session mean PD)"
-/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_08_spm_bf_correction.m
-date
+#echo "---Automatic: SPM bias field correction (within session mean PD)"
+#/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}02_anat/n_08_spm_bf_correction.m
+#date
 
-echo "---Automatic: Postprocess bias field corrected data"
-source ${strPathPrnt}02_anat/n_09_postprocess_spm_bf_correction.sh
-date
+#echo "---Automatic: Postprocess bias field corrected data"
+#source ${strPathPrnt}02_anat/n_09_postprocess_spm_bf_correction.sh
+#date
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
 # ### Register functional to anatomy within session
 
-# Manual mask creation for anatomical images.
-if ${bool_wait};
-then
-  echo "---Manual:"
+## Manual mask creation for anatomical images.
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#
+#  echo "   Prepare registration masks for all proton density images. The masks"
+#  echo "   should cover the field of view of the functional images, plus some"
+#  echo "   margin (especially in anterior & posterior directions). Regions"
+#  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
+#  echo "   the masks at:"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
 
-  echo "   Prepare registration masks for all proton density images. The masks"
-  echo "   should cover the field of view of the functional images, plus some"
-  echo "   margin (especially in anterior & posterior directions). Regions"
-  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
-  echo "   the masks at:"
-  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
-  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
-  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
-  echo "   ..."
-  echo "   Type 'go' to continue"
-  read -r -s -d $'g'
-  read -r -s -d $'o'
-  date
-else
-  :
-fi
-
-echo "---Automatic: Prepare registration functional to anatomy"
-source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
-date
+#echo "---Automatic: Prepare registration functional to anatomy"
+#source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+#date
 
 echo "---Automatic: Registration functional to anatomy (SPM)"
 source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
 date
 
-echo "---Automatic: Postprocess registration results"
-source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
-date
+#echo "---Automatic: Postprocess registration results"
+#source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
+#date
 #------------------------------------------------------------------------------
 
 
@@ -271,50 +271,50 @@ date
 # ### Across-session registration
 
 # Manual mask creation for anatomical images (within-session mean PD images).
-if ${bool_wait};
-then
-  echo "---Manual:"
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#
+#  echo "   Prepare registration masks for all proton density images. The masks"
+#  echo "   should cover the field of view of the functional images, plus some"
+#  echo "   margin (especially in anterior & posterior directions). Regions"
+#  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
+#  echo "   the masks at:"
+#  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
+#  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
+#  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
 
-  echo "   Prepare registration masks for all proton density images. The masks"
-  echo "   should cover the field of view of the functional images, plus some"
-  echo "   margin (especially in anterior & posterior directions). Regions"
-  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
-  echo "   the masks at:"
-  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
-  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
-  echo "   ${strPathPrnt}04_reg_across_ses/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
-  echo "   ..."
-  echo "   Type 'go' to continue"
-  read -r -s -d $'g'
-  read -r -s -d $'o'
-  date
-else
-  :
-fi
+#echo "---Automatic: Prepare across-sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_func_to_anat.sh
+#date
 
-echo "---Automatic: Prepare across-sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_func_to_anat.sh
-date
+#echo "---Automatic: Across-sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
+#date
 
-echo "---Automatic: Across-sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
-date
+#echo "---Automatic: Postprocess results from across sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
+#date
 
-echo "---Automatic: Postprocess results from across sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
-date
+#echo "---Automatic: Copy images from reference session"
+#source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
+#date
 
-echo "---Automatic: Copy images from reference session"
-source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
-date
+#echo "---Automatic: Calculate tSNR maps"
+#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+#date
 
-echo "---Automatic: Calculate tSNR maps"
-source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-date
-
-echo "---Automatic: Calculate spatial correlation."
-python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
-date
+#echo "---Automatic: Calculate spatial correlation."
+#python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
+#date
 #------------------------------------------------------------------------------
 
 
@@ -322,9 +322,9 @@ date
 #------------------------------------------------------------------------------
 # ### FSL FEAT (temporal filtering)
 
-echo "---Automatic: FSL FEAT (temporal filtering)."
-source ${strPathPrnt}05_feat/n_01_feat_level_1_script_parallel.sh
-date
+#echo "---Automatic: FSL FEAT (temporal filtering)."
+#source ${strPathPrnt}05_feat/n_01_feat_level_1_script_parallel.sh
+#date
 #------------------------------------------------------------------------------
 
 

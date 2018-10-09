@@ -136,17 +136,21 @@ then
 	mkdir "${str_pth_sub}/reg_func_to_anat"
 	for idx_ses_id in ${ary_ses_id[@]}
 	do
-	  mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}"
-		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/anat"
-		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mean_func"
-		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mask_anat"
-		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/mask_func"
+
+		mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}"
 
 		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
 		# the number of runs may not be identical throughout # sessions.
 		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
 		do
+
+			# Because of SPM, each run needs to be registered separately (the same
+			# transformation is performed).
 	  	mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/run_${idx_num_run}"
+	  	mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/run_${idx_num_run}/anat"
+	  	mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/run_${idx_num_run}/mean_func"
+	  	mkdir "${str_pth_sub}/reg_func_to_anat/${idx_ses_id}/run_${idx_num_run}/func"
+
 		done
 
 		# Increment session counter:
@@ -160,15 +164,20 @@ then
 	mkdir "${str_pth_sub}/reg_across_ses"
 	for idx_ses_id in ${ary_ses_id[@]}
 	do
-	  mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other"
+
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
 
 		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
 		# the number of runs may not be identical throughout # sessions.
 		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
 		do
+
+			# Because of SPM, each run needs to be registered separately (the same
+			# transformation is performed).
 	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}"
+	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}/anat"
+	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}/func"
+
 		done
 
 		# Increment session counter:

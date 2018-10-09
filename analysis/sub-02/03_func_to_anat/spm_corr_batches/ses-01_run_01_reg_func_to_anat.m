@@ -9,14 +9,14 @@
 %% Define variable parameters:
 clear;
 % Directory of reference image (anatomical image):
-strPathRef = 'PLACEHOLDER_PATH_ANAT';
+strPathRef = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/run_01/anat/';
 % Directory of source image (mean functional image):
-strPathSrc = 'PLACEHOLDER_PATH_MEAN_FUNC';
+strPathSrc = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/run_01/mean_func/';
 % Directory with other images to be registered along source image
 % (functional time series):
-strPathOtr = 'PLACEHOLDER_PATH_FUNC_RUNS';
+strPathOtr = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/run_01/func/';
 % Name of the 'SPM batch' to be created:
-strPathBatch = 'PLACEHOLDER_PATH_BATCH';
+strPathBatch = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/reg_func_to_anat/ses-01/run_01/spm_corr_batch_run_01.mat';
 % Number of functional runs:
 % varNumRuns = PLACEHOLDER_NUM_RUNS;
 % Resolution of input images in mm (is assumed to be isotropic):
