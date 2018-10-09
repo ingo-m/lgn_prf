@@ -116,13 +116,13 @@ do
   strPthSrc="${strPthSpm}${idx_ses_id}/run_01/anat/${str_sub_id}_${idx_ses_id}_PD"
 
   # Destination path 1:
-  strPthTmp01="${strPthSpm}${idx_ses_id}/other_01/other/anat/${str_sub_id}_${idx_ses_id}_PD"
+  strPthTmp01="${strPthSpm}${idx_ses_id}/other_01/anat/${str_sub_id}_${idx_ses_id}_PD"
 
   # Copy image form first run to current run:
   cp ${strPthSrc}.nii ${strPthTmp01}.nii
 
   # Destination path 2:
-  strPthTmp02="${strPthSpm}${idx_ses_id}/other_02/other/anat/${str_sub_id}_${idx_ses_id}_PD"
+  strPthTmp02="${strPthSpm}${idx_ses_id}/other_02/anat/${str_sub_id}_${idx_ses_id}_PD"
 
   # Copy image form first run to current run:
   cp ${strPthSrc}.nii ${strPthTmp02}.nii
