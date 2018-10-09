@@ -20,10 +20,10 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Output directory:
-strPathOutput="${str_data_path}derivatives/${str_sub_id}/func_reg_to_anat/"
+strPathOutput="${str_data_path}derivatives/${str_sub_id}/func_reg_across_ses/"
 
 # SPM directory base (followed by session ID, e.g. "ses-01"):
-strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/"
+strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_ses/"
 #------------------------------------------------------------------------------
 
 
@@ -51,7 +51,7 @@ do
   do
 
     # Complete input path:
-  	strTmpIn="${strPathSpm}${idx_ses_id}/run_${idx_num_run}/r${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+  	strTmpIn="${strPathSpm}${idx_ses_id}/run_${idx_num_run}/func/r${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Complete output path:
     strTmpOt="${strPathOutput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
@@ -63,7 +63,7 @@ do
     echo "------Removing uncompressed nii files"
 
     # The time series that motion corretion was performed on:
-  	strTmp01="${strPathSpm}${idx_ses_id}/run_${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii"
+  	strTmp01="${strPathSpm}${idx_ses_id}/run_${idx_num_run}/func/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii"
 
     # The time series that has been 'resliced':
   	strTmp02="${strTmpIn}.nii"
