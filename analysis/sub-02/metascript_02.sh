@@ -253,9 +253,9 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  :
 #fi
 
-#echo "---Automatic: Prepare registration functional to anatomy"
-#source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
-#date
+echo "---Automatic: Prepare registration functional to anatomy"
+source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+date
 
 echo "---Automatic: Registration functional to anatomy (SPM)"
 source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
