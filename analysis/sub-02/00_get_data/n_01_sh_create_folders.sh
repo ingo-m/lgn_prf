@@ -67,7 +67,8 @@ then
 	mkdir "${str_pth_sub}/anat/04_intermediate"
 	mkdir "${str_pth_sub}/anat/05_spm_bf_correction"
 	mkdir "${str_pth_sub}/anat/06_intermediate"
-	mkdir "${str_pth_sub}/anat/07_seg"
+	mkdir "${str_pth_sub}/anat/07_across_ses_reg"
+	mkdir "${str_pth_sub}/anat/08_seg"
 
 	# Functional images.
 	mkdir "${str_pth_sub}/func"
