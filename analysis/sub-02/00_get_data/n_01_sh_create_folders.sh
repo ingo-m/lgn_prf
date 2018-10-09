@@ -180,6 +180,14 @@ then
 
 		done
 
+		# Folders for registration of whole-brain T1 and PD images:
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01/anat"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01/other"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02/anat"
+		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02/other"
+
 		# Increment session counter:
 	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
   done

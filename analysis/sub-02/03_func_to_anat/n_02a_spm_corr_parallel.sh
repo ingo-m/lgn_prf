@@ -36,8 +36,8 @@ varPar=`bc <<< ${var_par_moco}+1`
 
 echo "------Prepare SPM files for registration (functional to anatomical)"
 
-# SPM files for motion correction are prepared from template (text replacement
-# of placeholder variables).
+# SPM files for registration are prepared from template (text replacement of
+# placeholder variables).
 
 # Session counter:
 var_cnt_ses=0
@@ -85,7 +85,7 @@ do
   var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------

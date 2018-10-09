@@ -253,13 +253,32 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  :
 #fi
 
-echo "---Automatic: Prepare registration functional to anatomy"
-source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
-date
+## Manual mask creation for mean functional images (within-session mean).
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#
+#  echo "   Prepare registration masks for mean functional images (one per"
+#  echo "   session). Place the masks at:"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-01"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-02"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-03"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
 
-echo "---Automatic: Registration functional to anatomy (SPM)"
-source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
-date
+#echo "---Automatic: Prepare registration functional to anatomy"
+#source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+#date
+
+#echo "---Automatic: Registration functional to anatomy (SPM)"
+#source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
+#date
 
 #echo "---Automatic: Postprocess registration results"
 #source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
@@ -292,28 +311,9 @@ date
 #  :
 #fi
 
-## Manual mask creation for mean functional images (within-session mean).
-#if ${bool_wait};
-#then
-#  echo "---Manual:"
-#
-#  echo "   Prepare registration masks for mean functional images (one per"
-#  echo "   session). Place the masks at:"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-01"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-02"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-03"
-#  echo "   ..."
-#  echo "   Type 'go' to continue"
-#  read -r -s -d $'g'
-#  read -r -s -d $'o'
-#  date
-#else
-#  :
-#fi
-
-#echo "---Automatic: Prepare across-sessions registration"
-#source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_func_to_anat.sh
-#date
+echo "---Automatic: Prepare across-sessions registration"
+source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
+date
 
 #echo "---Automatic: Across-sessions registration"
 #source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh

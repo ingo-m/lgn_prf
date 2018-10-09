@@ -33,51 +33,99 @@ strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_ses/"
 #------------------------------------------------------------------------------
 # ### Apply mask to anatomical images
 
-echo "------Apply mask to PD images"
+echo "------Apply mask to anatomical images"
+
+# Session counter:
+var_cnt_ses=0
 
 # Loop through sessions (e.g. "ses-01"):
 for idx_ses_id in ${ary_ses_id[@]}
 do
 
-  # Input path of proton density image:
-  strPthPdw="${strPthAnat}${str_sub_id}_${idx_ses_id}_PD"
+  # Input path of anatomical image:
+  strPthPwd="${strPthAnat}${str_sub_id}_${idx_ses_id}_PD"
 
-  # Path of mask for proton density image:
+  # Path of mask anatomical image:
   strPthMskTmp="${strPthMskPd}n_01b_${str_sub_id}_${idx_ses_id}_PD_reg_mask"
 
-  # Target path for masked anatomcial image:
-  strPthTrgt="${strPthSpm}${idx_ses_id}/anat/${str_sub_id}_${idx_ses_id}_PD"
+  # Path for masked anatomcial image (used as source image for registration):
+  strPthSrc="${strPthSpm}${idx_ses_id}/run_01/anat/${str_sub_id}_${idx_ses_id}_PD"
 
   # Apply mask:
-  fslmaths ${strPthPdw} -mul ${strPthMskTmp} ${strPthTrgt}
+  fslmaths ${strPthPwd} -mul ${strPthMskTmp} ${strPthSrc}
 
   # Change filetype to uncompressed nii:
-  fslchfiletype NIFTI ${strPthTrgt} ${strPthTrgt}
+  fslchfiletype NIFTI ${strPthSrc} ${strPthSrc}
+
+  # Remove compressed file:
+  rm ${strPthSrc}.nii.gz
+
+  # Because of SPM, the registration has to be performed separately for each
+  # run (the same transformation is performed on each run). Copy files for
+  # registration of each run. Loop through runs, starting from second run
+  # (because the image is already present for the first run).
+	for idx_num_run in $(seq -f "%02g" 2 ${ary_num_runs[var_cnt_ses]})
+  do
+
+    # Destination path:
+    strPthTmp01="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/anat/${str_sub_id}_${idx_ses_id}_PD"
+
+    # Copy image form first run to current run:
+    cp ${strPthSrc}.nii ${strPthTmp01}.nii
+
+  done
+
+	# Increment session counter:
+  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
 
 done
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
-# ### Copy T1 images
+# ### Copy whole brain T1 & PD image
 
-# Registration will be based on proton density images. T1 images will be
-# registered along.
+# Whole brain (i.e. not masked) T1 & PD images are registered across sessions.
 
-echo "------Copy T1 images"
-
-# Loop through sessions (e.g. "ses-01"):
-for idx_ses_id in ${ary_ses_id[@]}
+# Loop through sessions (e.g. "ses-02", "ses-03"), skipping the first session,
+# because sessions are registered to first session.
+for idx_ses_id in ${ary_ses_id[@]:1}
 do
 
-  # Input path of T1 image:
-  strTmp01="${strPthAnat}${str_sub_id}_${idx_ses_id}_T1w_si"
+  # Input path of whole brain PD image (to be registered):
+  strPthPwd="${strPthAnat}${str_sub_id}_${idx_ses_id}_PD"
 
-  # Target path:
-  strTmp02="${strPthSpm}${idx_ses_id}/other/${str_sub_id}_${idx_ses_id}_T1w_si"
+  # Input path of whole brain T1 image (to be registered):
+  strPthT1="${strPthAnat}${str_sub_id}_${idx_ses_id}_T1w_si"
 
-  # Change filetype to uncompressed nii:
-  fslchfiletype NIFTI ${strTmp01} ${strTmp02}
+  # Target path for whole brain PD image (to be registered):
+  strPthTrgtPwd="${strPthSpm}${idx_ses_id}/other_01/other/${str_sub_id}_${idx_ses_id}_PD"
+
+  # Target path for whole brain T1 image (to be registered):
+  strPthTrgtT1="${strPthSpm}${idx_ses_id}/other_02/other/${str_sub_id}_${idx_ses_id}_T1w_si"
+
+  # Uncompress & copy images:
+  fslchfiletype NIFTI ${strPthPwd} ${strPthTrgtPwd}
+  fslchfiletype NIFTI ${strPthT1} ${strPthTrgtT1}
+
+  # The above images are regitered along with the masked anatomical image (used
+  # as source image for registration to target). Copy masked anatomical image:
+
+  # Path of masked anatomcial image (used as source for registration to
+  # anatomical image from first session).
+  strPthSrc="${strPthSpm}${idx_ses_id}/run_01/anat/${str_sub_id}_${idx_ses_id}_PD"
+
+  # Destination path 1:
+  strPthTmp01="${strPthSpm}${idx_ses_id}/other_01/other/anat/${str_sub_id}_${idx_ses_id}_PD"
+
+  # Copy image form first run to current run:
+  cp ${strPthSrc}.nii ${strPthTmp01}.nii
+
+  # Destination path 2:
+  strPthTmp02="${strPthSpm}${idx_ses_id}/other_02/other/anat/${str_sub_id}_${idx_ses_id}_PD"
+
+  # Copy image form first run to current run:
+  cp ${strPthSrc}.nii ${strPthTmp02}.nii
 
 done
 #------------------------------------------------------------------------------
@@ -107,7 +155,7 @@ do
     strPthTmp01="${strPthFnc}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Output path functional run:
-    strPthTmp02="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+    strPthTmp02="${strPthSpm}${idx_ses_id}/run_${idx_num_run}/func/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
 
     # Change filetype to uncompressed nii:
     fslchfiletype NIFTI ${strPthTmp01} ${strPthTmp02}

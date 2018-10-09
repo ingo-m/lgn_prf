@@ -1,6 +1,5 @@
 %--------------------------------------------------------------------------
-% Create a 'batch' file for SPM coregistration of functional to anatomical
-% images.
+% Create a 'batch' file for SPM coregistration of images.
 %--------------------------------------------------------------------------
 % NOTE: The input images have to be in UNCOMPRESSED nii format for SPM.
 %--------------------------------------------------------------------------
@@ -8,49 +7,62 @@
 %--------------------------------------------------------------------------
 %% Define variable parameters:
 clear;
-% Directory of reference image (anatomical image from first session):
+% Directory of reference image (anatomical image):
 strPathRef = 'PLACEHOLDER_PATH_REF';
-% Directory of source image (anatomcial image from current session):
+% Directory of source image (mean functional image):
 strPathSrc = 'PLACEHOLDER_PATH_SRC';
 % Directory with other images to be registered along source image
 % (functional time series):
-strPathOtr = 'PLACEHOLDER_PATH_FUNC_RUNS';
-% Directory with additional image to be registered (T1 or PD, depending on
-% which one is used as reference).
-strPathAdd = 'PLACEHOLDER_PATH_ADD';
+strPathOtr = 'PLACEHOLDER_PATH_OTHR';
 % Name of the 'SPM batch' to be created:
 strPathBatch = 'PLACEHOLDER_PATH_BATCH';
 % Number of functional runs:
-varNumRuns = PLACEHOLDER_NUM_RUNS;
+% varNumRuns = PLACEHOLDER_NUM_RUNS;
 % Resolution of input images in mm (is assumed to be isotropic):
 varRes = 0.7;
 %--------------------------------------------------------------------------
+%%% Prepare input - file lists of functional time series:
+%% The paths of the functional runs:
+%cllPathFunc = cell(1,varNumRuns);
+%for index_01 = 1:varNumRuns
+%    if index_01 < 10
+%        strTmp = strcat(strPathOtr, ...
+%            'run_0', ...
+%            num2str(index_01), ...
+%            '/');
+%    else
+%        strTmp = strcat(strPathOtr, ...
+%            'run_', ...
+%            num2str(index_01), ...
+%            '/');
+%    end
+%    cllPathFunc{index_01} = spm_select('ExtList', ...
+%        strTmp, ...
+%        '.nii', ...
+%        Inf);
+%    cllPathFunc{index_01} = cellstr(cllPathFunc{index_01});
+%    cllPathFunc{index_01} = strcat(strTmp, cllPathFunc{index_01});
+%end
+%%--------------------------------------------------------------------------
+%%% Prepare input - file lists of functional time series:
+%% The paths of the functional runs:
+%cllPathFunc = cell(1);
+%% Select nii files on input path:
+%cllPathFunc{1} = spm_select('ExtList', ...
+%    strPathOtr, ...
+%    '.nii', ...
+%    Inf);
+%cllPathFunc{1} = cellstr(cllPathFunc{1});
+%cllPathFunc{1} = strcat(strTmp, cllPathFunc{1});
+%--------------------------------------------------------------------------
 %% Prepare input - file lists of functional time series:
-% The paths of the functional runs:
-cllPathFunc = cell(1,(varNumRuns + 1));  % +1 b/o additional anat image
-for index_01 = 1:(varNumRuns + 1)
-    if index_01 < 10
-        strTmp = strcat(strPathOtr, ...
-            'run_0', ...
-            num2str(index_01), ...
-            '/');
-    else
-        strTmp = strcat(strPathOtr, ...
-            'run_', ...
-            num2str(index_01), ...
-            '/');
-    end
-    % Add additrional anatomical image:
-    if index_01 == (varNumRuns + 1)
-        strTmp = strPathAdd;
-    end
-    cllPathFunc{index_01} = spm_select('ExtList', ...
-        strTmp, ...
-        '.nii', ...
-        Inf);
-    cllPathFunc{index_01} = cellstr(cllPathFunc{index_01});
-    cllPathFunc{index_01} = strcat(strTmp, cllPathFunc{index_01});
-end
+% Select nii files on input path:
+cllPathFunc = spm_select('ExtList', ...
+    strPathOtr, ...
+    '.nii', ...
+    Inf);
+cllPathFunc = cellstr(cllPathFunc);
+cllPathFunc = strcat(strPathOtr, cllPathFunc);
 %--------------------------------------------------------------------------
 %% Prepare input - referenec image:
 % The cell array with the file name of the mean M0 image:
@@ -90,7 +102,7 @@ matlabbatch{1}.spm.spatial.coreg.estwrite.eoptions.sep = ...
 matlabbatch{1}.spm.spatial.coreg.estwrite.eoptions.tol = ...
     [0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001];
 matlabbatch{1}.spm.spatial.coreg.estwrite.eoptions.fwhm = ...
-    [8*varRes, 8*varRes];
+    [7, 7];
 % Secondly, the parameters for the reslicing:
 matlabbatch{1}.spm.spatial.coreg.estwrite.roptions.interp = 7;
 matlabbatch{1}.spm.spatial.coreg.estwrite.roptions.wrap = [0 0 0];
