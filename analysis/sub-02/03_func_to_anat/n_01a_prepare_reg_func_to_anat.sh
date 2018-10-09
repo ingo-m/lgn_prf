@@ -25,9 +25,8 @@ strPthMskT1="${str_anly_path}${str_sub_id}/03_func_to_anat/"
 # Location of mean functional images (within session means):
 strPthFncMne="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/"
 
-# Location of masks for functional images (within analysis folder). Same as SPM
-# moco refweights.
-strPthMskFnc="${str_anly_path}${str_sub_id}/01_preprocessing/"
+# Location of masks for functional images (within analysis folder).
+strPthMskFnc="${str_anly_path}${str_sub_id}/03_func_to_anat/"
 
 # Location of functional time series:
 strPthFnc="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
@@ -138,10 +137,9 @@ do
   strPthTmp01="${strPthFncMne}${str_sub_id}_${idx_ses_id}_mean_smooth"
 
   # Mask for mean functional image:
-  stPthTmp02="${strPthMskFnc}n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id}"
+  stPthTmp02="${strPthMskFnc}n_01c_spm_reg_mask_${str_sub_id}_${idx_ses_id}"
 
-  # The mask (moco reference weight image) first needs to be binarised. Target
-  # directory for binarised masks:
+  # Binarised the mask (in case a non-binary reference weight is used).
   strPthTmp03="${strPthSpm}${idx_ses_id}/run_01/mean_func/${str_sub_id}_${idx_ses_id}_mask"
 
   # Output path for masked mean functional image:

@@ -292,6 +292,25 @@ date
 #  :
 #fi
 
+## Manual mask creation for mean functional images (within-session mean).
+#if ${bool_wait};
+#then
+#  echo "---Manual:"
+#
+#  echo "   Prepare registration masks for mean functional images (one per"
+#  echo "   session). Place the masks at:"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-01"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-02"
+#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-03"
+#  echo "   ..."
+#  echo "   Type 'go' to continue"
+#  read -r -s -d $'g'
+#  read -r -s -d $'o'
+#  date
+#else
+#  :
+#fi
+
 #echo "---Automatic: Prepare across-sessions registration"
 #source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_func_to_anat.sh
 #date
