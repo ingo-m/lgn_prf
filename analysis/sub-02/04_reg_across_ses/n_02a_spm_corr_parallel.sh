@@ -153,8 +153,9 @@ done
 echo "------Run SPM registration (functional to anatomical)"
 date
 
-# Session counter:
-var_cnt_ses=0
+# Session counter (starting from one, because first session is reference and is
+# therefore skipped).
+var_cnt_ses=1
 
 # Loop through sessions (e.g. "ses-02", "ses-03"), skipping the first session,
 # because sessions are registered to first session.
