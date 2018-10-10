@@ -24,6 +24,9 @@ strTrgt="${str_anly_path}${str_sub_id}/04_reg_across_ses/spm_corr_batches/"
 # Directory with data to register (basepath, followed by session ID, e.g.
 # "ses-01").
 strPthSpm="${str_data_path}derivatives/${str_sub_id}/reg_across_ses/"
+
+# Get parallelisation factor from environmental variable:
+varPar=`bc <<< ${var_par_moco}+1`
 #------------------------------------------------------------------------------
 
 
