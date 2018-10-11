@@ -276,13 +276,50 @@ echo "---Automatic: Prepare registration functional to anatomy"
 source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
 date
 
-echo "---Automatic: Registration functional to anatomy (SPM)"
-source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
-date
+# Manual mask creation for mean functional images (within-session mean).
+if ${bool_wait};
+then
+  echo "---Manual:"
 
-echo "---Automatic: Postprocess registration results"
-source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
-date
+  echo "   Separately for each session, register mean functional images:"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-01_mean"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_mean"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_mean"
+  echo "     ..."
+  echo "   to anatomical image (within session):"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-01_T1w_si"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_T1w_si"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_T1w_si"
+  echo "     ..."
+  echo "   You may use itk-snap's registration utility (use cross-correlation"
+  echo "   cost function, and try resolution schedule 2x, 1x. Save the"
+  echo "   transformation matrix, and convert it to FSL convention using"
+  echo "   the c3d_affine_tool, e.g.:"
+  echo "     c3d_affine_tool"
+  echo "     ~/sub-02_ses-01_itksnap_transform.mat"
+  echo "     -info"
+  echo "     -ref ~/sub-02_ses-01_T1w_si.nii.gz"
+  echo "     -src ~/sub-02_ses-01_mean.nii.gz"
+  echo "     -ras2fsl"
+  echo "     -o ~/sub-02_ses-01_fsl_transform.mat"
+  echo "   Place the FSL transformation matrices at:"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-01_fsl_reg.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-02_fsl_reg.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-03_fsl_reg.mat"
+  echo "     ..."
+  echo "   Alternatively, any other tool may be used to create the FSL "
+  echo "   transformation matrix (but FSL FLIRT and SPM correg were found not"
+  echo "   to be robust on the given data)."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
+
+
+# TODO ...
 #------------------------------------------------------------------------------
 
 
