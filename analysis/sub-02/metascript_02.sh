@@ -345,9 +345,9 @@ fi
 #  :
 #fi
 
-echo "---Automatic: Prepare across-sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
-date
+#echo "---Automatic: Prepare across-sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
+#date
 
 # Manual mask creation for mean functional images (within-session mean).
 if ${bool_wait};
@@ -373,8 +373,8 @@ then
   echo "     -ras2fsl"
   echo "     -o ~/${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
   echo "   Place the FSL transformation matrices at:"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-03_to_ses-01_fsl_transform.mat"
+  echo "     ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
+  echo "     ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_ses-03_to_ses-01_fsl_transform.mat"
   echo "     ..."
   echo "   Alternatively, any other tool may be used to create the FSL "
   echo "   transformation matrix."
@@ -386,7 +386,18 @@ else
   :
 fi
 
+
+
+
+
 # TODO ...
+# Does flirt work on 4D file? Yes.
+#flirt \
+#-interp trilinear \
+#-in /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_run_01 \
+#-ref /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_T1w_si \
+#-applyxfm -init /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_fsl_transform.mat \
+#-out /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_run_01_flirtreg
 
 #echo "---Automatic: Calculate tSNR maps"
 #source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
