@@ -108,8 +108,8 @@ do
   segmentator_filters \
       ${strPthTmp01}.nii.gz \
       --smoothing cCED \
-      --nr_iterations 4 \
-      --save_every 4
+      --nr_iterations 7 \
+      --save_every 7
 
   # Rename output:
   mv -T ${strPthTmp01}*cCED*.nii.gz ${strPthTmp01}_smooth.nii.gz

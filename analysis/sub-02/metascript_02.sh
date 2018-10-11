@@ -272,17 +272,17 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  :
 #fi
 
-#echo "---Automatic: Prepare registration functional to anatomy"
-#source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
-#date
+echo "---Automatic: Prepare registration functional to anatomy"
+source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+date
 
-#echo "---Automatic: Registration functional to anatomy (SPM)"
-#source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
-#date
+echo "---Automatic: Registration functional to anatomy (SPM)"
+source ${strPathPrnt}03_func_to_anat/n_02a_spm_corr_parallel.sh
+date
 
-#echo "---Automatic: Postprocess registration results"
-#source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
-#date
+echo "---Automatic: Postprocess registration results"
+source ${strPathPrnt}03_func_to_anat/n_03_sh_postprocess_reg.sh
+date
 #------------------------------------------------------------------------------
 
 
@@ -311,25 +311,25 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  :
 #fi
 
-echo "---Automatic: Prepare across-sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
-date
+#echo "---Automatic: Prepare across-sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
+#date
 
-echo "---Automatic: Across-sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
-date
+#echo "---Automatic: Across-sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
+#date
 
-echo "---Automatic: Postprocess results from across sessions registration"
-source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
-date
+#echo "---Automatic: Postprocess results from across sessions registration"
+#source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
+#date
 
-echo "---Automatic: Copy images from reference session"
-source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
-date
+#echo "---Automatic: Copy images from reference session"
+#source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
+#date
 
-echo "---Automatic: Calculate tSNR maps"
-source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-date
+#echo "---Automatic: Calculate tSNR maps"
+#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+#date
 
 #echo "---Automatic: Calculate spatial correlation."
 #python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py

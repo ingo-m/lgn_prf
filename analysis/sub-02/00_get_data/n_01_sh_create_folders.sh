@@ -166,31 +166,11 @@ then
 	for idx_ses_id in ${ary_ses_id[@]}
 	do
 
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
-
-		# Loop through runs, zero filled indices ("01", "02", # etc.). Note that
-		# the number of runs may not be identical throughout # sessions.
-		for idx_num_run in $(seq -f "%02g" 1 ${ary_num_runs[var_cnt_ses]})
-		do
-
-			# Because of SPM, each run needs to be registered separately (the same
-			# transformation is performed).
-	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}"
-	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}/anat"
-	  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/run_${idx_num_run}/func"
-
-		done
-
-		# Folders for registration of whole-brain T1 and PD images:
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01/anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_01/other"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02/anat"
-		mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}/other_02/other"
+  	mkdir "${str_pth_sub}/reg_across_ses/${idx_ses_id}"
 
 		# Increment session counter:
 	  var_cnt_ses=`bc <<< ${var_cnt_ses}+1`
+
   done
 
 	# Population receptive field mapping results.

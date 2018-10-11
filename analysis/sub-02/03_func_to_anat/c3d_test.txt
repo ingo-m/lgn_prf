@@ -1,0 +1,23 @@
+# Transform itksnap transformation matrix to FSL transformation matrix:
+
+c3d_affine_tool \
+/home/john/Dropbox/Sonstiges/reg_test/mytransform_itk.txt \
+-info \
+-ref /home/john/Dropbox/Sonstiges/reg_test/sub-02_ses-01_T1w_si.nii \
+-src /home/john/Dropbox/Sonstiges/reg_test/sub-02_ses-01_mean.nii \
+-ras2fsl \
+-o /home/john/Dropbox/Sonstiges/reg_test/mytransform_itk_fsl.mat
+
+
+
+# Apply transformation matrix to T1w image:
+flirt \
+-interp sinc \
+-sincwidth 7 \
+-dof 6 \
+-in /home/john/Dropbox/Sonstiges/reg_test/sub-02_ses-01_mean.nii \
+-ref /home/john/Dropbox/Sonstiges/reg_test/sub-02_ses-01_T1w_si.nii \
+-applyxfm -init /home/john/Dropbox/Sonstiges/reg_test/mytransform_itk_fsl.mat \
+-out /home/john/Dropbox/Sonstiges/reg_test/sub-02_ses-01_mean_reg
+
+
