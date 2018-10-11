@@ -394,9 +394,9 @@ echo "---Automatic: Apply across-runs registration on functional images."
 source ${strPathPrnt}04_reg_across_ses/n_04_sh_reg_func.sh
 date
 
-echo "---Automatic: Calculate tSNR maps"
-source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-date
+#echo "---Automatic: Calculate tSNR maps"
+#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+#date
 
 #echo "---Automatic: Calculate spatial correlation."
 #python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py

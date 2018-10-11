@@ -103,13 +103,11 @@ do
 	strTmp04="${strPthMat02}n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat"
 
 	# Path for concatenation of the two transformation matrices:
-	strTmp05"${strPthMat02}${str_sub_id}_${idx_ses_id}_concat_func_to_ses-01_fsl_transform.mat"
+	strTmp05="${strPthMat02}${str_sub_id}_${idx_ses_id}_concat_func_to_ses-01_fsl_transform.mat"
 
-	# Concatenate transformations:
-	convert_xfm \
-	-omat ${strTmp05} \  # <outmat_AtoC>
-	-concat ${strTmp04} \  # <mat_BtoC>
-	${strTmp01}  # <mat_AtoB>
+	# Concatenate transformations.
+	# convert_xfm -omat <outmat_AtoC> -concat <mat_BtoC> <mat_AtoB>
+	convert_xfm -omat ${strTmp05} -concat ${strTmp04} ${strTmp01}
 
   # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
   # etc.). Note that the number of runs may not be identical throughout
@@ -129,7 +127,7 @@ do
 		-interp trilinear \
 		-in ${strTmp02} \
 		-ref ${strPathRef} \
-		-applyxfm -init${strTmp05} \
+		-applyxfm -init ${strTmp05} \
 		-out ${strTmp03}
 
   done
