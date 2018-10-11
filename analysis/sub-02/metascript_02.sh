@@ -386,22 +386,17 @@ else
   :
 fi
 
-echo "---Automatic: Apply across-runs registration on anatomical images."
-source ${strPathPrnt}04_reg_across_ses/n_03_sh_reg_anat.sh
+#echo "---Automatic: Apply across-runs registration on anatomical images."
+#source ${strPathPrnt}04_reg_across_ses/n_03_sh_reg_anat.sh
+#date
+
+echo "---Automatic: Apply across-runs registration on functional images."
+source ${strPathPrnt}04_reg_across_ses/n_04_sh_reg_func.sh
 date
 
-# TODO ...
-# Does flirt work on 4D file? Yes.
-#flirt \
-#-interp trilinear \
-#-in /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_run_01 \
-#-ref /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_T1w_si \
-#-applyxfm -init /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_fsl_transform.mat \
-#-out /home/john/Desktop/tmp/regtest4d/sub-02_ses-01_run_01_flirtreg
-
-#echo "---Automatic: Calculate tSNR maps"
-#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-#date
+echo "---Automatic: Calculate tSNR maps"
+source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+date
 
 #echo "---Automatic: Calculate spatial correlation."
 #python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
