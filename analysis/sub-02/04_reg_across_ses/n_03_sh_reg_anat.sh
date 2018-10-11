@@ -80,7 +80,7 @@ for idx_ses_id in ${ary_ses_id[@]}
 do
 
 	# Name of the session image:
-	strTmp01="${strPathIn}${str_sub_id}_${idx_ses_id}_T1w_si"
+	strTmp01="${strPathOut}${str_sub_id}_${idx_ses_id}_T1w_si"
 
   # For first session, don't append (there's nothing to append to yet), but
   # copy the first session.
@@ -121,7 +121,7 @@ for idx_ses_id in ${ary_ses_id[@]}
 do
 
 	# Name of the session image:
-	strTmp01="${strPathIn}${str_sub_id}_${idx_ses_id}_PD"
+	strTmp01="${strPathOut}${str_sub_id}_${idx_ses_id}_PD"
 
   # For first session, don't append (there's nothing to append to yet), but
   # copy the first session.
@@ -185,3 +185,22 @@ mv -T ${strPthTmp01}*cCED*.nii.gz ${strPthTmp01}_smooth.nii.gz
 # Switch back to default conda environment:
 source activate py_main
 # -----------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# ### Truncate data range
+
+fslmaths \
+${strPathOut}${str_sub_id}_ratio_T1_PD \
+-thr 0 \
+-uthr 50 \
+-range \
+${strPathOut}${str_sub_id}_ratio_T1_PD
+
+fslmaths \
+${strPathOut}${str_sub_id}_ratio_T1_PD_smooth \
+-thr 0 \
+-uthr 50 \
+-range \
+${strPathOut}${str_sub_id}_ratio_T1_PD_smooth
+#------------------------------------------------------------------------------

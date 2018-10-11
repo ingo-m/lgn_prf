@@ -386,9 +386,9 @@ else
   :
 fi
 
-
-
-
+echo "---Automatic: Apply across-runs registration on anatomical images."
+source ${strPathPrnt}04_reg_across_ses/n_03_sh_reg_anat.sh
+date
 
 # TODO ...
 # Does flirt work on 4D file? Yes.
