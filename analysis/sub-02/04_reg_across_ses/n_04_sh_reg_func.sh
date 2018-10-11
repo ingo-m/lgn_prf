@@ -50,8 +50,9 @@ var_cnt_ses=0
 for idx_ses_id in ${ary_ses_id[0]}
 do
 
-	# Path of transformation matrix functional --> within-session anatomy.
-	strTmp01="${strPthMat01}n_02_${str_sub_id}_${idx_ses_id}_fsl_reg.mat"
+	# Path of transformation matrix first-session functional --> first-session
+	# anatomy.
+	strTmp01="${strPthMat01}n_02_${str_sub_id}_ses-01_fsl_reg.mat"
 
   # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
   # etc.). Note that the number of runs may not be identical throughout
@@ -95,11 +96,11 @@ var_cnt_ses=1
 for idx_ses_id in ${ary_ses_id[@]:1}
 do
 
-	# Path of transformation matrix functional --> within-session anatomy.
-	strTmp01="${strPthMat01}n_02_${str_sub_id}_${idx_ses_id}_fsl_reg.mat"
-
-	# Path of transformation matrix within-session anatomy --> across session
+	# Path of transformation matrix first-session functional --> first-session
 	# anatomy.
+	strTmp01="${strPthMat01}n_02_${str_sub_id}_ses-01_fsl_reg.mat"
+
+	# Path of transformation matrix functional --> first session functional.
 	strTmp04="${strPthMat02}n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat"
 
 	# Path for concatenation of the two transformation matrices:
@@ -107,7 +108,7 @@ do
 
 	# Concatenate transformations.
 	# convert_xfm -omat <outmat_AtoC> -concat <mat_BtoC> <mat_AtoB>
-	convert_xfm -omat ${strTmp05} -concat ${strTmp04} ${strTmp01}
+	convert_xfm -omat ${strTmp05} -concat ${strTmp01} ${strTmp04}
 
   # Loop through runs (e.g. "run_01"); i.e. zero filled indices ("01", "02",
   # etc.). Note that the number of runs may not be identical throughout

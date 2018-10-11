@@ -231,6 +231,8 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #------------------------------------------------------------------------------
 # ### Register functional to anatomy within session
 
+# "B ..> C": Register first session functional to first session anatomical.
+
 ## Manual mask creation for anatomical images.
 #if ${bool_wait};
 #then
@@ -242,8 +244,8 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  echo "   with bad signal (e.g. ventral end of FOV), may be leaft out. Place"
 #  echo "   the masks at:"
 #  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-01_PD_reg_mask"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
+##  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-02_PD_reg_mask"
+##  echo "   ${strPathPrnt}03_func_to_anat/n_01b_${str_sub_id}_ses-03_PD_reg_mask"
 #  echo "   ..."
 #  echo "   Type 'go' to continue"
 #  read -r -s -d $'g'
@@ -261,8 +263,8 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  echo "   Prepare registration masks for mean functional images (one per"
 #  echo "   session). Place the masks at:"
 #  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-01"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-02"
-#  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-03"
+##  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-02"
+##  echo "   ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-03"
 #  echo "   ..."
 #  echo "   Type 'go' to continue"
 #  read -r -s -d $'g'
@@ -283,13 +285,13 @@ then
 
   echo "   Separately for each session, register mean functional images:"
   echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-01_mean"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_mean"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_mean"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_mean"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_mean"
   echo "     ..."
   echo "   to anatomical image (within session):"
   echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-01_T1w_si"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_T1w_si"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_T1w_si"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-02_T1w_si"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_func_to_anat/ses-01/${str_sub_id}_ses-03_T1w_si"
   echo "     ..."
   echo "   You may use itk-snap's registration utility (use cross-correlation"
   echo "   cost function, and try resolution schedule 2x, 1x. Save the"
@@ -304,8 +306,8 @@ then
   echo "     -o ~/sub-02_ses-01_fsl_transform.mat"
   echo "   Place the FSL transformation matrices at:"
   echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-01_fsl_reg.mat"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-02_fsl_reg.mat"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-03_fsl_reg.mat"
+#  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-02_fsl_reg.mat"
+#  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-03_fsl_reg.mat"
   echo "     ..."
   echo "   Alternatively, any other tool may be used to create the FSL "
   echo "   transformation matrix (but FSL FLIRT and SPM correg were found not"
@@ -354,24 +356,43 @@ if ${bool_wait};
 then
   echo "---Manual:"
 
-  echo "   Register the anatomical image (T1) of the second and third (and"
-  echo "   subsequent sessions if there are more) to the anatomical image of"
+  echo "   Register the mean functional images of the second and third (and"
+  echo "   subsequent sessions if there are more) to the mean functional of"
   echo "   the first session. Reference (first session):"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-01_T1w_si"
+
+  echo "     ${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/${str_sub_id}_ses-01_mean_smooth"
   echo "   Images to be registered:"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-02_T1w_si"
-  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-03_T1w_si"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/${str_sub_id}_ses-02_mean_smooth"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs_tsnr/${str_sub_id}_ses-03_mean_smooth"
   echo "     ..."
+  echo "   Use reference mask:"
+  echo "     ${strPathPrnt}03_func_to_anat/n_01c_spm_reg_mask_${str_sub_id}_ses-01.nii.gz"
+
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-01_T1w_si"
+#  echo "   Images to be registered:"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-02_T1w_si"
+#  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-03_T1w_si"
+#  echo "     ..."
   echo "   You may use itk-snap's registration utility. Save the"
   echo "   transformation matrix, and convert it to FSL convention using"
   echo "   the c3d_affine_tool, e.g.:"
+
   echo "     c3d_affine_tool"
   echo "     ~/${str_sub_id}_ses-02_to_ses-01_itksnap_transform.mat"
   echo "     -info"
-  echo "     -ref ~/${str_sub_id}_ses-01_T1w_si.nii.gz"
-  echo "     -src ~/${str_sub_id}_ses-02_T1w_si.nii.gz"
+  echo "     -ref ~/${str_sub_id}_ses-01_mean_smooth.nii.gz"
+  echo "     -src ~/${str_sub_id}_ses-02_mean_smooth.nii.gz"
   echo "     -ras2fsl"
   echo "     -o ~/${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
+
+#  echo "     c3d_affine_tool"
+#  echo "     ~/${str_sub_id}_ses-02_to_ses-01_itksnap_transform.mat"
+#  echo "     -info"
+#  echo "     -ref ~/${str_sub_id}_ses-01_T1w_si.nii.gz"
+#  echo "     -src ~/${str_sub_id}_ses-02_T1w_si.nii.gz"
+#  echo "     -ras2fsl"
+#  echo "     -o ~/${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
+
   echo "   Place the FSL transformation matrices at:"
   echo "     ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
   echo "     ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_ses-03_to_ses-01_fsl_transform.mat"
@@ -394,9 +415,9 @@ echo "---Automatic: Apply across-runs registration on functional images."
 source ${strPathPrnt}04_reg_across_ses/n_04_sh_reg_func.sh
 date
 
-#echo "---Automatic: Calculate tSNR maps"
-#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-#date
+echo "---Automatic: Calculate tSNR maps"
+source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+date
 
 #echo "---Automatic: Calculate spatial correlation."
 #python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
