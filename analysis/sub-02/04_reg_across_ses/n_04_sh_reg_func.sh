@@ -72,7 +72,7 @@ do
 		-interp trilinear \
 		-in ${strTmp02} \
 		-ref ${strPathRef} \
-		-applyxfm -init${strTmp01} \
+		-applyxfm -init ${strTmp01} \
 		-out ${strTmp03}
 
   done
