@@ -272,9 +272,9 @@ strPathPrnt="${str_anly_path}${str_sub_id}/"
 #  :
 #fi
 
-echo "---Automatic: Prepare registration functional to anatomy"
-source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
-date
+#echo "---Automatic: Prepare registration functional to anatomy"
+#source ${strPathPrnt}03_func_to_anat/n_01a_prepare_reg_func_to_anat.sh
+#date
 
 # Manual mask creation for mean functional images (within-session mean).
 if ${bool_wait};
@@ -303,9 +303,9 @@ then
   echo "     -ras2fsl"
   echo "     -o ~/sub-02_ses-01_fsl_transform.mat"
   echo "   Place the FSL transformation matrices at:"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-01_fsl_reg.mat"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-02_fsl_reg.mat"
-  echo "     ${strPathPrnt}03_func_to_anat/n_02b_${str_sub_id}_ses-03_fsl_reg.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-01_fsl_reg.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-02_fsl_reg.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-03_fsl_reg.mat"
   echo "     ..."
   echo "   Alternatively, any other tool may be used to create the FSL "
   echo "   transformation matrix (but FSL FLIRT and SPM correg were found not"
@@ -317,9 +317,6 @@ then
 else
   :
 fi
-
-
-# TODO ...
 #------------------------------------------------------------------------------
 
 
@@ -348,21 +345,48 @@ fi
 #  :
 #fi
 
-#echo "---Automatic: Prepare across-sessions registration"
-#source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
-#date
+echo "---Automatic: Prepare across-sessions registration"
+source ${strPathPrnt}04_reg_across_ses/n_01a_prepare_reg_across_ses.sh
+date
 
-#echo "---Automatic: Across-sessions registration"
-#source ${strPathPrnt}04_reg_across_ses/n_02a_spm_corr_parallel.sh
-#date
+# Manual mask creation for mean functional images (within-session mean).
+if ${bool_wait};
+then
+  echo "---Manual:"
 
-#echo "---Automatic: Postprocess results from across sessions registration"
-#source ${strPathPrnt}04_reg_across_ses/n_03_sh_postprocess_reg.sh
-#date
+  echo "   Register the anatomical image (T1) of the second and third (and"
+  echo "   subsequent sessions if there are more) to the anatomical image of"
+  echo "   the first session. Reference (first session):"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-01_T1w_si"
+  echo "   Images to be registered:"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-02_T1w_si"
+  echo "     ${str_data_path}derivatives/${str_sub_id}/reg_across_ses/${str_sub_id}_ses-03_T1w_si"
+  echo "     ..."
+  echo "   You may use itk-snap's registration utility. Save the"
+  echo "   transformation matrix, and convert it to FSL convention using"
+  echo "   the c3d_affine_tool, e.g.:"
+  echo "     c3d_affine_tool"
+  echo "     ~/${str_sub_id}_ses-02_to_ses-01_itksnap_transform.mat"
+  echo "     -info"
+  echo "     -ref ~/${str_sub_id}_ses-01_T1w_si.nii.gz"
+  echo "     -src ~/${str_sub_id}_ses-02_T1w_si.nii.gz"
+  echo "     -ras2fsl"
+  echo "     -o ~/${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
+  echo "   Place the FSL transformation matrices at:"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-02_to_ses-01_fsl_transform.mat"
+  echo "     ${strPathPrnt}03_func_to_anat/n_02_${str_sub_id}_ses-03_to_ses-01_fsl_transform.mat"
+  echo "     ..."
+  echo "   Alternatively, any other tool may be used to create the FSL "
+  echo "   transformation matrix."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
 
-#echo "---Automatic: Copy images from reference session"
-#source ${strPathPrnt}04_reg_across_ses/n_04_sh_copy_reference_session.sh
-#date
+# TODO ...
 
 #echo "---Automatic: Calculate tSNR maps"
 #source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
