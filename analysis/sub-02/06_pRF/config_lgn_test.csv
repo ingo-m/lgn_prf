@@ -57,7 +57,7 @@ varSdSmthTmp = 2.5
 
 # Extent of spatial smoothing for fMRI data [standard deviation of the Gaussian
 # kernel, in mm]
-varSdSmthSpt = 1.8
+varSdSmthSpt = 0.9
 
 # Perform linear trend removal on fMRI data?
 lgcLinTrnd = True
@@ -66,7 +66,7 @@ lgcLinTrnd = True
 varNumVol = 227
 
 # Number of processes to run in parallel:
-varPar = 7
+varPar = 11
 
 # Size of high-resolution visual space model in which the pRF models are
 # created (x- and y-dimension). The x and y dimensions specified here need to
@@ -81,13 +81,13 @@ varVslSpcSzeY = 100
 # functional runs. The order of functional volumes, and their number, has to
 # correspond to the order and number of PNG files containing the stimulus
 # information. Note: Do not insert a line break.
-lstPathNiiFunc = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_09.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/func_distcorUnwrp/sub-02_ses-01_run_10.nii.gz']
+lstPathNiiFunc = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_09.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-01_run_10.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-02_run_09.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_01.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_02.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_03.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_04.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_05.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_06.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_07.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_08.nii.gz', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/func_reg_across_ses/sub-02_ses-03_run_09.nii.gz']
 
 # Path of mask (to restrict pRF model finding):
-strPathNiiMask = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/retinotopy/mask/mask.nii.gz'
+strPathNiiMask = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/anat/08_seg/sub-02_lgn_mask_03_closed.nii.gz'
 
 # Output basename:
-strPathOut = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02a/retinotopy/pRF_results/pRF_results_ses-01'
+strPathOut = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/sub-02/retinotopy/pRF_results/pRF_results'
 
 # Which version to use for pRF finding. 'numpy' or 'cython' for pRF finding on
 # CPU, 'gpu' for using GPU.
@@ -104,7 +104,7 @@ lgcCrteMdl = False
 # `~/pyprf/stimulus_presentation/code/stimulus.py` with 'Logging mode' set to
 # 'True'. (Number & order of entries in `lstPathNiiFunc` and `lstPathPng` has
 # to match). Note: Do not insert a line break (i.e. all runs on one line).
-lstPathPng = ['/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_01_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_02_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_03_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_04_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_05_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_06_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_07_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_08_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_09_', '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/Run_10_']
+lstPathPng = [' ']
 
 # Start index of PNG files. For instance, `varStrtIdx = 0` if the name of
 # the first PNG file is `file_000.png`, or `varStrtIdx = 1` if it is
@@ -118,4 +118,4 @@ varZfill = 3
 
 # Path to npy file with pRF time course models (to save or laod). Without file
 # extension.
-strPathMdl = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/prf_tc_models_10_runs/pRF_model_tc'
+strPathMdl = '/media/sf_D_DRIVE/MRI_Data_PhD/08_lgn_prf/derivatives/stimuli/prf_tc_models_28_runs/pRF_model_tc'
