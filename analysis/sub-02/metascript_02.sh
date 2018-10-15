@@ -411,17 +411,31 @@ fi
 #source ${strPathPrnt}04_reg_across_ses/n_03_sh_reg_anat.sh
 #date
 
-echo "---Automatic: Apply across-runs registration on functional images."
-source ${strPathPrnt}04_reg_across_ses/n_04_sh_reg_func.sh
-date
-
-echo "---Automatic: Calculate tSNR maps"
-source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
-date
-
-#echo "---Automatic: Calculate spatial correlation."
-#python ${strPathPrnt}04_reg_across_ses/n_06_py_spatial_correlation.py
+#echo "---Automatic: Apply across-runs registration on functional images."
+#source ${strPathPrnt}04_reg_across_ses/n_04_sh_reg_func.sh
 #date
+
+#echo "---Automatic: Calculate tSNR maps"
+#source ${strPathPrnt}04_reg_across_ses/n_05_sh_tSNR.sh
+#date
+
+if ${bool_wait};
+then
+  echo "---Manual:"
+  echo "   Prepare mask within which to calculate spatial correlation (brain"
+  echo "   mask or region of interest) and place it at:"
+  echo "   ${strPathPrnt}04_reg_across_ses/n_06b_refweight_spatial_correlation.nii.gz"
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
+
+echo "---Automatic: Calculate spatial correlation."
+python ${strPathPrnt}04_reg_across_ses/n_06a_py_spatial_correlation.py
+date
 #------------------------------------------------------------------------------
 
 
@@ -429,8 +443,12 @@ date
 #------------------------------------------------------------------------------
 # ### FSL FEAT (temporal filtering)
 
-#echo "---Automatic: FSL FEAT (temporal filtering)."
-#source ${strPathPrnt}05_feat/n_01_feat_level_1_script_parallel.sh
+echo "---Automatic: FSL FEAT (temporal filtering)."
+source ${strPathPrnt}05_feat/n_01_feat_level_1_script_parallel.sh
+date
+
+#echo "---Automatic: Postprocess FEAT filtering (move & rename)."
+#source ${strPathPrnt}05_feat/n_02_sh_postprocess_feat.sh
 #date
 #------------------------------------------------------------------------------
 
