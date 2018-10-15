@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 
 # Load environmental variables defining the input data path:
 strDataPath = str(os.environ['str_data_path'])
+strAnalyPath = str(os.environ['str_anly_path'])
 strSubId = str(os.environ['str_sub_id'])
 
 # Load environmental variable defining session IDs (e.g. "ses-01 ses-02"). Bash
@@ -79,7 +80,7 @@ strPathRef = (strDataPath
 strPathOut = (strDataPath
               + 'derivatives/'
               + strSubId
-              + '/reg_across_ses/'
+              + '/spatial_correlation/'
               + strSubId
               + '_correlation_plot_refweight.png')
 
@@ -88,15 +89,12 @@ strPathOut = (strDataPath
 # registration was performed using reference weighting, it makes sense to
 # assess the quality of the registration only at those voxels that were
 # weighted highly. (Subject ID left open twice.)
-lgcMsk = False
+lgcMsk = True
 if lgcMsk:
-    strPathMsk = (strDataPath
-                  + 'derivatives/'
+    strPathMsk = (strAnalyPath
                   + strSubId
-                  + '/spm_reg_across_runs/ref_weighting/'
-                  + 'n_09b_'
-                  + strSubId
-                  + '_spm_refweight.nii')
+                  + '/04_reg_across_ses/'
+                  + 'n_06b_refweight_spatial_correlation.nii.gz')
 
 
 # *** Loop through runs
@@ -118,7 +116,7 @@ for idxRun in range(varNumInRef):
 
     # Load the data into memory:
     aryTmpRef = niiTmpRef.get_data()
-    aryTmpRef = np.array(aryTmpRef)
+    aryTmpRef = np.array(aryTmpRef).astype(np.float32)
 
     # Use reference mask?
     if lgcMsk:
@@ -127,7 +125,7 @@ for idxRun in range(varNumInRef):
         niiTmpMsk = nb.load(strPathMsk)
         # Load data into memory:
         aryTmpMsk = niiTmpMsk.get_data()
-        aryTmpMsk = np.array(aryTmpMsk)
+        aryTmpMsk = np.array(aryTmpMsk).astype(np.float32)
         # Flatten the array into a vector:
         vecTmpMsk = aryTmpMsk.flatten(order='C')
 
@@ -146,11 +144,9 @@ for idxRun in range(varNumInRef):
 
     # Load 4D nii file (this doesn't load the data into memory yet):
     niiTmpSrc = nb.load(strPathInTmp)
-    # Load the data into memory:
-    aryTmpSrc = niiTmpSrc.get_data()
-    aryTmpSrc = np.array(aryTmpSrc)
+
     # Get the shape of the 4D file:
-    vecTmpShape = aryTmpSrc.shape
+    vecTmpShape = niiTmpSrc.dataobj.shape
 
     # Get the number of volumes in the 4D file (assuming that the 4th
     # image dimension corresponds to time):
@@ -168,7 +164,9 @@ for idxRun in range(varNumInRef):
     for idxVol in range(varTmpNumVols):
 
         # Get 3D file:
-        aryTmpSrc_3D = aryTmpSrc[:, :, :, idxVol]
+        aryTmpSrc_3D = np.asarray(niiTmpSrc.dataobj[..., idxVol]
+                                  ).astype(np.float32)
+
         # Flatten the array into a vector:
         aryTmpSrc_3D = aryTmpSrc_3D.flatten(order='C')
 
@@ -292,7 +290,7 @@ axs01.set_xlim([0, varXmax])
 # Limits of the y-axis:
 # varYmin = np.floor(np.min(aryTmpCorr * 10)) / 10
 # varYmax = np.ceil(np.max(aryTmpCorr))
-varYmin = 0.8
+varYmin = 0.5
 varYmax = 1.0
 axs01.set_ylim([varYmin, varYmax])
 
