@@ -57,7 +57,7 @@ varSdSmthTmp = 2.5
 
 # Extent of spatial smoothing for fMRI data [standard deviation of the Gaussian
 # kernel, in mm]
-varSdSmthSpt = 0.9
+varSdSmthSpt = 1.8
 
 # Perform linear trend removal on fMRI data?
 lgcLinTrnd = True
