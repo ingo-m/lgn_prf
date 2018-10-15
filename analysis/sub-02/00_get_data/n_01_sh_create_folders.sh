@@ -86,6 +86,7 @@ then
 	mkdir "${str_pth_sub}/func_distcorField"
 	mkdir "${str_pth_sub}/func_distcorUnwrp"
 	mkdir "${str_pth_sub}/func_unwrp_tsnr"
+	mkdir "${str_pth_sub}/func_filtered"
 
 	# FSL feat direcoty (feat is used for filtering).
 	mkdir "${str_pth_sub}/feat_level_1"
@@ -173,6 +174,8 @@ then
 	mkdir "${str_pth_sub}/retinotopy/mask"
 	mkdir "${str_pth_sub}/retinotopy/pRF_results"
 	mkdir "${str_pth_sub}/retinotopy/pRF_results_reg"
+
+	mkdir "${str_pth_sub}/spatial_correlation"
 
 else
 
