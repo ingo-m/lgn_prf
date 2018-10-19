@@ -2,7 +2,7 @@
 
 
 ###############################################################################
-# Calculate tSNR of functional time series after within-session moco.         #
+# Calculate tSNR of functional time series after registraion across sessions. #
 ###############################################################################
 
 

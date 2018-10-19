@@ -16,18 +16,18 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPthIn="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
+strPthIn="${str_data_path}derivatives/${str_sub_id}/func_filtered/"
 
 # Output directory:
 strPthOut="${str_data_path}derivatives/${str_sub_id}/func_reg_across_ses/"
 
 # Location of transformation matrices functional --> anatomical. File names are
 # expected to be `n_02_sub-*_ses-*_fsl_reg.mat`.
-strPthMat01="${str_anly_path}${str_sub_id}/03_func_to_anat/"
+strPthMat01="${str_anly_path}${str_sub_id}/04_func_to_anat/"
 
 # Location of transformation matrices anatomcial --> first session anatomical.
 # File names are expected to be `n_02_sub-*_ses-*_to_ses-01_fsl_transform.mat`.
-strPthMat02="${str_anly_path}${str_sub_id}/04_reg_across_ses/"
+strPthMat02="${str_anly_path}${str_sub_id}/05_reg_across_ses/"
 
 # Path of reference image (anatomical image from first session):
 strPathRef="${str_data_path}derivatives/${str_sub_id}/anat/07_across_ses_reg/${str_sub_id}_ses-01_T1w_si"

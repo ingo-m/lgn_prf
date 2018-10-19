@@ -93,7 +93,7 @@ lgcMsk = True
 if lgcMsk:
     strPathMsk = (strAnalyPath
                   + strSubId
-                  + '/04_reg_across_ses/'
+                  + '/05_reg_across_ses/'
                   + 'n_06b_refweight_spatial_correlation.nii.gz')
 
 

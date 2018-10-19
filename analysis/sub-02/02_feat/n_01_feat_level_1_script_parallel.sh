@@ -17,13 +17,13 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory:
-strPathIn="${str_data_path}derivatives/${str_sub_id}/func_reg_across_ses/"
+strPathIn="${str_data_path}derivatives/${str_sub_id}/func_reg_across_runs/"
 
 # Output directory:
 strPathOut="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
 
 # Path of template FSF file:
-strTmplt="${str_anly_path}${str_sub_id}/05_feat/level_1_fsf/feat_level_1_template.fsf"
+strTmplt="${str_anly_path}${str_sub_id}/02_feat/level_1_fsf/feat_level_1_template.fsf"
 
 # Get parallelisation factor from environmental variable:
 varPar=`bc <<< ${var_par_feat}+1`

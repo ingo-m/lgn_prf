@@ -7,7 +7,7 @@
 
 
 #------------------------------------------------------------------------------
-# Define session IDs & paths:
+# ### Define session IDs & paths
 
 # Bash does not currently support export of arrays. Therefore, arrays (e.g.
 # with session IDs) are turned into strings before export. Here, we turn them
@@ -16,26 +16,18 @@ IFS=" " read -r -a ary_ses_id <<< "$str_ses_id"
 IFS=" " read -r -a ary_num_runs <<< "$str_num_runs"
 
 # Input directory (followed containing feat directories):
-
-/media/sf_D_DRIVE/MRI_Data_PhD/05_PacMan/20180118/nii/feat_level_1/func_01.feat/filtered_func_data.nii.gz
-
 strPathInput="${str_data_path}derivatives/${str_sub_id}/feat_level_1/"
 
-# SPM directory:
-strPathSpm="${str_data_path}derivatives/${str_sub_id}/reg_within_runs_op/"
+# Output directory:
+strPathOut="${str_data_path}derivatives/${str_sub_id}/func_filtered/"
 #------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
+# ### Move files
 
-
-
-
-
-
-# Counter for total number of runs (across sessions). Because moco is with SPM,
-# we count from one (matlab convention).
-var_cnt_run=1
+echo "------Postprocess FSL feat analysis (temporal filtering)"
+date
 
 # Session counter:
 var_cnt_ses=0
@@ -51,20 +43,13 @@ do
   do
 
     # Complete input path:
-    strTmpIn="${strPathInput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
+    strTmpIn="${strPathInput}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.feat/filtered_func_data.nii.gz"
 
-    # Zero pad the counter for SPM directory name:
-    strTmpSpmCnt=`printf %02d ${var_cnt_run}`
+		# Complete output path:
+		strTmpOt="${strPathOut}${str_sub_id}_${idx_ses_id}_run_${idx_num_run}.nii.gz"
 
-    # Complete output path:
-  	strTmpOt="${strPathSpm}${strTmpSpmCnt}/${str_sub_id}_${idx_ses_id}_run_${idx_num_run}"
-
-  	echo "------fslchfiletype on: ${strTmpIn}"
-  	echo "----------------output: ${strTmpOt}"
-  	fslchfiletype NIFTI ${strTmpIn} ${strTmpOt}
-
-    # Increment run counter:
-    var_cnt_run=`bc <<< ${var_cnt_run}+1`
+		# Move filtered functional data:
+		mv "${strTmpIn}" "${strTmpOt}"
 
   done
 
