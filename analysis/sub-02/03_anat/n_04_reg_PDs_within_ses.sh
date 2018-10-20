@@ -39,7 +39,7 @@ do
   strPthRef="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_01"
 
   # Path of brain mask for reference PD image:
-  strPthRefMsk="${str_anly_path}${str_sub_id}/04_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_PD_01_mask"
+  strPthRefMsk="${str_anly_path}${str_sub_id}/03_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_PD_01_mask"
 
   # Loop through PD images, starting from second image (e.g. "02"); i.e. zero
   # filled indices ("02", "03", etc.). Note that the number of PD images may
@@ -51,7 +51,7 @@ do
     strPthSrc="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}"
 
     # Path of brain mask for current PD image:
-    strPthSrfMsk="${str_anly_path}${str_sub_id}/04_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}_mask"
+    strPthSrfMsk="${str_anly_path}${str_sub_id}/03_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}_mask"
 
     # Path for transformation matrix:
     strPthMat="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_PD_${idx_num_anat}_to_${str_sub_id}_${idx_ses_id}_PD_01_mat"
@@ -89,7 +89,7 @@ do
   strPthSrc="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_T1w_si"
 
   # Path of brain mask for current PD image:
-  strPthSrfMsk="${str_anly_path}${str_sub_id}/04_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_T1w_si_mask"
+  strPthSrfMsk="${str_anly_path}${str_sub_id}/03_anat/pd_brain_masks/${str_sub_id}_${idx_ses_id}_T1w_si_mask"
 
   # Path for transformation matrix:
   strPthMat="${strPthIn}${idx_ses_id}/01_in/${str_sub_id}_${idx_ses_id}_T1w_si_${idx_num_anat}_to_${str_sub_id}_${idx_ses_id}_PD_01_mat"
