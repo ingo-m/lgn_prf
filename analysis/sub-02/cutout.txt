@@ -1,3 +1,9 @@
+#------------------------------------------------------------------------------
+# ### Get data
+
+echo "---Automatic: Prepare directory tree"
+source ${strPathPrnt}00_get_data/n_01_sh_create_folders.sh
+
 if ${bool_from_bids};
 then
 	echo "---Skipping DICOM to nii conversion (will look for BIDS data)."
@@ -97,18 +103,47 @@ echo "---Automatic: Apply TOPUP on functional data"
 source ${strPathPrnt}01_preprocessing/n_07a_fsl_applytopup.sh
 date
 
+echo "---Automatic: Prepare within-session, across-runs motion correction."
+source ${strPathPrnt}01_preprocessing/n_08_sh_prepare_moco.sh
+date
 
+if ${bool_wait};
+then
+  echo "---Manual:"
+  echo "   Reference weights for SPM motion correction, and place them at"
+  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-01.nii.gz"
+  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-02.nii.gz"
+  echo "   ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_ses-03.nii.gz"
+  echo "   ..."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi
 
+# Loop through sessions and copy reference weights:
+echo "---Automatic: Copy reference weights for motion correction."
+for idx_ses_id in ${ary_ses_id[@]}
+do
+  fslchfiletype NIFTI \
+  ${strPathPrnt}01_preprocessing/n_09c_spm_moco_refweight_${str_sub_id}_${idx_ses_id} \
+  ${str_data_path}derivatives/${str_sub_id}/reg_across_runs/${idx_ses_id}/ref_weighting/refweight_${str_sub_id}_${idx_ses_id}
+done
 
+echo "---Automatic: Within-session, across-runs motion correction."
+source ${strPathPrnt}01_preprocessing/n_09a_spm_moco_parallel.sh
+date
 
+echo "---Automatic: Postprocess within-session, across-runs motion correction."
+source ${strPathPrnt}01_preprocessing/n_10_sh_postprocess_moco.sh
+date
 
-
-
-
-
-
-
-
+echo "---Automatic: Calculate tSNR maps."
+source ${strPathPrnt}01_preprocessing/n_11_sh_tSNR.sh
+date
+#------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------------
@@ -117,19 +152,39 @@ date
 echo "---Automatic: FSL FEAT (temporal filtering)."
 source ${strPathPrnt}02_feat/n_01_feat_level_1_script_parallel.sh
 date
-#------------------------------------------------------------------------------
 
-
-#------------------------------------------------------------------------------
-# ### Intermediate steps
-
-echo "---Automatic: Calculate tSNR maps."
-source ${strPathPrnt}03_intermediate_steps/n_01_sh_tSNR.sh
-date
-
-echo "---Automatic: Calculate spatial correlation."
-python ${strPathPrnt}03_intermediate_steps/n_02_py_spatial_correlation.py
+echo "---Automatic: Postprocess FEAT filtering (move & rename)."
+source ${strPathPrnt}02_feat/n_02_sh_postprocess_feat.sh
 date
 #------------------------------------------------------------------------------
 
 
+#------------------------------------------------------------------------------
+# ### Register anatomy within session
+
+echo "---Automatic: Prepare SPM bias field correction"
+source ${strPathPrnt}03_anat/n_01_prepare_spm_bf_correction.sh
+date
+
+echo "---Automatic: SPM bias field correction"
+/opt/spm12/run_spm12.sh /opt/mcr/v85/ batch ${strPathPrnt}03_anat/n_02_spm_bf_correction.m
+date
+
+echo "---Automatic: Postprocess bias field corrected data"
+source ${strPathPrnt}03_anat/n_03_postprocess_spm_bf_correction.sh
+date
+
+if ${bool_wait};
+then
+  echo "---Manual:"
+  echo "   Prepare brain masks for all proton density images and place them at"
+  echo "   ${strPathPrnt}03_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_01"
+  echo "   ${strPathPrnt}03_anat/pd_brain_masks/${str_sub_id}_ses-01_PD_02"
+  echo "   ..."
+  echo "   Type 'go' to continue"
+  read -r -s -d $'g'
+  read -r -s -d $'o'
+  date
+else
+  :
+fi

@@ -14,7 +14,7 @@ strDataPth = getenv('str_data_path');
 varNumRuns = 9;
 % Placeholder for session ID (will be substituted through sed text replacement
 % (e.g. 'ses-01').
-strSesId = 'ses-03',
+strSesId = 'ses-03';
 % Path of the SPM moco directory:
 strPathParent = strcat(strDataPth, 'derivatives/', strSubId, ...
     '/reg_across_runs/', strSesId, '/');
