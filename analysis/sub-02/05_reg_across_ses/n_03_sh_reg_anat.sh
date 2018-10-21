@@ -51,7 +51,7 @@ do
 	-interp trilinear \
 	-in ${strPathIn}${str_sub_id}_${idx_ses_id}_T1w_si \
 	-ref ${strPathIn}${str_sub_id}_ses-01_T1w_si \
-	-applyxfm -init ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat \
+	-applyxfm -init ${strPathPrnt}05_reg_across_ses/n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat \
 	-out ${strPathOut}${str_sub_id}_${idx_ses_id}_T1w_si
 
 	# Apply across-sessions transformation to PD image:
@@ -59,7 +59,7 @@ do
 	-interp trilinear \
 	-in ${strPathIn}${str_sub_id}_${idx_ses_id}_PD \
 	-ref ${strPathIn}${str_sub_id}_ses-01_T1w_si \
-	-applyxfm -init ${strPathPrnt}04_reg_across_ses/n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat \
+	-applyxfm -init ${strPathPrnt}05_reg_across_ses/n_02_${str_sub_id}_${idx_ses_id}_to_ses-01_fsl_transform.mat \
 	-out ${strPathOut}${str_sub_id}_${idx_ses_id}_PD
 
 done
