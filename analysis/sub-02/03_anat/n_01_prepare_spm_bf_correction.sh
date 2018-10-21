@@ -35,7 +35,7 @@ aryIn=(*)
 # Loop through files:
 for strTmp in ${aryIn[@]}
 do
-	# Input file:
+  # Input file:
   strTmpPthIn="${strPathIn}${strTmp}"
 
   # Output file:
